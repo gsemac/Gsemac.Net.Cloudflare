@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Gsemac.CloudflareUtilities {
 
@@ -11,14 +10,13 @@ namespace Gsemac.CloudflareUtilities {
 
         public string UserAgent { get; }
         public IDictionary<string, string> Cookies { get; } = new Dictionary<string, string>();
-        public bool Success { get; } = false;
+        public bool Success => !string.IsNullOrEmpty(UserAgent) && Cookies.Any();
 
         public static ChallengeResponse Failed => new ChallengeResponse();
 
-        public ChallengeResponse(bool success, string userAgent = "", IDictionary<string, string> cookies = null) {
+        public ChallengeResponse(string userAgent = "", IDictionary<string, string> cookies = null) {
 
             this.UserAgent = userAgent;
-            this.Success = success;
 
             if (cookies != null)
                 this.Cookies = cookies;
@@ -27,7 +25,8 @@ namespace Gsemac.CloudflareUtilities {
 
         // Private members
 
-        private ChallengeResponse() { }
+        private ChallengeResponse() {
+        }
 
     }
 
