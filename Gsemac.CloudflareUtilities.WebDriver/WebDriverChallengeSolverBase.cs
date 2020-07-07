@@ -1,12 +1,10 @@
 ﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Gsemac.CloudflareUtilities {
+namespace Gsemac.CloudflareUtilities.WebDriver {
 
     public abstract class WebDriverChallengeSolverBase :
         IChallengeSolver {
@@ -19,9 +17,9 @@ namespace Gsemac.CloudflareUtilities {
 
                 driver.Navigate().GoToUrl(url);
 
-                WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(options.Timeout));
+                WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromMilliseconds(options.Timeout));
 
-                if (wait.Until(d => !d.FindElements(By.XPath("//div[contains(@class, 'cf-browser-verification')]")).Any())) {
+                if (wait.Until(d => CloudflareUtilities.GetChallengeType(d.PageSource) == ChallengeType.None)) {
 
                     return new ChallengeResponse(GetUserAgent(driver), GetCookies(driver));
 

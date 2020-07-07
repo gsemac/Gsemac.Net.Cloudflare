@@ -1,3 +1,4 @@
+using Gsemac.CloudflareUtilities.WebDriver;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Gsemac.CloudflareUtilities.Tests {

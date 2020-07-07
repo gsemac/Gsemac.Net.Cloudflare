@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Gsemac.CloudflareUtilities.Tests\Gsemac.CloudflareUtilities.Tests.csproj" />
     <ProjectReference Include="..\Gsemac.CloudflareUtilities.WebDriver\Gsemac.CloudflareUtilities.WebDriver.csproj" />
     <ProjectReference Include="..\Gsemac.CloudflareUtilities\Gsemac.CloudflareUtilities.csproj" />
   </ItemGroup>

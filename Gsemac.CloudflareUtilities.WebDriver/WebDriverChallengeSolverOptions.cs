@@ -1,4 +1,4 @@
-﻿namespace Gsemac.CloudflareUtilities {
+﻿namespace Gsemac.CloudflareUtilities.WebDriver {
 
     public class WebDriverChallengeSolverOptions :
         ChallengeSolverOptionsBase {

@@ -4,7 +4,7 @@
         IChallengeSolverOptions {
 
         public string UserAgent { get; set; }
-        public int Timeout { get; set; } = 30;
+        public int Timeout { get; set; } = 30000;
 
     }
 
