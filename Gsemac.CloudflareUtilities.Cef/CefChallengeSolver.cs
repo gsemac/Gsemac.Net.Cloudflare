@@ -1,6 +1,5 @@
 ﻿using CefSharp;
 using CefSharp.OffScreen;
-using Gsemac.Assembly;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -144,7 +143,7 @@ namespace Gsemac.CloudflareUtilities.Cef {
             if (e.Frame.IsMain && sender is ChromiumWebBrowser browser) {
 
                 browser.GetSourceAsync().ContinueWith(task => {
-                   
+
                     if (CloudflareUtilities.GetChallengeType(task.Result) == ChallengeType.None)
                         waitHandle.Set();
 

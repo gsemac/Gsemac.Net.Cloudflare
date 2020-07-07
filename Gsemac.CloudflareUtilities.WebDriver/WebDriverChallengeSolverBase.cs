@@ -15,18 +15,32 @@ namespace Gsemac.CloudflareUtilities.WebDriver {
 
             using (IWebDriver driver = CreateWebDriver(options)) {
 
-                driver.Navigate().GoToUrl(url);
+                try {
 
-                WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromMilliseconds(options.Timeout));
+                    driver.Navigate().GoToUrl(url);
 
-                if (wait.Until(d => CloudflareUtilities.GetChallengeType(d.PageSource) == ChallengeType.None)) {
+                    WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromMilliseconds(options.Timeout));
 
-                    return new ChallengeResponse(GetUserAgent(driver), GetCookies(driver));
+                    if (wait.Until(d => CloudflareUtilities.GetChallengeType(d.PageSource) == ChallengeType.None)) {
+
+                        return new ChallengeResponse(GetUserAgent(driver), GetCookies(driver));
+
+                    }
+                    else {
+
+                        return ChallengeResponse.Failed;
+
+                    }
 
                 }
-                else {
+                catch (Exception ex) {
 
-                    return ChallengeResponse.Failed;
+                    throw ex;
+
+                }
+                finally {
+
+                    driver.Close();
 
                 }
 
