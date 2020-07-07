@@ -1,6 +1,10 @@
-﻿namespace Gsemac.CloudflareUtilities {
+﻿using Gsemac.Logging;
+using System;
 
-    public interface IChallengeSolver {
+namespace Gsemac.CloudflareUtilities {
+
+    public interface IChallengeSolver :
+        ILoggable {
 
         IChallengeResponse GetChallengeResponse(string url);
 

@@ -4,4 +4,8 @@
     <TargetFrameworks>netstandard2.0;net40</TargetFrameworks>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Gsemac.Common\Gsemac.Logging\Gsemac.Logging.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -7,26 +7,34 @@ using System.Linq;
 namespace Gsemac.CloudflareUtilities.WebDriver {
 
     public abstract class WebDriverChallengeSolverBase :
-        IChallengeSolver {
+        ChallengeSolverBase {
 
         // Public members
 
-        public IChallengeResponse GetChallengeResponse(string url) {
+        public override IChallengeResponse GetChallengeResponse(string url) {
 
             using (IWebDriver driver = CreateWebDriver(options)) {
 
                 try {
 
+                    Info($"Navigating to {url}");
+
                     driver.Navigate().GoToUrl(url);
 
                     WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromMilliseconds(options.Timeout));
 
+                    Info($"Waiting for challenge");
+
                     if (wait.Until(d => CloudflareUtilities.GetChallengeType(d.PageSource) == ChallengeType.None)) {
+
+                        Info($"Solved challenge successfully");
 
                         return new ChallengeResponse(GetUserAgent(driver), GetCookies(driver));
 
                     }
                     else {
+
+                        Error($"Failed to solve challenge (timeout)");
 
                         return ChallengeResponse.Failed;
 
@@ -35,10 +43,14 @@ namespace Gsemac.CloudflareUtilities.WebDriver {
                 }
                 catch (Exception ex) {
 
+                    Error(ex.ToString());
+
                     throw ex;
 
                 }
                 finally {
+
+                    Info($"Closing web driver");
 
                     driver.Close();
 

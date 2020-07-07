@@ -8,7 +8,7 @@ using System.Threading;
 namespace Gsemac.CloudflareUtilities.Cef {
 
     public class CefChallengeSolver :
-        IChallengeSolver {
+        ChallengeSolverBase {
 
         // Public members
 
@@ -18,7 +18,7 @@ namespace Gsemac.CloudflareUtilities.Cef {
 
         }
 
-        public IChallengeResponse GetChallengeResponse(string url) {
+        public override IChallengeResponse GetChallengeResponse(string url) {
 
             IChallengeResponse result = null;
 
@@ -32,8 +32,13 @@ namespace Gsemac.CloudflareUtilities.Cef {
 
                         browser.FrameLoadEnd += FrameLoadEnd;
                         browser.BrowserInitialized += BrowserInitialized;
+                        browser.AddressChanged += AddressChanged;
+
+                        Info("Waiting for browser initialization");
 
                         waitHandle.WaitOne(options.Timeout);
+
+                        Info($"Loading webpage");
 
                         browser.Load(url);
 
@@ -41,8 +46,15 @@ namespace Gsemac.CloudflareUtilities.Cef {
 
                             // The page was loaded successfully, so extract the cookies.
 
+                            Info($"Solved challenge successfully");
+
                             result = new ChallengeResponse(GetUserAgent(browser), GetCookies(url, browser));
 
+
+                        }
+                        else {
+
+                            Error($"Failed to solve challenge (timeout)");
 
                         }
 
@@ -52,6 +64,8 @@ namespace Gsemac.CloudflareUtilities.Cef {
 
             }
             catch (Exception ex) {
+
+                Error(ex.ToString());
 
                 throw ex;
 
@@ -95,12 +109,15 @@ namespace Gsemac.CloudflareUtilities.Cef {
 
             if (!CefSharp.Cef.IsInitialized) {
 
+                Info("Initializing CEF");
+
                 string browserSubprocessPath = string.IsNullOrEmpty(options.BrowserSubprocessPath) ?
                     Path.GetFullPath("CefSharp.BrowserSubprocess.exe") :
                     options.BrowserSubprocessPath;
 
                 var settings = new CefSettings {
-                    BrowserSubprocessPath = browserSubprocessPath
+                    BrowserSubprocessPath = browserSubprocessPath,
+                    LogSeverity = LogSeverity.Disable
                 };
 
                 CefSharp.Cef.Initialize(settings, performDependencyCheck: false, browserProcessHandler: null);
@@ -109,6 +126,8 @@ namespace Gsemac.CloudflareUtilities.Cef {
 
         }
         private void ShutdownCef() {
+
+            Info("Shutting down CEF");
 
             CefSharp.Cef.Shutdown();
 
@@ -150,6 +169,11 @@ namespace Gsemac.CloudflareUtilities.Cef {
                 });
 
             }
+
+        }
+        private void AddressChanged(object sender, AddressChangedEventArgs e) {
+
+            Info($"Navigating to {e.Address}");
 
         }
 

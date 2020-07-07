@@ -16,6 +16,8 @@ namespace Gsemac.CloudflareUtilities.WebDriver {
 
         protected override IWebDriver CreateWebDriver(WebDriverChallengeSolverOptions options) {
 
+            Info("Creating web driver (Firefox)");
+
             FirefoxOptions driverOptions = new FirefoxOptions {
                 BrowserExecutableLocation = options.BrowserExecutablePath
             };

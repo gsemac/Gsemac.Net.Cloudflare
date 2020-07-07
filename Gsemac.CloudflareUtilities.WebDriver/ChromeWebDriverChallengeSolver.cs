@@ -16,6 +16,8 @@ namespace Gsemac.CloudflareUtilities.WebDriver {
 
         protected override IWebDriver CreateWebDriver(WebDriverChallengeSolverOptions options) {
 
+            Info("Creating web driver (Chrome)");
+
             ChromeOptions driverOptions = new ChromeOptions {
                 BinaryLocation = options.BrowserExecutablePath
             };
