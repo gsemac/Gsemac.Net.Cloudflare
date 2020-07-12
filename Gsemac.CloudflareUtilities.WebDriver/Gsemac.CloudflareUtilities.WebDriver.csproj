@@ -1,7 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="MSBuild.Sdk.Extras/2.0.54">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net40</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net40-client</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,5 +11,10 @@
   <ItemGroup>
     <ProjectReference Include="..\Gsemac.CloudflareUtilities\Gsemac.CloudflareUtilities.csproj" />
   </ItemGroup>
+  
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+  </PropertyGroup>
 
 </Project>
