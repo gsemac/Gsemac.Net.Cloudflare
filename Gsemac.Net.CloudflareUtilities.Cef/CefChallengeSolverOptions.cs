@@ -1,4 +1,4 @@
-﻿namespace Gsemac.CloudflareUtilities.Cef {
+﻿namespace Gsemac.Net.CloudflareUtilities.Cef {
 
     public class CefChallengeSolverOptions :
         ChallengeSolverOptionsBase {

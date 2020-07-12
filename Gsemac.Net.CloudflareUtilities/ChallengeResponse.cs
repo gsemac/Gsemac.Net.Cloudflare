@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Gsemac.CloudflareUtilities {
+namespace Gsemac.Net.CloudflareUtilities {
 
     public class ChallengeResponse :
         IChallengeResponse {
@@ -16,10 +16,10 @@ namespace Gsemac.CloudflareUtilities {
 
         public ChallengeResponse(string userAgent = "", IDictionary<string, string> cookies = null) {
 
-            this.UserAgent = userAgent;
+            UserAgent = userAgent;
 
             if (cookies != null)
-                this.Cookies = cookies;
+                Cookies = cookies;
 
         }
 

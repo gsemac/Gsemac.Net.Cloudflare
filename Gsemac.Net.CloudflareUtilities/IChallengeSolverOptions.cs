@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace Gsemac.CloudflareUtilities {
+namespace Gsemac.Net.CloudflareUtilities {
 
     public interface IChallengeSolverOptions {
 

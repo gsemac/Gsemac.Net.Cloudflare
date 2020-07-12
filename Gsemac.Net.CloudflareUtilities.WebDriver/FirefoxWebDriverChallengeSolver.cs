@@ -2,7 +2,7 @@
 using OpenQA.Selenium.Firefox;
 using System;
 
-namespace Gsemac.CloudflareUtilities.WebDriver {
+namespace Gsemac.Net.CloudflareUtilities.WebDriver {
 
     public class FirefoxWebDriverChallengeSolver :
         WebDriverChallengeSolverBase {

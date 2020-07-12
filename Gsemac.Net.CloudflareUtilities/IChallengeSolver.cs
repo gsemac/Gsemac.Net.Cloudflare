@@ -1,7 +1,7 @@
 ﻿using Gsemac.Logging;
 using System;
 
-namespace Gsemac.CloudflareUtilities {
+namespace Gsemac.Net.CloudflareUtilities {
 
     public interface IChallengeSolver :
         ILoggable {

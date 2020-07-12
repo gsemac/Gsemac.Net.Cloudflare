@@ -1,4 +1,4 @@
-﻿namespace Gsemac.CloudflareUtilities {
+﻿namespace Gsemac.Net.CloudflareUtilities {
 
     public enum ChallengeType {
         None,

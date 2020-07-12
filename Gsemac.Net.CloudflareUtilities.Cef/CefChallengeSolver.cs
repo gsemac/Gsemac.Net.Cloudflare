@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 
-namespace Gsemac.CloudflareUtilities.Cef {
+namespace Gsemac.Net.CloudflareUtilities.Cef {
 
     public class CefChallengeSolver :
         ChallengeSolverBase {

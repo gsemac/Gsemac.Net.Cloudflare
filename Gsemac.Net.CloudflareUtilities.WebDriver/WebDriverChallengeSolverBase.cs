@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Gsemac.CloudflareUtilities.WebDriver {
+namespace Gsemac.Net.CloudflareUtilities.WebDriver {
 
     public abstract class WebDriverChallengeSolverBase :
         ChallengeSolverBase {

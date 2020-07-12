@@ -2,7 +2,8 @@
 using System;
 using System.Threading;
 
-namespace Gsemac.CloudflareUtilities.Cef.Tests {
+namespace Gsemac.Net.CloudflareUtilities.Cef.Tests {
+
     class Program {
 
         static void Main(string[] args) {

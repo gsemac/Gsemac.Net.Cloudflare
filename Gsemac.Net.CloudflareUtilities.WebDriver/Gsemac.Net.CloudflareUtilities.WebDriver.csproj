@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Gsemac.CloudflareUtilities\Gsemac.CloudflareUtilities.csproj" />
+    <ProjectReference Include="..\Gsemac.Net.CloudflareUtilities\Gsemac.Net.CloudflareUtilities.csproj" />
   </ItemGroup>
   
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
