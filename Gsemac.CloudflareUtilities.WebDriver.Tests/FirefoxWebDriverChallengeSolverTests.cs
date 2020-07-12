@@ -1,5 +1,6 @@
 using Gsemac.CloudflareUtilities.WebDriver;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace Gsemac.CloudflareUtilities.Tests {
 
@@ -21,7 +22,7 @@ namespace Gsemac.CloudflareUtilities.Tests {
             TestParameters testParameters = TestParameters.GetTestParameters();
 
             IChallengeSolver challengeSolver = CreateChallengeSolver();
-            IChallengeResponse challengeResponse = challengeSolver.GetChallengeResponse(testParameters.Url);
+            IChallengeResponse challengeResponse = challengeSolver.GetChallengeResponse(new Uri(testParameters.Url));
 
             Assert.IsTrue(challengeResponse.Success);
 

@@ -13,7 +13,7 @@ namespace Gsemac.CloudflareUtilities.Cef.Tests {
 
             IChallengeSolver challengeSolver = CreateChallengeSolver();
             challengeSolver.Log += (sender, e) => Console.Write(e.ToString());
-            IChallengeResponse challengeResponse = challengeSolver.GetChallengeResponse(url);
+            IChallengeResponse challengeResponse = challengeSolver.GetChallengeResponse(new Uri(url));
             
             Console.WriteLine(challengeResponse.UserAgent);
 

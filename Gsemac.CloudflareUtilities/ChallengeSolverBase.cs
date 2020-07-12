@@ -1,4 +1,5 @@
 ﻿using Gsemac.Logging;
+using System;
 
 namespace Gsemac.CloudflareUtilities {
 
@@ -8,7 +9,7 @@ namespace Gsemac.CloudflareUtilities {
 
         // Public members
 
-        public abstract IChallengeResponse GetChallengeResponse(string url);
+        public abstract IChallengeResponse GetChallengeResponse(Uri uri);
 
     }
 

@@ -11,9 +11,11 @@ namespace Gsemac.CloudflareUtilities.WebDriver {
 
         // Public members
 
-        public override IChallengeResponse GetChallengeResponse(string url) {
+        public override IChallengeResponse GetChallengeResponse(Uri uri) {
 
-            using (IWebDriver driver = CreateWebDriver(options)) {
+            using (IWebDriver driver = CreateWebDriver(uri, options)) {
+
+                string url = uri.AbsoluteUri;
 
                 try {
 
@@ -68,7 +70,7 @@ namespace Gsemac.CloudflareUtilities.WebDriver {
 
         }
 
-        protected abstract IWebDriver CreateWebDriver(WebDriverChallengeSolverOptions options);
+        protected abstract IWebDriver CreateWebDriver(Uri uri, WebDriverChallengeSolverOptions options);
 
         // Private members
 

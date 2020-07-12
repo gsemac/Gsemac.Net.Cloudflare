@@ -18,15 +18,19 @@ namespace Gsemac.CloudflareUtilities.Cef {
 
         }
 
-        public override IChallengeResponse GetChallengeResponse(string url) {
+        public override IChallengeResponse GetChallengeResponse(Uri uri) {
 
             IChallengeResponse result = null;
 
             try {
 
+                string url = uri.AbsoluteUri;
+
                 lock (lockObject) {
 
                     InitializeCef(options);
+
+                    Info("Instantiating web browser");
 
                     using (ChromiumWebBrowser browser = new ChromiumWebBrowser()) {
 

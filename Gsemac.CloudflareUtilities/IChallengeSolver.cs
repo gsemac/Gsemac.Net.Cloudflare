@@ -6,7 +6,7 @@ namespace Gsemac.CloudflareUtilities {
     public interface IChallengeSolver :
         ILoggable {
 
-        IChallengeResponse GetChallengeResponse(string url);
+        IChallengeResponse GetChallengeResponse(Uri uri);
 
     }
 

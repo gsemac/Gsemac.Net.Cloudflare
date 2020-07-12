@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using System;
 
 namespace Gsemac.CloudflareUtilities.WebDriver {
 
@@ -14,7 +15,7 @@ namespace Gsemac.CloudflareUtilities.WebDriver {
 
         // Protected members
 
-        protected override IWebDriver CreateWebDriver(WebDriverChallengeSolverOptions options) {
+        protected override IWebDriver CreateWebDriver(Uri uri, WebDriverChallengeSolverOptions options) {
 
             Info("Creating web driver (Chrome)");
 
@@ -26,7 +27,10 @@ namespace Gsemac.CloudflareUtilities.WebDriver {
                 driverOptions.AddArgument("--headless");
 
             if (!string.IsNullOrEmpty(options.UserAgent))
-                driverOptions.AddArgument($"user-agent={options.UserAgent}");
+                driverOptions.AddArgument($"--user-agent={options.UserAgent}");
+
+            if (options.Proxy != null)
+                driverOptions.AddArgument($"--proxy-server={options.Proxy.GetProxy(uri).AbsoluteUri}");
 
             IWebDriver driver = new ChromeDriver(driverOptions);
 
