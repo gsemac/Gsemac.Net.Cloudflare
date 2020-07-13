@@ -27,6 +27,8 @@ namespace Gsemac.Net.CloudflareUtilities.WebDriver {
                 ChromeDriverService.CreateDefaultService() :
                 ChromeDriverService.CreateDefaultService(System.IO.Path.GetDirectoryName(options.WebDriverExecutablePath));
 
+            driverService.HideCommandPromptWindow = true;
+
             if (options.Headless)
                 driverOptions.AddArgument("--headless");
 
