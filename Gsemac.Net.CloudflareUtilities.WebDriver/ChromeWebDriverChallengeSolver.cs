@@ -29,6 +29,10 @@ namespace Gsemac.Net.CloudflareUtilities.WebDriver {
 
             driverService.HideCommandPromptWindow = true;
 
+            // Resize the window to a reasonable resolution so that viewport matches a conventional monitor viewport.
+
+            driverOptions.AddArgument("--window-size=1024,768");
+
             if (options.Headless)
                 driverOptions.AddArgument("--headless");
 
