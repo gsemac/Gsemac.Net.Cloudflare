@@ -25,7 +25,7 @@ namespace Gsemac.Net.CloudflareUtilities.WebDriver {
 
             ChromeDriverService driverService = string.IsNullOrEmpty(options.WebDriverExecutablePath) ?
                 ChromeDriverService.CreateDefaultService() :
-                ChromeDriverService.CreateDefaultService(options.WebDriverExecutablePath);
+                ChromeDriverService.CreateDefaultService(System.IO.Path.GetDirectoryName(options.WebDriverExecutablePath));
 
             if (options.Headless)
                 driverOptions.AddArgument("--headless");

@@ -25,7 +25,7 @@ namespace Gsemac.Net.CloudflareUtilities.WebDriver {
 
             FirefoxDriverService driverService = string.IsNullOrEmpty(options.WebDriverExecutablePath) ?
                 FirefoxDriverService.CreateDefaultService() :
-                FirefoxDriverService.CreateDefaultService(options.WebDriverExecutablePath);
+                FirefoxDriverService.CreateDefaultService(System.IO.Path.GetDirectoryName(options.WebDriverExecutablePath));
 
             if (options.Headless)
                 driverOptions.AddArgument("--headless");
