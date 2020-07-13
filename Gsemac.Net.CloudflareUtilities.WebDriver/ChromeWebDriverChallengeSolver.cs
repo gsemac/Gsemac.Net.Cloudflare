@@ -23,6 +23,10 @@ namespace Gsemac.Net.CloudflareUtilities.WebDriver {
                 BinaryLocation = options.BrowserExecutablePath
             };
 
+            ChromeDriverService driverService = string.IsNullOrEmpty(options.WebDriverExecutablePath) ?
+                ChromeDriverService.CreateDefaultService() :
+                ChromeDriverService.CreateDefaultService(options.WebDriverExecutablePath);
+
             if (options.Headless)
                 driverOptions.AddArgument("--headless");
 
@@ -32,7 +36,7 @@ namespace Gsemac.Net.CloudflareUtilities.WebDriver {
             if (options.Proxy != null)
                 driverOptions.AddArgument($"--proxy-server={options.Proxy.GetProxy(uri).AbsoluteUri}");
 
-            IWebDriver driver = new ChromeDriver(driverOptions);
+            IWebDriver driver = new ChromeDriver(driverService, driverOptions);
 
             return driver;
 
