@@ -28,13 +28,13 @@ namespace Gsemac.Net.CloudflareUtilities.WebDriver {
 
                     Info("Waiting for challenge response");
 
-                    if (wait.Until(d => CloudflareUtilities.GetChallengeType(d.PageSource) != ChallengeType.ImUnderAttack)) {
+                    if (wait.Until(d => CloudflareUtilities.GetProtectionType(d.PageSource) != ProtectionType.ImUnderAttack)) {
 
                         // We have managed to solve the initial "I'm Under Attack" challenge.
 
-                        ChallengeType challengeType = CloudflareUtilities.GetChallengeType(driver.PageSource);
+                        ProtectionType challengeType = CloudflareUtilities.GetProtectionType(driver.PageSource);
 
-                        if (challengeType == ChallengeType.CaptchaBypass) {
+                        if (challengeType == ProtectionType.CaptchaBypass) {
 
                             // The captcha page ("Attention Required!") was encountered.
                             // This kind of challenge cannot be solved automatically and requires user interaction. 
@@ -46,7 +46,7 @@ namespace Gsemac.Net.CloudflareUtilities.WebDriver {
                                 Warning("Solving the captcha challenge requires user interaction, which is not possible when the headless option is enabled.");
 
                             }
-                            else if (wait.Until(d => CloudflareUtilities.GetChallengeType(d.PageSource) != ChallengeType.CaptchaBypass)) {
+                            else if (wait.Until(d => CloudflareUtilities.GetProtectionType(d.PageSource) != ProtectionType.CaptchaBypass)) {
 
                                 Info("Captcha response received");
 
@@ -60,7 +60,7 @@ namespace Gsemac.Net.CloudflareUtilities.WebDriver {
                             }
 
                         }
-                        else if (challengeType == ChallengeType.AccessDenied) {
+                        else if (challengeType == ProtectionType.AccessDenied) {
 
                             Error("The owner of this website has blocked your IP address.");
 

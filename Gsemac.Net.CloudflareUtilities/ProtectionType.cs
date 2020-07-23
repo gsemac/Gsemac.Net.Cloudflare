@@ -1,6 +1,6 @@
 ﻿namespace Gsemac.Net.CloudflareUtilities {
 
-    public enum ChallengeType {
+    public enum ProtectionType {
         None,
         ImUnderAttack,
         CaptchaBypass,

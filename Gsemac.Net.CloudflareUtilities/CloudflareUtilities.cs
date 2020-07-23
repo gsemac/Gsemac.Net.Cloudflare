@@ -2,11 +2,11 @@
 
     public static class CloudflareUtilities {
 
-        public static ChallengeType GetChallengeType(string htmlDocument) {
+        public static ProtectionType GetProtectionType(string htmlDocument) {
 
             if (htmlDocument.Contains("cf-im-under-attack\">")) {
 
-                return ChallengeType.ImUnderAttack;
+                return ProtectionType.ImUnderAttack;
 
             }
             else if (htmlDocument.Contains("cf-wrapper\">")) {
@@ -15,23 +15,23 @@
 
                     // This is the same challenge as the "One More Step" captcha.
 
-                    return ChallengeType.CaptchaBypass;
+                    return ProtectionType.CaptchaBypass;
 
                 }
                 else if (htmlDocument.Contains(") has banned your IP address (")) {
 
-                    return ChallengeType.AccessDenied;
+                    return ProtectionType.AccessDenied;
 
                 }
 
             }
 
-            return ChallengeType.None;
+            return ProtectionType.None;
 
         }
-        public static bool IsChallengeDetected(string htmlDocument) {
+        public static bool IsProtectionDetected(string htmlDocument) {
 
-            return GetChallengeType(htmlDocument) != ChallengeType.None;
+            return GetProtectionType(htmlDocument) != ProtectionType.None;
 
         }
 

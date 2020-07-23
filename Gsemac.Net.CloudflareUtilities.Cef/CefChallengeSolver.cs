@@ -167,7 +167,7 @@ namespace Gsemac.Net.CloudflareUtilities.Cef {
 
                 browser.GetSourceAsync().ContinueWith(task => {
 
-                    if (CloudflareUtilities.GetChallengeType(task.Result) == ChallengeType.None)
+                    if (CloudflareUtilities.GetProtectionType(task.Result) == ProtectionType.None)
                         waitHandle.Set();
 
                 });
