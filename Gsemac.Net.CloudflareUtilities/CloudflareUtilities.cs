@@ -23,6 +23,11 @@
             }
 
         }
+        public static bool IsChallengeDetected(string htmlDocument) {
+
+            return GetChallengeType(htmlDocument) != ChallengeType.None;
+
+        }
 
     }
 
