@@ -4,12 +4,14 @@
 
         public static ChallengeType GetChallengeType(string htmlDocument) {
 
-            if (htmlDocument.Contains("cf-im-under-attack")) {
+            if (htmlDocument.Contains("cf-im-under-attack\">")) {
 
                 return ChallengeType.ImUnderAttack;
 
             }
-            else if (htmlDocument.Contains("cf-captcha-container")) {
+            else if (htmlDocument.Contains("cf-captcha-container\">")) {
+
+                // This is the same challenge as the "One More Step" captcha.
 
                 return ChallengeType.CaptchaBypass;
 
