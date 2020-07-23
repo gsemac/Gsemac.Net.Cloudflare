@@ -9,18 +9,24 @@
                 return ChallengeType.ImUnderAttack;
 
             }
-            else if (htmlDocument.Contains("cf-captcha-container\">")) {
+            else if (htmlDocument.Contains("cf-wrapper\">")) {
 
-                // This is the same challenge as the "One More Step" captcha.
+                if (htmlDocument.Contains("cf-captcha-container\">")) {
 
-                return ChallengeType.CaptchaBypass;
+                    // This is the same challenge as the "One More Step" captcha.
+
+                    return ChallengeType.CaptchaBypass;
+
+                }
+                else if (htmlDocument.Contains(") has banned your IP address (")) {
+
+                    return ChallengeType.AccessDenied;
+
+                }
 
             }
-            else {
 
-                return ChallengeType.None;
-
-            }
+            return ChallengeType.None;
 
         }
         public static bool IsChallengeDetected(string htmlDocument) {

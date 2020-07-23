@@ -3,7 +3,8 @@
     public enum ChallengeType {
         None,
         ImUnderAttack,
-        CaptchaBypass
+        CaptchaBypass,
+        AccessDenied
     }
 
 }

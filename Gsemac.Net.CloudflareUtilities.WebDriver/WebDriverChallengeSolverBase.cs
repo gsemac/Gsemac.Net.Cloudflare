@@ -26,7 +26,7 @@ namespace Gsemac.Net.CloudflareUtilities.WebDriver {
 
                     WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromMilliseconds(options.Timeout));
 
-                    Info($"Waiting for challenge response");
+                    Info("Waiting for challenge response");
 
                     if (wait.Until(d => CloudflareUtilities.GetChallengeType(d.PageSource) != ChallengeType.ImUnderAttack)) {
 
@@ -39,32 +39,37 @@ namespace Gsemac.Net.CloudflareUtilities.WebDriver {
                             // The captcha page ("Attention Required!") was encountered.
                             // This kind of challenge cannot be solved automatically and requires user interaction. 
 
-                            Info($"Captcha challenge received");
+                            Info("Captcha challenge received");
 
                             if (options.Headless) {
 
-                                Warning($"Solving the captcha challenge requires user interaction, which is not possible when the headless option is enabled.");
+                                Warning("Solving the captcha challenge requires user interaction, which is not possible when the headless option is enabled.");
 
                             }
                             else if (wait.Until(d => CloudflareUtilities.GetChallengeType(d.PageSource) != ChallengeType.CaptchaBypass)) {
 
-                                Info($"Captcha response received");
+                                Info("Captcha response received");
 
                                 challengeResponse = CreateSuccessfulChallengeResponse(driver);
 
                             }
                             else {
 
-                                Error($"Failed to receive captcha response (timed out)");
+                                Error("Failed to receive captcha response (timed out)");
 
                             }
+
+                        }
+                        else if (challengeType == ChallengeType.AccessDenied) {
+
+                            Error("The owner of this website has blocked your IP address.");
 
                         }
                         else {
 
                             // The challenge was solved successfully.
 
-                            Info($"Challenge response received");
+                            Info("Challenge response received");
 
                             challengeResponse = CreateSuccessfulChallengeResponse(driver);
 
@@ -73,7 +78,7 @@ namespace Gsemac.Net.CloudflareUtilities.WebDriver {
                     }
                     else {
 
-                        Error($"Failed to receive challenge response (timed out)");
+                        Error("Failed to receive challenge response (timed out)");
 
                     }
 
@@ -87,7 +92,7 @@ namespace Gsemac.Net.CloudflareUtilities.WebDriver {
                 }
                 finally {
 
-                    Info($"Closing web driver");
+                    Info("Closing web driver");
 
                     driver.Close();
 
