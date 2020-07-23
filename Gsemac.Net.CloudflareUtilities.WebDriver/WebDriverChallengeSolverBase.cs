@@ -16,6 +16,7 @@ namespace Gsemac.Net.CloudflareUtilities.WebDriver {
             using (IWebDriver driver = CreateWebDriver(uri, options)) {
 
                 string url = uri.AbsoluteUri;
+                IChallengeResponse challengeResponse = ChallengeResponse.Failed;
 
                 try {
 
@@ -25,20 +26,54 @@ namespace Gsemac.Net.CloudflareUtilities.WebDriver {
 
                     WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromMilliseconds(options.Timeout));
 
-                    Info($"Waiting for challenge");
+                    Info($"Waiting for challenge response");
 
-                    if (wait.Until(d => CloudflareUtilities.GetChallengeType(d.PageSource) == ChallengeType.None)) {
+                    if (wait.Until(d => CloudflareUtilities.GetChallengeType(d.PageSource) != ChallengeType.ImUnderAttack)) {
 
-                        Info($"Solved challenge successfully");
+                        // We have managed to solve the initial "I'm Under Attack" challenge.
 
-                        return new ChallengeResponse(GetUserAgent(driver), GetCookies(driver));
+                        ChallengeType challengeType = CloudflareUtilities.GetChallengeType(driver.PageSource);
+
+                        if (challengeType == ChallengeType.CaptchaBypass) {
+
+                            // The captcha page ("Attention Required!") was encountered.
+                            // This kind of challenge cannot be solved automatically and requires user interaction. 
+
+                            Info($"Captcha challenge received");
+
+                            if (options.Headless) {
+
+                                Warning($"Solving the captcha challenge requires user interaction, which is not possible when the headless option is enabled.");
+
+                            }
+                            else if (wait.Until(d => CloudflareUtilities.GetChallengeType(d.PageSource) != ChallengeType.CaptchaBypass)) {
+
+                                Info($"Captcha response received");
+
+                                challengeResponse = CreateSuccessfulChallengeResponse(driver);
+
+                            }
+                            else {
+
+                                Error($"Failed to receive captcha response (timed out)");
+
+                            }
+
+                        }
+                        else {
+
+                            // The challenge was solved successfully.
+
+                            Info($"Challenge response received");
+
+                            challengeResponse = CreateSuccessfulChallengeResponse(driver);
+
+                        }
 
                     }
                     else {
 
-                        Error($"Failed to solve challenge (timeout)");
-
-                        return ChallengeResponse.Failed;
+                        Error($"Failed to receive challenge response (timed out)");
 
                     }
 
@@ -57,6 +92,8 @@ namespace Gsemac.Net.CloudflareUtilities.WebDriver {
                     driver.Close();
 
                 }
+
+                return challengeResponse;
 
             }
 
@@ -88,6 +125,11 @@ namespace Gsemac.Net.CloudflareUtilities.WebDriver {
         private IDictionary<string, string> GetCookies(IWebDriver driver) {
 
             return driver.Manage().Cookies.AllCookies.ToDictionary(cookie => cookie.Name, cookie => cookie.Value);
+
+        }
+        private IChallengeResponse CreateSuccessfulChallengeResponse(IWebDriver driver) {
+
+            return new ChallengeResponse(GetUserAgent(driver), GetCookies(driver));
 
         }
 

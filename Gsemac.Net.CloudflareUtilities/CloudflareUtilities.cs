@@ -9,6 +9,11 @@
                 return ChallengeType.ImUnderAttack;
 
             }
+            else if (htmlDocument.Contains("cf-captcha-container")) {
+
+                return ChallengeType.CaptchaBypass;
+
+            }
             else {
 
                 return ChallengeType.None;
