@@ -1,3 +1,6 @@
 [submodule "Gsemac.Common"]
 	path = Gsemac.Common
 	url = https://github.com/gsemac/Gsemac.Common
+[submodule "Gsemac.Net.WebDriverUtilities"]
+	path = Gsemac.Net.WebDriverUtilities
+	url = https://github.com/gsemac/Gsemac.Net.WebDriverUtilities

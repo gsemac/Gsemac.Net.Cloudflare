@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using Gsemac.Net.WebDriverUtilities;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace Gsemac.Net.CloudflareUtilities.WebDriver {
 
         public override IChallengeResponse GetChallengeResponse(Uri uri) {
 
-            using (IWebDriver driver = CreateWebDriver(uri, options)) {
+            using (IWebDriver driver = CreateWebDriver(options, uri)) {
 
                 string url = uri.AbsoluteUri;
                 IChallengeResponse challengeResponse = ChallengeResponse.Failed;
@@ -112,29 +113,15 @@ namespace Gsemac.Net.CloudflareUtilities.WebDriver {
 
         }
 
-        protected abstract IWebDriver CreateWebDriver(Uri uri, WebDriverChallengeSolverOptions options);
+        protected abstract IWebDriver CreateWebDriver(WebDriverChallengeSolverOptions options, Uri uri);
 
         // Private members
 
         private readonly WebDriverChallengeSolverOptions options;
 
-        private string GetUserAgent(IWebDriver driver) {
-
-            IJavaScriptExecutor javascriptExecutor = (IJavaScriptExecutor)driver;
-
-            string userAgent = (string)javascriptExecutor.ExecuteScript("return navigator.userAgent");
-
-            return userAgent;
-
-        }
-        private IDictionary<string, string> GetCookies(IWebDriver driver) {
-
-            return driver.Manage().Cookies.AllCookies.ToDictionary(cookie => cookie.Name, cookie => cookie.Value);
-
-        }
         private IChallengeResponse CreateSuccessfulChallengeResponse(IWebDriver driver) {
 
-            return new ChallengeResponse(GetUserAgent(driver), GetCookies(driver));
+            return new ChallengeResponse(SeleniumUtilities.GetUserAgent(driver), SeleniumUtilities.GetCookies(driver));
 
         }
 
