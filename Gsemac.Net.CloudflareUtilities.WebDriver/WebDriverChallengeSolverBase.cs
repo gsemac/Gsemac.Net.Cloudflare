@@ -24,7 +24,7 @@ namespace Gsemac.Net.CloudflareUtilities.WebDriver {
 
                     driver.Navigate().GoToUrl(url);
 
-                    WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromMilliseconds(options.Timeout));
+                    WebDriverWait wait = new WebDriverWait(driver, options.Timeout);
 
                     Info("Waiting for challenge response");
 

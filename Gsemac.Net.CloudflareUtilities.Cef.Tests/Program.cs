@@ -34,8 +34,7 @@ namespace Gsemac.Net.CloudflareUtilities.Cef.Tests {
         private static IChallengeSolver CreateChallengeSolver() {
 
             return new CefChallengeSolver(new CefChallengeSolverOptions() {
-                BrowserSubprocessPath = System.IO.Path.Combine(EntryAssemblyInfo.GetDirectory(), Environment.Is64BitProcess ? "x64" : "x86", "CefSharp.BrowserSubprocess.exe"),
-                Timeout = Timeout.Infinite
+                BrowserSubprocessPath = System.IO.Path.Combine(EntryAssemblyInfo.GetDirectory(), Environment.Is64BitProcess ? "x64" : "x86", "CefSharp.BrowserSubprocess.exe")
             });
 
         }

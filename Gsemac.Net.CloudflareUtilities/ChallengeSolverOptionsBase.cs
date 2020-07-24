@@ -7,7 +7,7 @@ namespace Gsemac.Net.CloudflareUtilities {
         IChallengeSolverOptions {
 
         public IWebProxy Proxy { get; set; }
-        public int Timeout { get; set; } = (int)TimeSpan.FromSeconds(30).TotalMilliseconds;
+        public TimeSpan Timeout { get; set; } = TimeSpan.FromSeconds(30);
         public string UserAgent { get; set; }
 
     }
