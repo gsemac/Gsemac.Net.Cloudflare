@@ -1,8 +1,8 @@
 ﻿using CefSharp;
 using CefSharp.OffScreen;
 using System;
-using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using System.Threading;
 
 namespace Gsemac.Net.CloudflareUtilities.Cef {
@@ -91,13 +91,21 @@ namespace Gsemac.Net.CloudflareUtilities.Cef {
 
             // Public members
 
-            public IDictionary<string, string> Cookies { get; } = new Dictionary<string, string>();
+            public CookieCollection Cookies { get; } = new CookieCollection();
 
             public void Dispose() {
             }
-            public bool Visit(Cookie cookie, int count, int total, ref bool deleteCookie) {
+            public bool Visit(CefSharp.Cookie cookie, int count, int total, ref bool deleteCookie) {
 
-                Cookies[cookie.Name] = cookie.Value;
+                System.Net.Cookie netCookie = new System.Net.Cookie(cookie.Name, cookie.Value, cookie.Path, cookie.Domain) {
+                    Secure = cookie.Secure,
+                    HttpOnly = cookie.HttpOnly
+                };
+
+                if (cookie.Expires.HasValue)
+                    netCookie.Expires = cookie.Expires.Value;
+
+                Cookies.Add(netCookie);
 
                 return true;
 
@@ -144,7 +152,7 @@ namespace Gsemac.Net.CloudflareUtilities.Cef {
             return result.Success ? result.Result.ToString() : string.Empty;
 
         }
-        private IDictionary<string, string> GetCookies(string url, ChromiumWebBrowser browser) {
+        private CookieCollection GetCookies(string url, ChromiumWebBrowser browser) {
 
             using (CookieVisitor visitor = new CookieVisitor()) {
 

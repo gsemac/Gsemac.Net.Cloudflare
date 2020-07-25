@@ -1,4 +1,4 @@
-﻿using Gsemac.Net.WebDriverUtilities;
+﻿using Gsemac.Net.SeleniumUtilities;
 using OpenQA.Selenium;
 using System;
 
@@ -19,7 +19,7 @@ namespace Gsemac.Net.CloudflareUtilities.WebDriver {
 
             Info("Creating web driver (Firefox)");
 
-            return SeleniumUtilities.CreateFirefoxWebDriver(new WebDriverOptions() {
+            return WebDriverUtilities.CreateFirefoxWebDriver(new WebDriverOptions() {
                 BrowserExecutablePath = options.BrowserExecutablePath,
                 WebDriverExecutablePath = options.WebDriverExecutablePath,
                 UserAgent = options.UserAgent,
