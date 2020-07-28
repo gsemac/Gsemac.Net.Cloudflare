@@ -93,7 +93,7 @@ namespace Gsemac.Net.CloudflareUtilities.WebDriver {
 
                     Info("Closing web driver");
 
-                    driver.Close();
+                    driver.Quit();
 
                 }
 
