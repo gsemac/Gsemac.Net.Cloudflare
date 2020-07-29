@@ -1,6 +1,7 @@
 ﻿using Gsemac.Net.SeleniumUtilities;
 using OpenQA.Selenium;
 using System;
+using System.Drawing;
 
 namespace Gsemac.Net.CloudflareUtilities.WebDriver {
 
@@ -25,7 +26,8 @@ namespace Gsemac.Net.CloudflareUtilities.WebDriver {
                 UserAgent = options.UserAgent,
                 Timeout = options.Timeout,
                 Headless = options.Headless,
-                Proxy = options.Proxy
+                Proxy = options.Proxy,
+                WindowSize = new Size(1024, 768)
             }, uri);
 
         }
