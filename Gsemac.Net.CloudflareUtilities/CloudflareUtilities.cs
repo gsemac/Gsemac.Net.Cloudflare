@@ -9,6 +9,12 @@
                 return ProtectionType.ImUnderAttack;
 
             }
+            else if (htmlDocument.Contains("id=\"captcha-bypass\">")) {
+
+
+                return ProtectionType.CaptchaBypass;
+
+            }
             else if (htmlDocument.Contains("cf-wrapper\">")) {
 
                 if (htmlDocument.Contains("cf-captcha-container\">")) {
