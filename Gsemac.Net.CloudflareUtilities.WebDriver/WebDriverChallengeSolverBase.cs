@@ -2,6 +2,7 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System;
+using System.Linq;
 
 namespace Gsemac.Net.CloudflareUtilities.WebDriver {
 
@@ -27,7 +28,10 @@ namespace Gsemac.Net.CloudflareUtilities.WebDriver {
 
                     Info("Waiting for challenge response");
 
-                    if (wait.Until(d => CloudflareUtilities.GetProtectionType(d.PageSource) != ProtectionType.ImUnderAttack)) {
+                    // The challenge page may reload several times as it tries new challenges. 
+                    // We don't want the wait condition to think we've solved the challenge while the page is busy reloading, so it's important to also check for the presence of the <html> element.
+
+                    if (wait.Until(d => d.FindElements(By.XPath("//html")).Any() && CloudflareUtilities.GetProtectionType(d.PageSource) != ProtectionType.ImUnderAttack)) {
 
                         // We have managed to solve the initial "I'm Under Attack" challenge.
 
