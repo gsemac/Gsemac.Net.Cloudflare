@@ -13,105 +13,110 @@ namespace Gsemac.Net.CloudflareUtilities.WebDriver {
 
         public override IChallengeResponse GetChallengeResponse(Uri uri) {
 
-            using (IWebDriver driver = CreateWebDriver(options, uri)) {
+            string url = uri.AbsoluteUri;
+            IWebDriver driver = null;
+            IChallengeResponse challengeResponse = ChallengeResponse.Failed;
 
-                string url = uri.AbsoluteUri;
-                IChallengeResponse challengeResponse = ChallengeResponse.Failed;
+            try {
 
-                try {
+                driver = CreateWebDriver(options, uri);
 
-                    Info($"Navigating to {url}");
+                Info($"Navigating to {url}");
 
-                    driver.Navigate().GoToUrl(url);
+                driver.Navigate().GoToUrl(url);
 
-                    WebDriverWait wait = new WebDriverWait(driver, options.Timeout);
+                WebDriverWait wait = new WebDriverWait(driver, options.Timeout);
 
-                    Info("Waiting for challenge response");
+                Info("Waiting for challenge response");
 
-                    // The challenge page may reload several times as it tries new challenges. 
-                    // We don't want the wait condition to think we've solved the challenge while the page is busy reloading, so it's important to also check for the presence of the <html> element.
+                // The challenge page may reload several times as it tries new challenges. 
+                // We don't want the wait condition to think we've solved the challenge while the page is busy reloading, so it's important to also check for the presence of the <html> element.
 
-                    if (wait.Until(d => d.FindElements(By.XPath("//html")).Any() && CloudflareUtilities.GetProtectionType(d.PageSource) != ProtectionType.ImUnderAttack)) {
+                if (wait.Until(d => d.FindElements(By.XPath("//html")).Any() && CloudflareUtilities.GetProtectionType(d.PageSource) != ProtectionType.ImUnderAttack)) {
 
-                        // We have managed to solve the initial "I'm Under Attack" challenge.
+                    // We have managed to solve the initial "I'm Under Attack" challenge.
 
-                        ProtectionType challengeType = CloudflareUtilities.GetProtectionType(driver.PageSource);
+                    ProtectionType challengeType = CloudflareUtilities.GetProtectionType(driver.PageSource);
 
-                        if (challengeType == ProtectionType.CaptchaBypass) {
+                    if (challengeType == ProtectionType.CaptchaBypass) {
 
-                            // The captcha page ("Attention Required!") was encountered.
-                            // This kind of challenge cannot be solved automatically and requires user interaction. 
+                        // The captcha page ("Attention Required!") was encountered.
+                        // This kind of challenge cannot be solved automatically and requires user interaction. 
 
-                            Info("Captcha challenge received");
+                        Info("Captcha challenge received");
 
-                            if (options.Headless) {
+                        if (options.Headless) {
 
-                                Warning("Solving the captcha challenge requires user interaction, which is not possible when the headless option is enabled.");
-
-                            }
-                            else if (wait.Until(d => CloudflareUtilities.GetProtectionType(d.PageSource) != ProtectionType.CaptchaBypass)) {
-
-                                Info("Captcha response received");
-
-                                challengeResponse = CreateSuccessfulChallengeResponse(driver);
-
-                            }
-                            else {
-
-                                Error("Failed to receive captcha response (timed out)");
-
-                            }
+                            Warning("Solving the captcha challenge requires user interaction, which is not possible when the headless option is enabled.");
 
                         }
-                        else if (challengeType == ProtectionType.AccessDenied) {
+                        else if (wait.Until(d => CloudflareUtilities.GetProtectionType(d.PageSource) != ProtectionType.CaptchaBypass)) {
 
-                            Error("The owner of this website has blocked your IP address.");
-
-                        }
-                        else {
-
-                            // The challenge was solved successfully.
-
-                            Info("Challenge response received");
+                            Info("Captcha response received");
 
                             challengeResponse = CreateSuccessfulChallengeResponse(driver);
 
                         }
+                        else {
+
+                            Error("Failed to receive captcha response (timed out)");
+
+                        }
+
+                    }
+                    else if (challengeType == ProtectionType.AccessDenied) {
+
+                        Error("The owner of this website has blocked your IP address.");
 
                     }
                     else {
 
-                        Error("Failed to receive challenge response (timed out)");
+                        // The challenge was solved successfully.
+
+                        Info("Challenge response received");
+
+                        challengeResponse = CreateSuccessfulChallengeResponse(driver);
 
                     }
 
                 }
-                catch (Exception ex) {
+                else {
 
-                    Error(ex.ToString());
-
-                    throw ex;
+                    Error("Failed to receive challenge response (timed out)");
 
                 }
-                finally {
-
-                    Info("Closing web driver");
-
-                    driver.Quit();
-
-                }
-
-                return challengeResponse;
 
             }
+            catch (Exception ex) {
+
+                Error(ex.ToString());
+
+                throw ex;
+
+            }
+            finally {
+
+                Info("Closing web driver");
+
+                if (driver != null && disposeWebDriver) {
+
+                    driver.Quit();
+                    driver.Dispose();
+
+                }
+
+            }
+
+            return challengeResponse;
 
         }
 
         // Protected members
 
-        protected WebDriverChallengeSolverBase(WebDriverChallengeSolverOptions options) {
+        protected WebDriverChallengeSolverBase(WebDriverChallengeSolverOptions options, bool disposeWebDriver = true) {
 
             this.options = options;
+            this.disposeWebDriver = disposeWebDriver;
 
         }
 
@@ -119,6 +124,7 @@ namespace Gsemac.Net.CloudflareUtilities.WebDriver {
 
         // Private members
 
+        private readonly bool disposeWebDriver;
         private readonly WebDriverChallengeSolverOptions options;
 
         private IChallengeResponse CreateSuccessfulChallengeResponse(IWebDriver driver) {
