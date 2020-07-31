@@ -30,6 +30,19 @@ namespace Gsemac.Net.CloudflareUtilities.WebDriver {
 
         }
 
+        protected override void Dispose(bool disposing) {
+
+            if (disposing) {
+
+                if (webDriver != null)
+                    webDriver.Dispose();
+
+            }
+
+            base.Dispose(disposing);
+
+        }
+
         // Private members
 
         private readonly IWebDriver webDriver;

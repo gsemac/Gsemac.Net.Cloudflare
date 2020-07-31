@@ -4,7 +4,8 @@ using System;
 namespace Gsemac.Net.CloudflareUtilities {
 
     public interface IChallengeSolver :
-        ILoggable {
+        ILoggable,
+        IDisposable {
 
         IChallengeResponse GetChallengeResponse(Uri uri);
 
