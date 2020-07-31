@@ -1,11 +1,24 @@
-﻿namespace Gsemac.Net.CloudflareUtilities.WebDriver {
+﻿using Gsemac.Net.SeleniumUtilities;
+
+namespace Gsemac.Net.CloudflareUtilities.WebDriver {
 
     public class WebDriverChallengeSolverOptions :
-        ChallengeSolverOptionsBase {
+        WebDriverOptions,
+        IChallengeSolverOptions {
 
-        public bool Headless { get; set; } = true;
-        public string WebDriverExecutablePath { get; set; }
-        public string BrowserExecutablePath { get; set; }
+        public WebDriverChallengeSolverOptions() { }
+        public WebDriverChallengeSolverOptions(IWebDriverOptions options) {
+
+            this.Proxy = options.Proxy;
+            this.Timeout = options.Timeout;
+            this.UserAgent = options.UserAgent;
+            this.WebDriverExecutablePath = options.WebDriverExecutablePath;
+            this.BrowserExecutablePath = options.BrowserExecutablePath;
+            this.Headless = options.Headless;
+            this.WindowPosition = options.WindowPosition;
+            this.WindowSize = options.WindowSize;
+
+        }
 
     }
 
