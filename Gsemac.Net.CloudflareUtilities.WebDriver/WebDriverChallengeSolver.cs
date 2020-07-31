@@ -9,13 +9,15 @@ namespace Gsemac.Net.CloudflareUtilities.WebDriver {
 
         // Public members
 
+        public IWebDriver WebDriver { get; private set; }
+
         public WebDriverChallengeSolver(WebDriverChallengeSolverOptions options) :
             base(options) {
         }
         public WebDriverChallengeSolver(IWebDriver webDriver, WebDriverChallengeSolverOptions options) :
-            base(options) {
+            base(options, disposeWebDriver: false) {
 
-            this.webDriver = webDriver;
+            this.WebDriver = webDriver;
 
         }
 
@@ -23,29 +25,12 @@ namespace Gsemac.Net.CloudflareUtilities.WebDriver {
 
         protected override IWebDriver CreateWebDriver(WebDriverChallengeSolverOptions options, Uri uri) {
 
-            if (webDriver != null)
-                return webDriver;
+            if (WebDriver != null)
+                return WebDriver;
 
             return WebDriverUtilities.CreateWebDriver(options, uri);
 
         }
-
-        protected override void Dispose(bool disposing) {
-
-            if (disposing) {
-
-                if (webDriver != null)
-                    webDriver.Dispose();
-
-            }
-
-            base.Dispose(disposing);
-
-        }
-
-        // Private members
-
-        private readonly IWebDriver webDriver;
 
     }
 
