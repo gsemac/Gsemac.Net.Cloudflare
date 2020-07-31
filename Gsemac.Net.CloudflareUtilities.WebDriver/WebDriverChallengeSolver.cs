@@ -13,7 +13,7 @@ namespace Gsemac.Net.CloudflareUtilities.WebDriver {
             base(options) {
         }
         public WebDriverChallengeSolver(IWebDriver webDriver, WebDriverChallengeSolverOptions options) :
-            base(options, disposeWebDriver: false) {
+            base(options) {
 
             this.webDriver = webDriver;
 
