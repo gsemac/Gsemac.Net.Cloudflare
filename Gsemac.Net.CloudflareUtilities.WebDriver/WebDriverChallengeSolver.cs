@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using Gsemac.Net.SeleniumUtilities;
+using OpenQA.Selenium;
 using System;
 
 namespace Gsemac.Net.CloudflareUtilities.WebDriver {
@@ -8,6 +9,9 @@ namespace Gsemac.Net.CloudflareUtilities.WebDriver {
 
         // Public members
 
+        public WebDriverChallengeSolver(WebDriverChallengeSolverOptions options) :
+            this(WebDriverUtilities.CreateWebDriver(options), options) {
+        }
         public WebDriverChallengeSolver(IWebDriver webDriver, WebDriverChallengeSolverOptions options) :
             base(options) {
 
