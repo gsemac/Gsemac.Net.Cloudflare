@@ -32,7 +32,7 @@ namespace Gsemac.Net.CloudflareUtilities.WebDriver {
                 // The challenge page may reload several times as it tries new challenges. 
                 // We don't want the wait condition to think we've solved the challenge while the page is busy reloading, so it's important to also check for the presence of the <html> element.
 
-                if (wait.Until(d => d.FindElements(By.XPath("//html")).Any() && CloudflareUtilities.GetProtectionType(d.PageSource) != ProtectionType.ImUnderAttack)) {
+                if (wait.Until(d => d.PageSource.Contains(@"</html>") && CloudflareUtilities.GetProtectionType(d.PageSource) != ProtectionType.ImUnderAttack)) {
 
                     // We have managed to solve the initial "I'm Under Attack" challenge.
 
