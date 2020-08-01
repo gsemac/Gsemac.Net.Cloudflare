@@ -31,6 +31,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gsemac.Application", "Gsema
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gsemac.Net.SeleniumUtilities", "Gsemac.Net.SeleniumUtilities\Gsemac.Net.SeleniumUtilities\Gsemac.Net.SeleniumUtilities.csproj", "{4ADFB52B-5F0A-4DCA-B527-2184B704C40B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "extensions", "extensions", "{D44C88CC-6DA9-4E05-A06E-E96795280524}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "chrome", "chrome", "{A21D890C-C7B7-4A7E-B76E-297AD7114189}"
+	ProjectSection(SolutionItems) = preProject
+		extensions\chrome\content.js = extensions\chrome\content.js
+		extensions\chrome\manifest.json = extensions\chrome\manifest.json
+		extensions\chrome\stealth.js = extensions\chrome\stealth.js
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -97,6 +106,7 @@ Global
 		{9273D044-78DC-467B-A3FE-F2DBA457879E} = {160BB113-4E63-4FA2-84B9-F8F8174FF0F8}
 		{67A2B7B8-D6F3-46A0-A360-DFDCAC845515} = {160BB113-4E63-4FA2-84B9-F8F8174FF0F8}
 		{4ADFB52B-5F0A-4DCA-B527-2184B704C40B} = {160BB113-4E63-4FA2-84B9-F8F8174FF0F8}
+		{A21D890C-C7B7-4A7E-B76E-297AD7114189} = {D44C88CC-6DA9-4E05-A06E-E96795280524}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {081562A9-146D-47DE-99D0-7D8FB48655CA}
