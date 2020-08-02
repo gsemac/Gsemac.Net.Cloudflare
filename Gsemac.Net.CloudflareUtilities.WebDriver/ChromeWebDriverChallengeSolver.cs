@@ -18,7 +18,7 @@ namespace Gsemac.Net.CloudflareUtilities.WebDriver {
 
         protected override IWebDriver CreateWebDriver(WebDriverChallengeSolverOptions options, Uri uri) {
 
-            Info("Creating web driver (Chrome)");
+            OnLog.Info("Creating web driver (Chrome)");
 
             return WebDriverUtilities.CreateChromeWebDriver(new WebDriverOptions() {
                 BrowserExecutablePath = options.BrowserExecutablePath,

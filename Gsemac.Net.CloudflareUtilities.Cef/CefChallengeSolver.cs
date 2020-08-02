@@ -30,7 +30,7 @@ namespace Gsemac.Net.CloudflareUtilities.Cef {
 
                     InitializeCef(options);
 
-                    Info("Instantiating web browser");
+                    OnLog.Info("Instantiating web browser");
 
                     using (ChromiumWebBrowser browser = new ChromiumWebBrowser()) {
 
@@ -38,11 +38,11 @@ namespace Gsemac.Net.CloudflareUtilities.Cef {
                         browser.BrowserInitialized += BrowserInitialized;
                         browser.AddressChanged += AddressChanged;
 
-                        Info("Waiting for browser initialization");
+                        OnLog.Info("Waiting for browser initialization");
 
                         waitHandle.WaitOne(options.Timeout);
 
-                        Info($"Loading webpage");
+                        OnLog.Info($"Loading webpage");
 
                         browser.Load(url);
 
@@ -50,7 +50,7 @@ namespace Gsemac.Net.CloudflareUtilities.Cef {
 
                             // The page was loaded successfully, so extract the cookies.
 
-                            Info($"Solved challenge successfully");
+                            OnLog.Info($"Solved challenge successfully");
 
                             result = new ChallengeResponse(GetUserAgent(browser), GetCookies(url, browser));
 
@@ -58,7 +58,7 @@ namespace Gsemac.Net.CloudflareUtilities.Cef {
                         }
                         else {
 
-                            Error($"Failed to solve challenge (timeout)");
+                            OnLog.Error($"Failed to solve challenge (timeout)");
 
                         }
 
@@ -69,7 +69,7 @@ namespace Gsemac.Net.CloudflareUtilities.Cef {
             }
             catch (Exception ex) {
 
-                Error(ex.ToString());
+                OnLog.Error(ex.ToString());
 
                 throw ex;
 
@@ -121,7 +121,7 @@ namespace Gsemac.Net.CloudflareUtilities.Cef {
 
             if (!CefSharp.Cef.IsInitialized) {
 
-                Info("Initializing CEF");
+                OnLog.Info("Initializing CEF");
 
                 string browserSubprocessPath = string.IsNullOrEmpty(options.BrowserSubprocessPath) ?
                     Path.GetFullPath("CefSharp.BrowserSubprocess.exe") :
@@ -139,7 +139,7 @@ namespace Gsemac.Net.CloudflareUtilities.Cef {
         }
         private void ShutdownCef() {
 
-            Info("Shutting down CEF");
+            OnLog.Info("Shutting down CEF");
 
             CefSharp.Cef.Shutdown();
 
@@ -185,7 +185,7 @@ namespace Gsemac.Net.CloudflareUtilities.Cef {
         }
         private void AddressChanged(object sender, AddressChangedEventArgs e) {
 
-            Info($"Navigating to {e.Address}");
+            OnLog.Info($"Navigating to {e.Address}");
 
         }
 

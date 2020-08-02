@@ -2,7 +2,6 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System;
-using System.Linq;
 
 namespace Gsemac.Net.CloudflareUtilities.WebDriver {
 
@@ -21,13 +20,13 @@ namespace Gsemac.Net.CloudflareUtilities.WebDriver {
 
                 driver = CreateWebDriver(options, uri);
 
-                Info($"Navigating to {url}");
+                OnLog.Info($"Navigating to {url}");
 
                 driver.Navigate().GoToUrl(url);
 
                 WebDriverWait wait = new WebDriverWait(driver, options.Timeout);
 
-                Info("Waiting for challenge response");
+                OnLog.Info("Waiting for challenge response");
 
                 // The challenge page may reload several times as it tries new challenges. 
                 // We don't want the wait condition to think we've solved the challenge while the page is busy reloading, so it's important to also check for the presence of the <html> element.
@@ -43,37 +42,37 @@ namespace Gsemac.Net.CloudflareUtilities.WebDriver {
                         // The captcha page ("Attention Required!") was encountered.
                         // This kind of challenge cannot be solved automatically and requires user interaction. 
 
-                        Info("Captcha challenge received");
+                        OnLog.Info("Captcha challenge received");
 
                         if (options.Headless) {
 
-                            Warning("Solving the captcha challenge requires user interaction, which is not possible when the headless option is enabled.");
+                            OnLog.Warning("Solving the captcha challenge requires user interaction, which is not possible when the headless option is enabled.");
 
                         }
                         else if (wait.Until(d => CloudflareUtilities.GetProtectionType(d.PageSource) != ProtectionType.CaptchaBypass)) {
 
-                            Info("Captcha response received");
+                            OnLog.Info("Captcha response received");
 
                             challengeResponse = CreateSuccessfulChallengeResponse(driver);
 
                         }
                         else {
 
-                            Error("Failed to receive captcha response (timed out)");
+                            OnLog.Error("Failed to receive captcha response (timed out)");
 
                         }
 
                     }
                     else if (challengeType == ProtectionType.AccessDenied) {
 
-                        Error("The owner of this website has blocked your IP address.");
+                        OnLog.Error("The owner of this website has blocked your IP address.");
 
                     }
                     else {
 
                         // The challenge was solved successfully.
 
-                        Info("Challenge response received");
+                        OnLog.Info("Challenge response received");
 
                         challengeResponse = CreateSuccessfulChallengeResponse(driver);
 
@@ -82,21 +81,21 @@ namespace Gsemac.Net.CloudflareUtilities.WebDriver {
                 }
                 else {
 
-                    Error("Failed to receive challenge response (timed out)");
+                    OnLog.Error("Failed to receive challenge response (timed out)");
 
                 }
 
             }
             catch (Exception ex) {
 
-                Error(ex.ToString());
+                OnLog.Error(ex.ToString());
 
                 throw ex;
 
             }
             finally {
 
-                Info("Closing web driver");
+                OnLog.Info("Closing web driver");
 
                 if (driver != null && disposeWebDriver) {
 
