@@ -113,7 +113,8 @@ namespace Gsemac.Net.CloudflareUtilities.WebDriver {
 
         // Protected members
 
-        protected WebDriverChallengeSolverBase(WebDriverChallengeSolverOptions options, bool disposeWebDriver = true) {
+        protected WebDriverChallengeSolverBase(WebDriverChallengeSolverOptions options, bool disposeWebDriver = true) :
+            base("CF Challenge Solver (Web Driver)") {
 
             this.options = options;
             this.disposeWebDriver = disposeWebDriver;

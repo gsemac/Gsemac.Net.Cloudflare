@@ -12,7 +12,8 @@ namespace Gsemac.Net.CloudflareUtilities.Cef {
 
         // Public members
 
-        public CefChallengeSolver(CefChallengeSolverOptions options) {
+        public CefChallengeSolver(CefChallengeSolverOptions options) :
+            base("CF Challenge Solver (CEF)") {
 
             this.options = options;
 

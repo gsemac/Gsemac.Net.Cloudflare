@@ -16,7 +16,20 @@ namespace Gsemac.Net.CloudflareUtilities {
 
         // Protected members
 
-        protected LogEventHelper OnLog => new LogEventHelper(GetType().Name, Log);
+        protected LogEventHelper OnLog => new LogEventHelper(sourceName, Log);
+
+        protected ChallengeSolverBase() :
+            this("CF Challenge Solver") {
+        }
+        protected ChallengeSolverBase(string sourceName) {
+
+            this.sourceName = sourceName;
+
+        }
+
+        // Private members
+
+        private readonly string sourceName;
 
     }
 
