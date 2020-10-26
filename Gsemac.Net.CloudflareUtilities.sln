@@ -15,21 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gsemac.Net.CloudflareUtilit
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gsemac.Net.CloudflareUtilities.Cef", "Gsemac.Net.CloudflareUtilities.Cef\Gsemac.Net.CloudflareUtilities.Cef.csproj", "{F977D14D-4585-409B-A5D5-3011550C0477}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "submodules", "submodules", "{160BB113-4E63-4FA2-84B9-F8F8174FF0F8}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gsemac.Net.CloudflareUtilities.Tests", "Gsemac.Net.CloudflareUtilities.Tests\Gsemac.Net.CloudflareUtilities.Tests.csproj", "{B2DE6F7C-0816-4DEA-8761-FA814D8D73AE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gsemac.Net.CloudflareUtilities.Cef.Tests", "Gsemac.Net.CloudflareUtilities.Cef.Tests\Gsemac.Net.CloudflareUtilities.Cef.Tests.csproj", "{018D2801-DAC2-40D0-A2DA-BA987688DD4A}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gsemac.Logging", "Gsemac.Common\Gsemac.Logging\Gsemac.Logging.csproj", "{4411D6DD-2EB9-42AB-B1B0-B51F13A20B49}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gsemac.Collections", "Gsemac.Common\Gsemac.Collections\Gsemac.Collections.csproj", "{5D8CEE27-2CB9-4EE0-8B02-C23B3F39A0C9}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gsemac.Utilities", "Gsemac.Common\Gsemac.Utilities\Gsemac.Utilities.csproj", "{9273D044-78DC-467B-A3FE-F2DBA457879E}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gsemac.Application", "Gsemac.Common\Gsemac.Application\Gsemac.Application.csproj", "{67A2B7B8-D6F3-46A0-A360-DFDCAC845515}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gsemac.Net.SeleniumUtilities", "Gsemac.Net.SeleniumUtilities\Gsemac.Net.SeleniumUtilities\Gsemac.Net.SeleniumUtilities.csproj", "{4ADFB52B-5F0A-4DCA-B527-2184B704C40B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "extensions", "extensions", "{D44C88CC-6DA9-4E05-A06E-E96795280524}"
 EndProject
@@ -40,7 +28,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "chrome", "chrome", "{A21D89
 		extensions\chrome\stealth.js = extensions\chrome\stealth.js
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gsemac.Net.CloudflareUtilities.Cli", "Gsemac.Net.CloudflareUtilities.Cli\Gsemac.Net.CloudflareUtilities.Cli.csproj", "{E6965423-0BC9-4CB3-84A9-FFECD0F2B16A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gsemac.Net.CloudflareUtilities.Cli", "Gsemac.Net.CloudflareUtilities.Cli\Gsemac.Net.CloudflareUtilities.Cli.csproj", "{E6965423-0BC9-4CB3-84A9-FFECD0F2B16A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -72,26 +60,6 @@ Global
 		{018D2801-DAC2-40D0-A2DA-BA987688DD4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{018D2801-DAC2-40D0-A2DA-BA987688DD4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{018D2801-DAC2-40D0-A2DA-BA987688DD4A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4411D6DD-2EB9-42AB-B1B0-B51F13A20B49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4411D6DD-2EB9-42AB-B1B0-B51F13A20B49}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4411D6DD-2EB9-42AB-B1B0-B51F13A20B49}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4411D6DD-2EB9-42AB-B1B0-B51F13A20B49}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5D8CEE27-2CB9-4EE0-8B02-C23B3F39A0C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5D8CEE27-2CB9-4EE0-8B02-C23B3F39A0C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5D8CEE27-2CB9-4EE0-8B02-C23B3F39A0C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5D8CEE27-2CB9-4EE0-8B02-C23B3F39A0C9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9273D044-78DC-467B-A3FE-F2DBA457879E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9273D044-78DC-467B-A3FE-F2DBA457879E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9273D044-78DC-467B-A3FE-F2DBA457879E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9273D044-78DC-467B-A3FE-F2DBA457879E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{67A2B7B8-D6F3-46A0-A360-DFDCAC845515}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{67A2B7B8-D6F3-46A0-A360-DFDCAC845515}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{67A2B7B8-D6F3-46A0-A360-DFDCAC845515}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{67A2B7B8-D6F3-46A0-A360-DFDCAC845515}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4ADFB52B-5F0A-4DCA-B527-2184B704C40B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4ADFB52B-5F0A-4DCA-B527-2184B704C40B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4ADFB52B-5F0A-4DCA-B527-2184B704C40B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4ADFB52B-5F0A-4DCA-B527-2184B704C40B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E6965423-0BC9-4CB3-84A9-FFECD0F2B16A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E6965423-0BC9-4CB3-84A9-FFECD0F2B16A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E6965423-0BC9-4CB3-84A9-FFECD0F2B16A}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -107,11 +75,6 @@ Global
 		{F977D14D-4585-409B-A5D5-3011550C0477} = {97BA87A9-AE17-4B9F-AE96-2DF909BF1C75}
 		{B2DE6F7C-0816-4DEA-8761-FA814D8D73AE} = {30145AA1-F96A-4EB5-BC4C-CE8B43D6D0B2}
 		{018D2801-DAC2-40D0-A2DA-BA987688DD4A} = {30145AA1-F96A-4EB5-BC4C-CE8B43D6D0B2}
-		{4411D6DD-2EB9-42AB-B1B0-B51F13A20B49} = {160BB113-4E63-4FA2-84B9-F8F8174FF0F8}
-		{5D8CEE27-2CB9-4EE0-8B02-C23B3F39A0C9} = {160BB113-4E63-4FA2-84B9-F8F8174FF0F8}
-		{9273D044-78DC-467B-A3FE-F2DBA457879E} = {160BB113-4E63-4FA2-84B9-F8F8174FF0F8}
-		{67A2B7B8-D6F3-46A0-A360-DFDCAC845515} = {160BB113-4E63-4FA2-84B9-F8F8174FF0F8}
-		{4ADFB52B-5F0A-4DCA-B527-2184B704C40B} = {160BB113-4E63-4FA2-84B9-F8F8174FF0F8}
 		{A21D890C-C7B7-4A7E-B76E-297AD7114189} = {D44C88CC-6DA9-4E05-A06E-E96795280524}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution

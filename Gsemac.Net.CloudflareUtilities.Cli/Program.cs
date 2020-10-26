@@ -1,13 +1,18 @@
 ﻿using CommandLine;
 using Gsemac.Net.CloudflareUtilities.WebDriver;
+using Gsemac.Net.WebBrowsers;
 using Newtonsoft.Json;
 using System;
+using System.Linq;
+using System.Text;
 
 namespace Gsemac.Net.CloudflareUtilities.Cli {
 
     class Program {
 
         static void Main(string[] args) {
+
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
             Parser.Default.ParseArguments<CommandLineOptions>(args).WithParsed(options => {
 
@@ -25,22 +30,43 @@ namespace Gsemac.Net.CloudflareUtilities.Cli {
                 IChallengeSolver solver;
 
                 if (options.Firefox)
-                    solver = new FirefoxWebDriverChallengeSolver(challengeSolverOptions);
+                    challengeSolverOptions.BrowserExecutablePath = GetBrowserExecutablePath(WebBrowserId.Firefox);
                 else if (options.Chrome)
-                    solver = new ChromeWebDriverChallengeSolver(challengeSolverOptions);
+                    challengeSolverOptions.BrowserExecutablePath = GetBrowserExecutablePath(WebBrowserId.Chrome);
                 else
-                    solver = new WebDriverChallengeSolver(challengeSolverOptions);
+                    challengeSolverOptions.BrowserExecutablePath = GetBrowserExecutablePath();
 
-                solver.Log += (sender, e) => Console.Error.WriteLine(e.Message);
+                solver = new WebDriverChallengeSolver(challengeSolverOptions);
+
+                solver.Log += (sender, e) => Console.Error.Write(e.Message);
 
                 // Get the challenge result.
 
                 IChallengeResponse challengeResponse = solver.GetChallengeResponse(new Uri(options.Url));
-                string serializedChallengeResponse = JsonConvert.SerializeObject(challengeResponse);
+                string serializedChallengeResponse = JsonConvert.SerializeObject(challengeResponse, Formatting.Indented);
 
                 Console.WriteLine(serializedChallengeResponse);
 
+                Console.ReadKey();
+
             });
+        }
+
+        static string GetBrowserExecutablePath() {
+
+            return WebBrowserUtilities.GetInstalledWebBrowsers()
+                  .Where(browser => browser.Id == WebBrowserId.Firefox || browser.Id == WebBrowserId.Chrome)
+                  .Select(browser => browser.ExecutablePath)
+                  .FirstOrDefault();
+
+        }
+        static string GetBrowserExecutablePath(WebBrowserId webBrowserId) {
+
+            return WebBrowserUtilities.GetInstalledWebBrowsers()
+                  .Where(browser => browser.Id == webBrowserId)
+                  .Select(browser => browser.ExecutablePath)
+                  .FirstOrDefault();
+
         }
 
     }

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -8,11 +8,25 @@
   <ItemGroup>
     <PackageReference Include="CommandLineParser" Version="2.8.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="4.7.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Gsemac.Net.CloudflareUtilities.WebDriver\Gsemac.Net.CloudflareUtilities.WebDriver.csproj" />
     <ProjectReference Include="..\Gsemac.Net.CloudflareUtilities\Gsemac.Net.CloudflareUtilities.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Gsemac.Net.SeleniumUtilities">
+      <HintPath>..\Gsemac.Net.SeleniumUtilities\Gsemac.Net.SeleniumUtilities\bin\$(ConfigurationName)\netstandard2.0\Gsemac.Net.SeleniumUtilities.dll</HintPath>
+    </Reference>
+    <Reference Include="Gsemac.Net.WebBrowsers">
+      <HintPath>..\Gsemac.Net.WebBrowsers\Gsemac.Net.WebBrowsers\bin\$(ConfigurationName)\netstandard2.0\Gsemac.Net.WebBrowsers.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="&quot;$(MSBuildToolsPath)\msbuild.exe&quot; &quot;$(ProjectDir)..\Gsemac.Net.WebBrowsers\Gsemac.Net.WebBrowsers.sln&quot; /p:Configuration=$(ConfigurationName) /verbosity:quiet /restore" />
+  </Target>
 
 </Project>

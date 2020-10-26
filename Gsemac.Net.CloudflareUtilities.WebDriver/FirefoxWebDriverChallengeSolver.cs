@@ -22,7 +22,7 @@ namespace Gsemac.Net.CloudflareUtilities.WebDriver {
 
             return WebDriverUtilities.CreateFirefoxWebDriver(new WebDriverOptions() {
                 BrowserExecutablePath = options.BrowserExecutablePath,
-                WebDriverExecutablePath = options.WebDriverExecutablePath,
+                WebDriverExecutablePath = options.WebDriverExecutablePath ?? "geckodriver.exe",
                 UserAgent = options.UserAgent,
                 Timeout = options.Timeout,
                 Headless = options.Headless,

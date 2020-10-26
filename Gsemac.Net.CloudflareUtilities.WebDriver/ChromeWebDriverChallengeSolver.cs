@@ -22,7 +22,7 @@ namespace Gsemac.Net.CloudflareUtilities.WebDriver {
 
             return WebDriverUtilities.CreateChromeWebDriver(new WebDriverOptions() {
                 BrowserExecutablePath = options.BrowserExecutablePath,
-                WebDriverExecutablePath = options.WebDriverExecutablePath,
+                WebDriverExecutablePath = options.WebDriverExecutablePath ?? "chromedriver.exe",
                 UserAgent = options.UserAgent,
                 Timeout = options.Timeout,
                 Headless = options.Headless,

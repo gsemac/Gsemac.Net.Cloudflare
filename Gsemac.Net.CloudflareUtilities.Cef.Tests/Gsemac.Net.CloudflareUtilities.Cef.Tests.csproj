@@ -6,10 +6,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Gsemac.Common\Gsemac.Application\Gsemac.Application.csproj" />
     <ProjectReference Include="..\Gsemac.Net.CloudflareUtilities.Cef\Gsemac.Net.CloudflareUtilities.Cef.csproj" />
     <ProjectReference Include="..\Gsemac.Net.CloudflareUtilities.Tests\Gsemac.Net.CloudflareUtilities.Tests.csproj" />
     <ProjectReference Include="..\Gsemac.Net.CloudflareUtilities\Gsemac.Net.CloudflareUtilities.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Gsemac.Application">
+      <HintPath>..\Gsemac.Common\Gsemac.Application\bin\$(ConfigurationName)\netstandard2.0\Gsemac.Application.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

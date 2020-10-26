@@ -4,3 +4,6 @@
 [submodule "Gsemac.Net.WebDriverUtilities"]
 	path = Gsemac.Net.SeleniumUtilities
 	url = https://github.com/gsemac/Gsemac.Net.WebDriverUtilities
+[submodule "Gsemac.Net.WebBrowsers"]
+	path = Gsemac.Net.WebBrowsers
+	url = https://github.com/gsemac/Gsemac.Net.WebBrowsers

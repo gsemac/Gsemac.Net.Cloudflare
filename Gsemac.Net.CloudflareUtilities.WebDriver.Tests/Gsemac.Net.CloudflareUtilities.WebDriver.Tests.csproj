@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -22,6 +22,12 @@
     <ProjectReference Include="..\Gsemac.Net.CloudflareUtilities.Tests\Gsemac.Net.CloudflareUtilities.Tests.csproj" />
     <ProjectReference Include="..\Gsemac.Net.CloudflareUtilities.WebDriver\Gsemac.Net.CloudflareUtilities.WebDriver.csproj" />
     <ProjectReference Include="..\Gsemac.Net.CloudflareUtilities\Gsemac.Net.CloudflareUtilities.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Gsemac.Net.SeleniumUtilities">
+      <HintPath>..\Gsemac.Net.SeleniumUtilities\Gsemac.Net.SeleniumUtilities\bin\$(ConfigurationName)\netstandard2.0\Gsemac.Net.SeleniumUtilities.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

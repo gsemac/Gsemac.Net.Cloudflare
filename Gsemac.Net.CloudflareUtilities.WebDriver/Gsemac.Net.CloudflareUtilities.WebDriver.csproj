@@ -1,4 +1,4 @@
-<Project Sdk="MSBuild.Sdk.Extras/2.0.54">
+﻿<Project Sdk="MSBuild.Sdk.Extras/2.0.54">
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net40-client</TargetFrameworks>
@@ -10,12 +10,21 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Gsemac.Net.CloudflareUtilities\Gsemac.Net.CloudflareUtilities.csproj" />
-    <ProjectReference Include="..\Gsemac.Net.SeleniumUtilities\Gsemac.Net.SeleniumUtilities\Gsemac.Net.SeleniumUtilities.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Gsemac.Net.SeleniumUtilities">
+      <HintPath>..\Gsemac.Net.SeleniumUtilities\Gsemac.Net.SeleniumUtilities\bin\$(ConfigurationName)\$(TargetFramework)\Gsemac.Net.SeleniumUtilities.dll</HintPath>
+    </Reference>
   </ItemGroup>
   
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <DebugType>none</DebugType>
     <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
+  
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="&quot;$(MSBuildToolsPath)\msbuild.exe&quot; &quot;..\Gsemac.Net.SeleniumUtilities\Gsemac.Net.SeleniumUtilities.sln&quot; /p:Configuration=$(ConfigurationName) /verbosity:quiet /restore" />
+  </Target>
 
 </Project>
