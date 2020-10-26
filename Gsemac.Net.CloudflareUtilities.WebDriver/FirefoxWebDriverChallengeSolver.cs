@@ -10,13 +10,13 @@ namespace Gsemac.Net.CloudflareUtilities.WebDriver {
 
         // Public members
 
-        public FirefoxWebDriverChallengeSolver(WebDriverChallengeSolverOptions options) :
+        public FirefoxWebDriverChallengeSolver(IWebDriverChallengeSolverOptions options) :
             base(options) {
         }
 
         // Protected members
 
-        protected override IWebDriver CreateWebDriver(WebDriverChallengeSolverOptions options, Uri uri) {
+        protected override IWebDriver CreateWebDriver(IWebDriverChallengeSolverOptions options, Uri uri) {
 
             OnLog.Info("Creating web driver (Firefox)");
 

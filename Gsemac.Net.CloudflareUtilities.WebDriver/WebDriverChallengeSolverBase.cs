@@ -113,7 +113,7 @@ namespace Gsemac.Net.CloudflareUtilities.WebDriver {
 
         // Protected members
 
-        protected WebDriverChallengeSolverBase(WebDriverChallengeSolverOptions options, bool disposeWebDriver = true) :
+        protected WebDriverChallengeSolverBase(IWebDriverChallengeSolverOptions options, bool disposeWebDriver = true) :
             base("CF Challenge Solver (Web Driver)") {
 
             this.options = options;
@@ -121,12 +121,12 @@ namespace Gsemac.Net.CloudflareUtilities.WebDriver {
 
         }
 
-        protected abstract IWebDriver CreateWebDriver(WebDriverChallengeSolverOptions options, Uri uri);
+        protected abstract IWebDriver CreateWebDriver(IWebDriverChallengeSolverOptions options, Uri uri);
 
         // Private members
 
         private readonly bool disposeWebDriver = true;
-        private readonly WebDriverChallengeSolverOptions options;
+        private readonly IWebDriverChallengeSolverOptions options;
 
         private IChallengeResponse CreateSuccessfulChallengeResponse(IWebDriver driver) {
 

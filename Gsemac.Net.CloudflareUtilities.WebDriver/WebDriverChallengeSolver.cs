@@ -11,10 +11,10 @@ namespace Gsemac.Net.CloudflareUtilities.WebDriver {
 
         public IWebDriver WebDriver { get; private set; }
 
-        public WebDriverChallengeSolver(WebDriverChallengeSolverOptions options) :
+        public WebDriverChallengeSolver(IWebDriverChallengeSolverOptions options) :
             base(options) {
         }
-        public WebDriverChallengeSolver(IWebDriver webDriver, WebDriverChallengeSolverOptions options) :
+        public WebDriverChallengeSolver(IWebDriver webDriver, IWebDriverChallengeSolverOptions options) :
             base(options, disposeWebDriver: false) {
 
             this.WebDriver = webDriver;
@@ -23,7 +23,7 @@ namespace Gsemac.Net.CloudflareUtilities.WebDriver {
 
         // Private members
 
-        protected override IWebDriver CreateWebDriver(WebDriverChallengeSolverOptions options, Uri uri) {
+        protected override IWebDriver CreateWebDriver(IWebDriverChallengeSolverOptions options, Uri uri) {
 
             if (WebDriver != null)
                 return WebDriver;

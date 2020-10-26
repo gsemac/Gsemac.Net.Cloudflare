@@ -4,7 +4,7 @@ namespace Gsemac.Net.CloudflareUtilities.WebDriver {
 
     public class WebDriverChallengeSolverOptions :
         WebDriverOptions,
-        IChallengeSolverOptions {
+        IWebDriverChallengeSolverOptions {
 
         public WebDriverChallengeSolverOptions() { }
         public WebDriverChallengeSolverOptions(IWebDriverOptions options) {
