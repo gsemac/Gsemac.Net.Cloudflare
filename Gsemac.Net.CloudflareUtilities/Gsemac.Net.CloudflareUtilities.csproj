@@ -1,16 +1,22 @@
 <Project Sdk="MSBuild.Sdk.Extras/2.0.54">
 
-  <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net40-client</TargetFrameworks>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>netstandard2.0;net40-client</TargetFrameworks>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Gsemac.Common\Gsemac.Logging\Gsemac.Logging.csproj" />
-  </ItemGroup>
+	<PropertyGroup Condition="'$(Configuration)' == 'Release'">
+		<DebugType>none</DebugType>
+		<DebugSymbols>false</DebugSymbols>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
-    <DebugType>none</DebugType>
-    <DebugSymbols>false</DebugSymbols>
-  </PropertyGroup>
+	<ItemGroup>
+		<Reference Include="Gsemac.Logging">
+			<HintPath>..\..\Gsemac.Common\Gsemac.Logging\bin\$(ConfigurationName)\$(TargetFramework)\Gsemac.Logging.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+
+	<Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+		<Exec Command="&quot;$(MSBuildToolsPath)\msbuild.exe&quot; &quot;..\Gsemac.Common\Gsemac.Common.sln&quot; /p:Configuration=$(ConfigurationName) /verbosity:quiet /restore" />
+	</Target>
 
 </Project>

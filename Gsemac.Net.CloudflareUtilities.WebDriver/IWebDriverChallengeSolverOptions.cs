@@ -1,4 +1,4 @@
-﻿using Gsemac.Net.SeleniumUtilities;
+﻿using Gsemac.Net.WebDriverUtilities;
 using System;
 using System.Net;
 

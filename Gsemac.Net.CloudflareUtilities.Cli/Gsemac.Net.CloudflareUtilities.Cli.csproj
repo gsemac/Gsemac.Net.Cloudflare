@@ -17,16 +17,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="Gsemac.Net.SeleniumUtilities">
-      <HintPath>..\Gsemac.Net.SeleniumUtilities\Gsemac.Net.SeleniumUtilities\bin\$(ConfigurationName)\netstandard2.0\Gsemac.Net.SeleniumUtilities.dll</HintPath>
+    <Reference Include="Gsemac.Logging">
+      <HintPath>..\..\Gsemac.Common\Gsemac.Logging\bin\$(ConfigurationName)\netstandard2.0\Gsemac.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Gsemac.Net.WebDriverUtilities">
+      <HintPath>..\Gsemac.Common\Gsemac.Net.WebDriverUtilities\bin\$(ConfigurationName)\netstandard2.0\Gsemac.Net.WebDriverUtilities.dll</HintPath>
     </Reference>
     <Reference Include="Gsemac.Net.WebBrowsers">
-      <HintPath>..\Gsemac.Net.WebBrowsers\Gsemac.Net.WebBrowsers\bin\$(ConfigurationName)\netstandard2.0\Gsemac.Net.WebBrowsers.dll</HintPath>
+      <HintPath>..\Gsemac.Common\Gsemac.Net.WebBrowserUtilities\bin\$(ConfigurationName)\netstandard2.0\Gsemac.Net.WebBrowserUtilities.dll</HintPath>
     </Reference>
   </ItemGroup>
-
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="&quot;$(MSBuildToolsPath)\msbuild.exe&quot; &quot;$(ProjectDir)..\Gsemac.Net.WebBrowsers\Gsemac.Net.WebBrowsers.sln&quot; /p:Configuration=$(ConfigurationName) /verbosity:quiet /restore" />
-  </Target>
 
 </Project>

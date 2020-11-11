@@ -1,4 +1,4 @@
-﻿using Gsemac.Net.SeleniumUtilities;
+﻿using Gsemac.Net.WebDriverUtilities;
 
 namespace Gsemac.Net.CloudflareUtilities.WebDriver {
 

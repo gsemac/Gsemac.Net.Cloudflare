@@ -1,12 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1;net452</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1;net472</TargetFrameworks>
     <CefSharpAnyCpuSupport>true</CefSharpAnyCpuSupport>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CefSharp.OffScreen" Version="83.4.20" />
+    <PackageReference Include="CefSharp.OffScreen" Version="85.3.130" />
+    <PackageReference Include="NETStandard.Library" Version="2.0.3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -15,8 +16,14 @@
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
     <PackageReference Include="System.Drawing.Common">
-      <Version>4.7.0</Version>
+      <Version>5.0.0</Version>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Gsemac.Logging">
+      <HintPath>..\Gsemac.Common\Gsemac.Logging\bin\$(ConfigurationName)\netstandard2.0\Gsemac.Logging.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

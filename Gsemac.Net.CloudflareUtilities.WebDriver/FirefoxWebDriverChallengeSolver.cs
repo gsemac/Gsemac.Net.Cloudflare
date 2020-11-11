@@ -1,4 +1,4 @@
-﻿using Gsemac.Net.SeleniumUtilities;
+﻿using Gsemac.Net.WebDriverUtilities;
 using OpenQA.Selenium;
 using System;
 using System.Drawing;
@@ -20,7 +20,7 @@ namespace Gsemac.Net.CloudflareUtilities.WebDriver {
 
             OnLog.Info("Creating web driver (Firefox)");
 
-            return WebDriverUtilities.CreateFirefoxWebDriver(new WebDriverOptions() {
+            return WebDriverUtilities.WebDriverUtilities.CreateFirefoxWebDriver(new WebDriverOptions() {
                 BrowserExecutablePath = options.BrowserExecutablePath,
                 WebDriverExecutablePath = options.WebDriverExecutablePath ?? "geckodriver.exe",
                 UserAgent = options.UserAgent,
