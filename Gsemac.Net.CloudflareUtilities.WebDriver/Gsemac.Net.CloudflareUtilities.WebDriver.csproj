@@ -16,8 +16,8 @@
     <Reference Include="Gsemac.Logging">
       <HintPath>..\Gsemac.Common\Gsemac.Logging\bin\$(ConfigurationName)\$(TargetFramework)\Gsemac.Logging.dll</HintPath>
     </Reference>
-    <Reference Include="Gsemac.Net.SeleniumUtilities">
-      <HintPath>..\Gsemac.Common\Gsemac.Net.WebDriverUtilities\bin\$(ConfigurationName)\$(TargetFramework)\Gsemac.Net.WebDriverUtilities.dll</HintPath>
+    <Reference Include="Gsemac.Net.WebDrivers">
+      <HintPath>..\Gsemac.Common\Gsemac.Net.WebDrivers\bin\$(ConfigurationName)\$(TargetFramework)\Gsemac.Net.WebDrivers.dll</HintPath>
     </Reference>
   </ItemGroup>
   

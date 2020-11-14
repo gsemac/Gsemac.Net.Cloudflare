@@ -1,4 +1,4 @@
-﻿using Gsemac.Net.WebDriverUtilities;
+﻿using Gsemac.Net.WebDrivers;
 using OpenQA.Selenium;
 using System;
 
@@ -28,7 +28,7 @@ namespace Gsemac.Net.CloudflareUtilities.WebDriver {
             if (WebDriver != null)
                 return WebDriver;
 
-            return WebDriverUtilities.WebDriverUtilities.CreateWebDriver(options, uri);
+            return WebDriverUtilities.CreateWebDriver(options, uri);
 
         }
 

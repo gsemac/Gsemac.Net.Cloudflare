@@ -28,8 +28,8 @@
     <Reference Include="Gsemac.Logging">
       <HintPath>..\Gsemac.Common\Gsemac.Logging\bin\$(ConfigurationName)\netstandard2.0\Gsemac.Logging.dll</HintPath>
     </Reference>
-    <Reference Include="Gsemac.Net.SeleniumUtilities">
-      <HintPath>..\Gsemac.Common\Gsemac.Net.WebDriverUtilities\bin\$(ConfigurationName)\netstandard2.0\Gsemac.Net.WebDriverUtilities.dll</HintPath>
+    <Reference Include="Gsemac.Net.WebDrivers">
+      <HintPath>..\Gsemac.Common\Gsemac.Net.WebDrivers\bin\$(ConfigurationName)\netstandard2.0\Gsemac.Net.WebDrivers.dll</HintPath>
     </Reference>
   </ItemGroup>
 

@@ -1,4 +1,4 @@
-﻿using Gsemac.Net.WebDriverUtilities;
+﻿using Gsemac.Net.WebDrivers;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System;
@@ -131,8 +131,8 @@ namespace Gsemac.Net.CloudflareUtilities.WebDriver {
         private IChallengeResponse CreateSuccessfulChallengeResponse(IWebDriver driver) {
 
             return new ChallengeResponse(
-                WebDriverUtilities.WebDriverUtilities.GetUserAgent(driver), 
-                WebDriverUtilities.WebDriverUtilities.GetCookies(driver)
+                WebDriverUtilities.GetUserAgent(driver),
+                WebDriverUtilities.GetCookies(driver)
                 );
 
         }

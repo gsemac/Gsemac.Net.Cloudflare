@@ -1,4 +1,4 @@
-﻿using Gsemac.Net.WebDriverUtilities;
+﻿using Gsemac.Net.WebDrivers;
 using OpenQA.Selenium;
 using System;
 using System.Drawing;
@@ -20,7 +20,7 @@ namespace Gsemac.Net.CloudflareUtilities.WebDriver {
 
             OnLog.Info("Creating web driver (Chrome)");
 
-            return WebDriverUtilities.WebDriverUtilities.CreateChromeWebDriver(new WebDriverOptions() {
+            return WebDriverUtilities.CreateChromeWebDriver(new WebDriverOptions() {
                 BrowserExecutablePath = options.BrowserExecutablePath,
                 WebDriverExecutablePath = options.WebDriverExecutablePath ?? "chromedriver.exe",
                 UserAgent = options.UserAgent,
