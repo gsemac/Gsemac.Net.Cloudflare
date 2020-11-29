@@ -2,7 +2,7 @@
 using System;
 using System.Threading;
 
-namespace Gsemac.Net.CloudflareUtilities.Cef.Tests {
+namespace Gsemac.Net.Cloudflare.Cef.Tests {
 
     class Program {
 
@@ -12,9 +12,9 @@ namespace Gsemac.Net.CloudflareUtilities.Cef.Tests {
 
             string url = "https://censor.net.ua";
 
-            IChallengeSolver challengeSolver = CreateChallengeSolver();
+            IIuamChallengeSolver challengeSolver = CreateChallengeSolver();
             challengeSolver.Log += (sender, e) => Console.Write(e.ToString());
-            IChallengeResponse challengeResponse = challengeSolver.GetChallengeResponse(new Uri(url));
+            IIuamChallengeResponse challengeResponse = challengeSolver.GetChallengeResponse(new Uri(url));
             
             Console.WriteLine(challengeResponse.UserAgent);
 
@@ -31,9 +31,9 @@ namespace Gsemac.Net.CloudflareUtilities.Cef.Tests {
             AppDomain.CurrentDomain.AssemblyResolve += assemblyResolver.ResolveAssembly;
 
         }
-        private static IChallengeSolver CreateChallengeSolver() {
+        private static IIuamChallengeSolver CreateChallengeSolver() {
 
-            return new CefChallengeSolver(new CefChallengeSolverOptions() {
+            return new CefIuamChallengeSolver(new CefIuamChallengeSolverOptions() {
                 BrowserSubprocessPath = System.IO.Path.Combine(EntryAssemblyInfo.GetDirectory(), Environment.Is64BitProcess ? "x64" : "x86", "CefSharp.BrowserSubprocess.exe")
             });
 

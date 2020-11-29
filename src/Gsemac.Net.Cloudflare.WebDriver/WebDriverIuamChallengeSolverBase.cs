@@ -3,18 +3,18 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System;
 
-namespace Gsemac.Net.CloudflareUtilities.WebDriver {
+namespace Gsemac.Net.Cloudflare.WebDriver {
 
-    public abstract class WebDriverChallengeSolverBase :
-        ChallengeSolverBase {
+    public abstract class WebDriverIuamChallengeSolverBase :
+        IuamChallengeSolverBase {
 
         // Public members
 
-        public override IChallengeResponse GetChallengeResponse(Uri uri) {
+        public override IIuamChallengeResponse GetChallengeResponse(Uri uri) {
 
             string url = uri.AbsoluteUri;
             IWebDriver driver = null;
-            IChallengeResponse challengeResponse = ChallengeResponse.Failed;
+            IIuamChallengeResponse challengeResponse = IuamChallengeResponse.Failed;
 
             try {
 
@@ -113,7 +113,7 @@ namespace Gsemac.Net.CloudflareUtilities.WebDriver {
 
         // Protected members
 
-        protected WebDriverChallengeSolverBase(IWebDriverChallengeSolverOptions options, bool disposeWebDriver = true) :
+        protected WebDriverIuamChallengeSolverBase(IWebDriverIuamChallengeSolverOptions options, bool disposeWebDriver = true) :
             base("CF Challenge Solver (Web Driver)") {
 
             this.options = options;
@@ -121,16 +121,16 @@ namespace Gsemac.Net.CloudflareUtilities.WebDriver {
 
         }
 
-        protected abstract IWebDriver CreateWebDriver(IWebDriverChallengeSolverOptions options, Uri uri);
+        protected abstract IWebDriver CreateWebDriver(IWebDriverIuamChallengeSolverOptions options, Uri uri);
 
         // Private members
 
         private readonly bool disposeWebDriver = true;
-        private readonly IWebDriverChallengeSolverOptions options;
+        private readonly IWebDriverIuamChallengeSolverOptions options;
 
-        private IChallengeResponse CreateSuccessfulChallengeResponse(IWebDriver driver) {
+        private IIuamChallengeResponse CreateSuccessfulChallengeResponse(IWebDriver driver) {
 
-            return new ChallengeResponse(
+            return new IuamChallengeResponse(
                 WebDriverUtilities.GetUserAgent(driver),
                 WebDriverUtilities.GetCookies(driver)
                 );

@@ -3,25 +3,25 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Gsemac.Net.CloudflareUtilities {
+namespace Gsemac.Net.Cloudflare {
 
-    public abstract class ChallengeSolverBase :
-        IChallengeSolver {
+    public abstract class IuamChallengeSolverBase :
+        IIuamChallengeSolver {
 
         // Public members
 
         public event LogEventHandler Log;
 
-        public abstract IChallengeResponse GetChallengeResponse(Uri uri);
+        public abstract IIuamChallengeResponse GetChallengeResponse(Uri uri);
 
         // Protected members
 
         protected LogEventHelper OnLog => new LogEventHelper(sourceName, Log);
 
-        protected ChallengeSolverBase() :
+        protected IuamChallengeSolverBase() :
             this("CF Challenge Solver") {
         }
-        protected ChallengeSolverBase(string sourceName) {
+        protected IuamChallengeSolverBase(string sourceName) {
 
             this.sourceName = sourceName;
 

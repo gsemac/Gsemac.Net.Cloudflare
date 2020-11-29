@@ -2,10 +2,10 @@
 using System;
 using System.Net;
 
-namespace Gsemac.Net.CloudflareUtilities.WebDriver {
+namespace Gsemac.Net.Cloudflare.WebDriver {
 
-    public interface IWebDriverChallengeSolverOptions :
-        IChallengeSolverOptions,
+    public interface IWebDriverIuamChallengeSolverOptions :
+        IIuamChallengeSolverOptions,
         IWebDriverOptions {
 
         new IWebProxy Proxy { get; set; }

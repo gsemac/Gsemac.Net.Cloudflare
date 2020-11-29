@@ -1,6 +1,6 @@
 ﻿using CommandLine;
 
-namespace Gsemac.Net.CloudflareUtilities.Cli {
+namespace Gsemac.Net.Cloudflare.Cli {
 
     class CommandLineOptions {
 

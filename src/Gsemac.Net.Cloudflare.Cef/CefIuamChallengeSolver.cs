@@ -5,23 +5,23 @@ using System.IO;
 using System.Net;
 using System.Threading;
 
-namespace Gsemac.Net.CloudflareUtilities.Cef {
+namespace Gsemac.Net.Cloudflare.Cef {
 
-    public class CefChallengeSolver :
-        ChallengeSolverBase {
+    public class CefIuamChallengeSolver :
+        IuamChallengeSolverBase {
 
         // Public members
 
-        public CefChallengeSolver(CefChallengeSolverOptions options) :
+        public CefIuamChallengeSolver(CefIuamChallengeSolverOptions options) :
             base("CF Challenge Solver (CEF)") {
 
             this.options = options;
 
         }
 
-        public override IChallengeResponse GetChallengeResponse(Uri uri) {
+        public override IIuamChallengeResponse GetChallengeResponse(Uri uri) {
 
-            IChallengeResponse result = null;
+            IIuamChallengeResponse result = null;
 
             try {
 
@@ -53,7 +53,7 @@ namespace Gsemac.Net.CloudflareUtilities.Cef {
 
                             OnLog.Info($"Solved challenge successfully");
 
-                            result = new ChallengeResponse(GetUserAgent(browser), GetCookies(url, browser));
+                            result = new IuamChallengeResponse(GetUserAgent(browser), GetCookies(url, browser));
 
 
                         }
@@ -114,11 +114,11 @@ namespace Gsemac.Net.CloudflareUtilities.Cef {
 
         }
 
-        private readonly CefChallengeSolverOptions options;
+        private readonly CefIuamChallengeSolverOptions options;
         private readonly object lockObject = new object();
         private readonly AutoResetEvent waitHandle = new AutoResetEvent(false);
 
-        private void InitializeCef(CefChallengeSolverOptions options) {
+        private void InitializeCef(CefIuamChallengeSolverOptions options) {
 
             if (!CefSharp.Cef.IsInitialized) {
 

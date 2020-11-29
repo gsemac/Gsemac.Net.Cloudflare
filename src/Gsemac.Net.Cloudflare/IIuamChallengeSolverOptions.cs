@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Net;
 
-namespace Gsemac.Net.CloudflareUtilities {
+namespace Gsemac.Net.Cloudflare {
 
-    public interface IChallengeSolverOptions {
+    public interface IIuamChallengeSolverOptions {
 
         IWebProxy Proxy { get; set; }
         TimeSpan Timeout { get; set; }

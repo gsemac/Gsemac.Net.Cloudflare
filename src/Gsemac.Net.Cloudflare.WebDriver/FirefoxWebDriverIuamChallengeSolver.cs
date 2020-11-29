@@ -3,20 +3,20 @@ using OpenQA.Selenium;
 using System;
 using System.Drawing;
 
-namespace Gsemac.Net.CloudflareUtilities.WebDriver {
+namespace Gsemac.Net.Cloudflare.WebDriver {
 
-    public class FirefoxWebDriverChallengeSolver :
-        WebDriverChallengeSolverBase {
+    public class FirefoxWebDriverIuamChallengeSolver :
+        WebDriverIuamChallengeSolverBase {
 
         // Public members
 
-        public FirefoxWebDriverChallengeSolver(IWebDriverChallengeSolverOptions options) :
+        public FirefoxWebDriverIuamChallengeSolver(IWebDriverIuamChallengeSolverOptions options) :
             base(options) {
         }
 
         // Protected members
 
-        protected override IWebDriver CreateWebDriver(IWebDriverChallengeSolverOptions options, Uri uri) {
+        protected override IWebDriver CreateWebDriver(IWebDriverIuamChallengeSolverOptions options, Uri uri) {
 
             OnLog.Info("Creating web driver (Firefox)");
 

@@ -1,13 +1,13 @@
 ﻿using Gsemac.Net.WebDrivers;
 
-namespace Gsemac.Net.CloudflareUtilities.WebDriver {
+namespace Gsemac.Net.Cloudflare.WebDriver {
 
-    public class WebDriverChallengeSolverOptions :
+    public class WebDriverIuamChallengeSolverOptions :
         WebDriverOptions,
-        IWebDriverChallengeSolverOptions {
+        IWebDriverIuamChallengeSolverOptions {
 
-        public WebDriverChallengeSolverOptions() { }
-        public WebDriverChallengeSolverOptions(IWebDriverOptions options) {
+        public WebDriverIuamChallengeSolverOptions() { }
+        public WebDriverIuamChallengeSolverOptions(IWebDriverOptions options) {
 
             this.Proxy = options.Proxy;
             this.Timeout = options.Timeout;

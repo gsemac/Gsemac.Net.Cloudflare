@@ -1,9 +1,9 @@
 ﻿using System.Net;
 
-namespace Gsemac.Net.CloudflareUtilities {
+namespace Gsemac.Net.Cloudflare {
 
-    public class ChallengeResponse :
-        IChallengeResponse {
+    public class IuamChallengeResponse :
+        IIuamChallengeResponse {
 
         // Public members
 
@@ -11,9 +11,9 @@ namespace Gsemac.Net.CloudflareUtilities {
         public CookieCollection Cookies { get; } = new CookieCollection();
         public bool Success => !string.IsNullOrEmpty(UserAgent) && Cookies.Count > 0;
 
-        public static ChallengeResponse Failed => new ChallengeResponse();
+        public static IuamChallengeResponse Failed => new IuamChallengeResponse();
 
-        public ChallengeResponse(string userAgent = "", CookieCollection cookies = null) {
+        public IuamChallengeResponse(string userAgent = "", CookieCollection cookies = null) {
 
             UserAgent = userAgent;
 
@@ -24,7 +24,7 @@ namespace Gsemac.Net.CloudflareUtilities {
 
         // Private members
 
-        private ChallengeResponse() {
+        private IuamChallengeResponse() {
         }
 
     }

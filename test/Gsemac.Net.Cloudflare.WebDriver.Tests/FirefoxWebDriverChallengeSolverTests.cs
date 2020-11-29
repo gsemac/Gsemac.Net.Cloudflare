@@ -1,9 +1,9 @@
 using Gsemac.CloudflareUtilities.Tests;
-using Gsemac.Net.CloudflareUtilities.WebDriver;
+using Gsemac.Net.Cloudflare.WebDriver;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
-namespace Gsemac.Net.CloudflareUtilities.Tests {
+namespace Gsemac.Net.Cloudflare.Tests {
 
     [TestClass]
     public class FirefoxWebDriverChallengeSolverTests {
@@ -22,8 +22,8 @@ namespace Gsemac.Net.CloudflareUtilities.Tests {
 
             TestParameters testParameters = TestParameters.GetTestParameters();
 
-            IChallengeSolver challengeSolver = CreateChallengeSolver();
-            IChallengeResponse challengeResponse = challengeSolver.GetChallengeResponse(new Uri(testParameters.Url));
+            IIuamChallengeSolver challengeSolver = CreateChallengeSolver();
+            IIuamChallengeResponse challengeResponse = challengeSolver.GetChallengeResponse(new Uri(testParameters.Url));
 
             Assert.IsTrue(challengeResponse.Success);
 
@@ -31,16 +31,16 @@ namespace Gsemac.Net.CloudflareUtilities.Tests {
 
         // Private members
 
-        private IChallengeSolver CreateChallengeSolver() {
+        private IIuamChallengeSolver CreateChallengeSolver() {
 
             TestParameters testParameters = TestParameters.GetTestParameters();
 
-            WebDriverChallengeSolverOptions options = new WebDriverChallengeSolverOptions() {
+            WebDriverIuamChallengeSolverOptions options = new WebDriverIuamChallengeSolverOptions() {
                 BrowserExecutablePath = testParameters.FirefoxExecutablePath,
                 Headless = true,
             };
 
-            return new FirefoxWebDriverChallengeSolver(options);
+            return new FirefoxWebDriverIuamChallengeSolver(options);
 
         }
 

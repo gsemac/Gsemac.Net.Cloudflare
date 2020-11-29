@@ -1,8 +1,8 @@
 ﻿using System.Net;
 
-namespace Gsemac.Net.CloudflareUtilities {
+namespace Gsemac.Net.Cloudflare {
 
-    public interface IChallengeResponse {
+    public interface IIuamChallengeResponse {
 
         string UserAgent { get; }
         CookieCollection Cookies { get; }

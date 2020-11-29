@@ -1,12 +1,12 @@
 ﻿using CommandLine;
-using Gsemac.Net.CloudflareUtilities.WebDriver;
+using Gsemac.Net.Cloudflare.WebDriver;
 using Gsemac.Net.WebBrowsers;
 using Newtonsoft.Json;
 using System;
 using System.Linq;
 using System.Text;
 
-namespace Gsemac.Net.CloudflareUtilities.Cli {
+namespace Gsemac.Net.Cloudflare.Cli {
 
     class Program {
 
@@ -18,7 +18,7 @@ namespace Gsemac.Net.CloudflareUtilities.Cli {
 
                 // Build challenge solver options.
 
-                IWebDriverChallengeSolverOptions challengeSolverOptions = new WebDriverChallengeSolverOptions();
+                IWebDriverIuamChallengeSolverOptions challengeSolverOptions = new WebDriverIuamChallengeSolverOptions();
 
                 if (!string.IsNullOrEmpty(options.UserAgent))
                     challengeSolverOptions.UserAgent = options.UserAgent;
@@ -27,7 +27,7 @@ namespace Gsemac.Net.CloudflareUtilities.Cli {
 
                 // Build challenge solver.
 
-                IChallengeSolver solver;
+                IIuamChallengeSolver solver;
 
                 if (options.Firefox)
                     challengeSolverOptions.BrowserExecutablePath = GetBrowserExecutablePath(WebBrowserId.Firefox);
@@ -36,13 +36,13 @@ namespace Gsemac.Net.CloudflareUtilities.Cli {
                 else
                     challengeSolverOptions.BrowserExecutablePath = GetBrowserExecutablePath();
 
-                solver = new WebDriverChallengeSolver(challengeSolverOptions);
+                solver = new WebDriverIuamChallengeSolver(challengeSolverOptions);
 
                 solver.Log += (sender, e) => Console.Error.Write(e.Message);
 
                 // Get the challenge result.
 
-                IChallengeResponse challengeResponse = solver.GetChallengeResponse(new Uri(options.Url));
+                IIuamChallengeResponse challengeResponse = solver.GetChallengeResponse(new Uri(options.Url));
                 string serializedChallengeResponse = JsonConvert.SerializeObject(challengeResponse, Formatting.Indented);
 
                 Console.WriteLine(serializedChallengeResponse);

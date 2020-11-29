@@ -1,4 +1,4 @@
-﻿namespace Gsemac.Net.CloudflareUtilities {
+﻿namespace Gsemac.Net.Cloudflare {
 
     public static class CloudflareUtilities {
 

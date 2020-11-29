@@ -19,15 +19,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gsemac.Net.Cloudflare.Tests
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gsemac.Net.Cloudflare.Cef.Tests", "test\Gsemac.Net.Cloudflare.Cef.Tests\Gsemac.Net.Cloudflare.Cef.Tests.csproj", "{018D2801-DAC2-40D0-A2DA-BA987688DD4A}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "extensions", "extensions", "{D44C88CC-6DA9-4E05-A06E-E96795280524}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "chrome", "chrome", "{A21D890C-C7B7-4A7E-B76E-297AD7114189}"
-	ProjectSection(SolutionItems) = preProject
-		extensions\chrome\content.js = extensions\chrome\content.js
-		extensions\chrome\manifest.json = extensions\chrome\manifest.json
-		extensions\chrome\stealth.js = extensions\chrome\stealth.js
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gsemac.Net.Cloudflare.Cli", "src\Gsemac.Net.Cloudflare.Cli\Gsemac.Net.Cloudflare.Cli.csproj", "{E6965423-0BC9-4CB3-84A9-FFECD0F2B16A}"
 EndProject
 Global
@@ -75,8 +66,6 @@ Global
 		{F977D14D-4585-409B-A5D5-3011550C0477} = {97BA87A9-AE17-4B9F-AE96-2DF909BF1C75}
 		{B2DE6F7C-0816-4DEA-8761-FA814D8D73AE} = {30145AA1-F96A-4EB5-BC4C-CE8B43D6D0B2}
 		{018D2801-DAC2-40D0-A2DA-BA987688DD4A} = {30145AA1-F96A-4EB5-BC4C-CE8B43D6D0B2}
-		{D44C88CC-6DA9-4E05-A06E-E96795280524} = {97BA87A9-AE17-4B9F-AE96-2DF909BF1C75}
-		{A21D890C-C7B7-4A7E-B76E-297AD7114189} = {D44C88CC-6DA9-4E05-A06E-E96795280524}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {081562A9-146D-47DE-99D0-7D8FB48655CA}
