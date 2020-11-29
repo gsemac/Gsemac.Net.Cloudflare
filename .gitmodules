@@ -1,3 +1,3 @@
 [submodule "Gsemac.Common"]
-	path = Gsemac.Common
+	path = src/Gsemac.Common
 	url = https://github.com/gsemac/Gsemac.Common

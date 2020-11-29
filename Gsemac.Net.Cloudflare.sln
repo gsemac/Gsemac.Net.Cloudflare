@@ -3,21 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29905.134
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gsemac.Net.Cloudflare", "Gsemac.Net.CloudflareUtilities\Gsemac.Net.Cloudflare.csproj", "{0453DD63-5CF6-4CF1-8ADD-476DE4988443}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gsemac.Net.Cloudflare", "src\Gsemac.Net.Cloudflare\Gsemac.Net.Cloudflare.csproj", "{0453DD63-5CF6-4CF1-8ADD-476DE4988443}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{97BA87A9-AE17-4B9F-AE96-2DF909BF1C75}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{30145AA1-F96A-4EB5-BC4C-CE8B43D6D0B2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gsemac.Net.Cloudflare.WebDriver.Tests", "Gsemac.Net.CloudflareUtilities.WebDriver.Tests\Gsemac.Net.Cloudflare.WebDriver.Tests.csproj", "{5EBF9994-3955-46B5-B90B-6045003A24DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gsemac.Net.Cloudflare.WebDriver.Tests", "test\Gsemac.Net.Cloudflare.WebDriver.Tests\Gsemac.Net.Cloudflare.WebDriver.Tests.csproj", "{5EBF9994-3955-46B5-B90B-6045003A24DE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gsemac.Net.Cloudflare.WebDriver", "Gsemac.Net.CloudflareUtilities.WebDriver\Gsemac.Net.Cloudflare.WebDriver.csproj", "{41CD45A5-5D28-46F2-A522-21CBB8000829}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gsemac.Net.Cloudflare.WebDriver", "src\Gsemac.Net.Cloudflare.WebDriver\Gsemac.Net.Cloudflare.WebDriver.csproj", "{41CD45A5-5D28-46F2-A522-21CBB8000829}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gsemac.Net.Cloudflare.Cef", "Gsemac.Net.CloudflareUtilities.Cef\Gsemac.Net.Cloudflare.Cef.csproj", "{F977D14D-4585-409B-A5D5-3011550C0477}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gsemac.Net.Cloudflare.Cef", "src\Gsemac.Net.Cloudflare.Cef\Gsemac.Net.Cloudflare.Cef.csproj", "{F977D14D-4585-409B-A5D5-3011550C0477}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gsemac.Net.Cloudflare.Tests", "Gsemac.Net.CloudflareUtilities.Tests\Gsemac.Net.Cloudflare.Tests.csproj", "{B2DE6F7C-0816-4DEA-8761-FA814D8D73AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gsemac.Net.Cloudflare.Tests", "test\Gsemac.Net.Cloudflare.Tests\Gsemac.Net.Cloudflare.Tests.csproj", "{B2DE6F7C-0816-4DEA-8761-FA814D8D73AE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gsemac.Net.Cloudflare.Cef.Tests", "Gsemac.Net.CloudflareUtilities.Cef.Tests\Gsemac.Net.Cloudflare.Cef.Tests.csproj", "{018D2801-DAC2-40D0-A2DA-BA987688DD4A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gsemac.Net.Cloudflare.Cef.Tests", "test\Gsemac.Net.Cloudflare.Cef.Tests\Gsemac.Net.Cloudflare.Cef.Tests.csproj", "{018D2801-DAC2-40D0-A2DA-BA987688DD4A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "extensions", "extensions", "{D44C88CC-6DA9-4E05-A06E-E96795280524}"
 EndProject
@@ -28,7 +28,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "chrome", "chrome", "{A21D89
 		extensions\chrome\stealth.js = extensions\chrome\stealth.js
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gsemac.Net.Cloudflare.Cli", "Gsemac.Net.CloudflareUtilities.Cli\Gsemac.Net.Cloudflare.Cli.csproj", "{E6965423-0BC9-4CB3-84A9-FFECD0F2B16A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gsemac.Net.Cloudflare.Cli", "src\Gsemac.Net.Cloudflare.Cli\Gsemac.Net.Cloudflare.Cli.csproj", "{E6965423-0BC9-4CB3-84A9-FFECD0F2B16A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

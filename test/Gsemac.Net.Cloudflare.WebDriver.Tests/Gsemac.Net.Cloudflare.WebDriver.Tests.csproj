@@ -19,17 +19,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Gsemac.Net.CloudflareUtilities.Tests\Gsemac.Net.Cloudflare.Tests.csproj" />
-    <ProjectReference Include="..\Gsemac.Net.CloudflareUtilities.WebDriver\Gsemac.Net.Cloudflare.WebDriver.csproj" />
-    <ProjectReference Include="..\Gsemac.Net.CloudflareUtilities\Gsemac.Net.Cloudflare.csproj" />
+    <ProjectReference Include="..\Gsemac.Net.Cloudflare.Tests\Gsemac.Net.Cloudflare.Tests.csproj" />
+    <ProjectReference Include="..\..\src\Gsemac.Net.Cloudflare.WebDriver\Gsemac.Net.Cloudflare.WebDriver.csproj" />
+    <ProjectReference Include="..\..\src\Gsemac.Net.Cloudflare\Gsemac.Net.Cloudflare.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Reference Include="Gsemac.Logging">
-      <HintPath>..\Gsemac.Common\Gsemac.Logging\bin\$(ConfigurationName)\netstandard2.0\Gsemac.Logging.dll</HintPath>
+      <HintPath>..\..\src\Gsemac.Common\Gsemac.Logging\bin\$(ConfigurationName)\netstandard2.0\Gsemac.Logging.dll</HintPath>
     </Reference>
     <Reference Include="Gsemac.Net.WebDrivers">
-      <HintPath>..\Gsemac.Common\Gsemac.Net.WebDrivers\bin\$(ConfigurationName)\netstandard2.0\Gsemac.Net.WebDrivers.dll</HintPath>
+      <HintPath>..\..\src\Gsemac.Common\Gsemac.Net.WebDrivers\bin\$(ConfigurationName)\netstandard2.0\Gsemac.Net.WebDrivers.dll</HintPath>
     </Reference>
   </ItemGroup>
 

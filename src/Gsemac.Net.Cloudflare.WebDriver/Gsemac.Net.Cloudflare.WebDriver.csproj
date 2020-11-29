@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Gsemac.Net.CloudflareUtilities\Gsemac.Net.Cloudflare.csproj" />
+    <ProjectReference Include="..\Gsemac.Net.Cloudflare\Gsemac.Net.Cloudflare.csproj" />
   </ItemGroup>
 
   <ItemGroup>
