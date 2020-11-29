@@ -1,12 +1,12 @@
-using Gsemac.CloudflareUtilities.Tests;
-using Gsemac.Net.Cloudflare.WebDriver;
+﻿using Gsemac.CloudflareUtilities.Tests;
+using Gsemac.Net.Cloudflare.WebDrivers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
 namespace Gsemac.Net.Cloudflare.Tests {
 
     [TestClass]
-    public class FirefoxWebDriverChallengeSolverTests {
+    public class ChromeWebDriverChallengeSolverTests {
 
         // Public members
 
@@ -36,14 +36,13 @@ namespace Gsemac.Net.Cloudflare.Tests {
             TestParameters testParameters = TestParameters.GetTestParameters();
 
             WebDriverIuamChallengeSolverOptions options = new WebDriverIuamChallengeSolverOptions() {
-                BrowserExecutablePath = testParameters.FirefoxExecutablePath,
+                BrowserExecutablePath = testParameters.ChromeExecutablePath,
                 Headless = true,
             };
 
-            return new FirefoxWebDriverIuamChallengeSolver(options);
+            return new ChromeWebDriverIuamChallengeSolver(options);
 
         }
 
     }
-
 }

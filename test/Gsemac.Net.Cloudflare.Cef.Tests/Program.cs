@@ -1,6 +1,5 @@
-﻿using Gsemac.Assembly;
+﻿using Gsemac.Reflection;
 using System;
-using System.Threading;
 
 namespace Gsemac.Net.Cloudflare.Cef.Tests {
 

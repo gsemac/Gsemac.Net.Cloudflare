@@ -3,7 +3,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System;
 
-namespace Gsemac.Net.Cloudflare.WebDriver {
+namespace Gsemac.Net.Cloudflare.WebDrivers {
 
     public abstract class WebDriverIuamChallengeSolverBase :
         IuamChallengeSolverBase {

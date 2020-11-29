@@ -2,7 +2,7 @@
 using System;
 using System.Net;
 
-namespace Gsemac.Net.Cloudflare.WebDriver {
+namespace Gsemac.Net.Cloudflare.WebDrivers {
 
     public interface IWebDriverIuamChallengeSolverOptions :
         IIuamChallengeSolverOptions,

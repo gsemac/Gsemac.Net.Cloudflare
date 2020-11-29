@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -15,5 +15,18 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Gsemac.Net.Cloudflare\Gsemac.Net.Cloudflare.csproj" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<Reference Include="Gsemac.Net">
+			<HintPath>..\..\src\Gsemac.Common\src\Gsemac.Net\bin\$(ConfigurationName)\netstandard2.0\Gsemac.Net.dll</HintPath>
+		</Reference>
+		<Reference Include="Gsemac.IO">
+			<HintPath>..\..\src\Gsemac.Common\src\Gsemac.IO\bin\$(ConfigurationName)\netstandard2.0\Gsemac.IO.dll</HintPath>
+		</Reference>
+	</ItemGroup>
 
 </Project>

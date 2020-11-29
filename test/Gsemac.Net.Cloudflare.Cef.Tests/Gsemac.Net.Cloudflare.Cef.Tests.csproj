@@ -12,11 +12,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="Gsemac.Application">
-      <HintPath>..\..\src\Gsemac.Common\Gsemac.Application\bin\$(ConfigurationName)\netstandard2.0\Gsemac.Application.dll</HintPath>
+    <Reference Include="Gsemac.Reflection">
+      <HintPath>..\..\src\Gsemac.Common\src\Gsemac.Reflection\bin\$(ConfigurationName)\netstandard2.0\Gsemac.Reflection.dll</HintPath>
     </Reference>
-    <Reference Include="Gsemac.Logging">
-      <HintPath>..\..\src\Gsemac.Common\Gsemac.Logging\bin\$(ConfigurationName)\netstandard2.0\Gsemac.Logging.dll</HintPath>
+    <Reference Include="Gsemac.IO">
+      <HintPath>..\..\src\Gsemac.Common\src\Gsemac.IO\bin\$(ConfigurationName)\netstandard2.0\Gsemac.IO.dll</HintPath>
     </Reference>
   </ItemGroup>
 

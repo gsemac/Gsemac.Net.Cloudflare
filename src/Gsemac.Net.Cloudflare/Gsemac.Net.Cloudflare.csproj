@@ -1,4 +1,4 @@
-<Project Sdk="MSBuild.Sdk.Extras/2.0.54">
+﻿<Project Sdk="MSBuild.Sdk.Extras/2.0.54">
 
 	<PropertyGroup>
 		<TargetFrameworks>netstandard2.0;net40-client</TargetFrameworks>
@@ -10,8 +10,15 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Reference Include="Gsemac.Logging">
-			<HintPath>..\Gsemac.Common\Gsemac.Logging\bin\$(ConfigurationName)\$(TargetFramework)\Gsemac.Logging.dll</HintPath>
+		<PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Reference Include="Gsemac.IO">
+			<HintPath>..\Gsemac.Common\src\Gsemac.IO\bin\$(ConfigurationName)\$(TargetFramework)\Gsemac.IO.dll</HintPath>
+		</Reference>
+		<Reference Include="Gsemac.Net">
+			<HintPath>..\Gsemac.Common\src\Gsemac.Net\bin\$(ConfigurationName)\$(TargetFramework)\Gsemac.Net.dll</HintPath>
 		</Reference>
 	</ItemGroup>
 

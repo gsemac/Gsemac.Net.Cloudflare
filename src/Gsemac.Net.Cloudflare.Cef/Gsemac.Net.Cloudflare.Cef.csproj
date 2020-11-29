@@ -21,8 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="Gsemac.Logging">
-      <HintPath>..\Gsemac.Common\Gsemac.Logging\bin\$(ConfigurationName)\netstandard2.0\Gsemac.Logging.dll</HintPath>
+    <Reference Include="Gsemac.IO">
+      <HintPath>..\Gsemac.Common\src\Gsemac.IO\bin\$(ConfigurationName)\netstandard2.0\Gsemac.IO.dll</HintPath>
     </Reference>
   </ItemGroup>
 

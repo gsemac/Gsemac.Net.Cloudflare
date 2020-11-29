@@ -1,6 +1,6 @@
 ﻿using Gsemac.Net.WebDrivers;
 
-namespace Gsemac.Net.Cloudflare.WebDriver {
+namespace Gsemac.Net.Cloudflare.WebDrivers {
 
     public class WebDriverIuamChallengeSolverOptions :
         WebDriverOptions,

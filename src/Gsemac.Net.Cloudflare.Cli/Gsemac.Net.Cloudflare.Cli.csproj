@@ -12,19 +12,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Gsemac.Net.Cloudflare.WebDriver\Gsemac.Net.Cloudflare.WebDriver.csproj" />
     <ProjectReference Include="..\Gsemac.Net.Cloudflare\Gsemac.Net.Cloudflare.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="Gsemac.Logging">
-      <HintPath>..\Gsemac.Common\Gsemac.Logging\bin\$(ConfigurationName)\netstandard2.0\Gsemac.Logging.dll</HintPath>
-    </Reference>
-    <Reference Include="Gsemac.Net.WebDrivers">
-      <HintPath>..\Gsemac.Common\Gsemac.Net.WebDrivers\bin\$(ConfigurationName)\netstandard2.0\Gsemac.Net.WebDrivers.dll</HintPath>
+    <Reference Include="Gsemac.IO">
+      <HintPath>..\Gsemac.Common\src\Gsemac.IO\bin\$(ConfigurationName)\netstandard2.0\Gsemac.IO.dll</HintPath>
     </Reference>
     <Reference Include="Gsemac.Net">
-      <HintPath>..\Gsemac.Common\Gsemac.Net\bin\$(ConfigurationName)\netstandard2.0\Gsemac.Net.dll</HintPath>
+      <HintPath>..\Gsemac.Common\src\Gsemac.Net\bin\$(ConfigurationName)\netstandard2.0\Gsemac.Net.dll</HintPath>
     </Reference>
   </ItemGroup>
 

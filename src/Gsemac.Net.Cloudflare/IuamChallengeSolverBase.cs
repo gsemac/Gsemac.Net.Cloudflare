@@ -1,7 +1,5 @@
-﻿using Gsemac.Logging;
+﻿using Gsemac.IO.Logging;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Gsemac.Net.Cloudflare {
 
