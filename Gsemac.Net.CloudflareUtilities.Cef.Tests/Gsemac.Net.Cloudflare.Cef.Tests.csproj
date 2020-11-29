@@ -6,9 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Gsemac.Net.CloudflareUtilities.Cef\Gsemac.Net.CloudflareUtilities.Cef.csproj" />
-    <ProjectReference Include="..\Gsemac.Net.CloudflareUtilities.Tests\Gsemac.Net.CloudflareUtilities.Tests.csproj" />
-    <ProjectReference Include="..\Gsemac.Net.CloudflareUtilities\Gsemac.Net.CloudflareUtilities.csproj" />
+    <ProjectReference Include="..\Gsemac.Net.CloudflareUtilities.Cef\Gsemac.Net.Cloudflare.Cef.csproj" />
+    <ProjectReference Include="..\Gsemac.Net.CloudflareUtilities.Tests\Gsemac.Net.Cloudflare.Tests.csproj" />
+    <ProjectReference Include="..\Gsemac.Net.CloudflareUtilities\Gsemac.Net.Cloudflare.csproj" />
   </ItemGroup>
 
   <ItemGroup>

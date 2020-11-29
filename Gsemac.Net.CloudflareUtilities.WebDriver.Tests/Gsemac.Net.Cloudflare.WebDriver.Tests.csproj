@@ -19,9 +19,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Gsemac.Net.CloudflareUtilities.Tests\Gsemac.Net.CloudflareUtilities.Tests.csproj" />
-    <ProjectReference Include="..\Gsemac.Net.CloudflareUtilities.WebDriver\Gsemac.Net.CloudflareUtilities.WebDriver.csproj" />
-    <ProjectReference Include="..\Gsemac.Net.CloudflareUtilities\Gsemac.Net.CloudflareUtilities.csproj" />
+    <ProjectReference Include="..\Gsemac.Net.CloudflareUtilities.Tests\Gsemac.Net.Cloudflare.Tests.csproj" />
+    <ProjectReference Include="..\Gsemac.Net.CloudflareUtilities.WebDriver\Gsemac.Net.Cloudflare.WebDriver.csproj" />
+    <ProjectReference Include="..\Gsemac.Net.CloudflareUtilities\Gsemac.Net.Cloudflare.csproj" />
   </ItemGroup>
 
   <ItemGroup>

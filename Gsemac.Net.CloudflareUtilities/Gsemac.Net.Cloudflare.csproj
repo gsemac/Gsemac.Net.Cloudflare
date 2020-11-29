@@ -11,7 +11,7 @@
 
 	<ItemGroup>
 		<Reference Include="Gsemac.Logging">
-			<HintPath>..\..\Gsemac.Common\Gsemac.Logging\bin\$(ConfigurationName)\$(TargetFramework)\Gsemac.Logging.dll</HintPath>
+			<HintPath>..\Gsemac.Common\Gsemac.Logging\bin\$(ConfigurationName)\$(TargetFramework)\Gsemac.Logging.dll</HintPath>
 		</Reference>
 	</ItemGroup>
 
