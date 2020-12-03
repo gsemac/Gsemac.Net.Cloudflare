@@ -54,7 +54,7 @@ namespace Gsemac.Net.Cloudflare.Cli {
 
         static string GetBrowserExecutablePath() {
 
-            return WebBrowserUtilities.GetInstalledWebBrowsers()
+            return WebBrowserInfo.GetWebBrowserInfo()
                   .Where(browser => browser.Id == WebBrowserId.Firefox || browser.Id == WebBrowserId.Chrome)
                   .Select(browser => browser.ExecutablePath)
                   .FirstOrDefault();
@@ -62,7 +62,7 @@ namespace Gsemac.Net.Cloudflare.Cli {
         }
         static string GetBrowserExecutablePath(WebBrowserId webBrowserId) {
 
-            return WebBrowserUtilities.GetInstalledWebBrowsers()
+            return WebBrowserInfo.GetWebBrowserInfo()
                   .Where(browser => browser.Id == webBrowserId)
                   .Select(browser => browser.ExecutablePath)
                   .FirstOrDefault();
