@@ -10,20 +10,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Gsemac.IO" Version="0.1.0" />
+		<PackageReference Include="Gsemac.Net" Version="0.1.0" />
 		<PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
 	</ItemGroup>
-
-	<ItemGroup>
-		<Reference Include="Gsemac.IO">
-			<HintPath>..\Gsemac.Common\src\Gsemac.IO\bin\$(ConfigurationName)\$(TargetFramework)\Gsemac.IO.dll</HintPath>
-		</Reference>
-		<Reference Include="Gsemac.Net">
-			<HintPath>..\Gsemac.Common\src\Gsemac.Net\bin\$(ConfigurationName)\$(TargetFramework)\Gsemac.Net.dll</HintPath>
-		</Reference>
-	</ItemGroup>
-
-	<Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-		<Exec Command="&quot;$(MSBuildToolsPath)\msbuild.exe&quot; &quot;..\Gsemac.Common\Gsemac.Common.sln&quot; /p:Configuration=$(ConfigurationName) /verbosity:quiet /restore" />
-	</Target>
 
 </Project>
