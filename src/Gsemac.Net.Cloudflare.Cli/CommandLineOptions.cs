@@ -21,6 +21,9 @@ namespace Gsemac.Net.Cloudflare.Cli {
         [Option("chrome", HelpText = "Use the Chrome web driver.")]
         public bool Chrome { get; set; } = false;
 
+        [Option("solver")]
+        public string Solver { get; set; }
+
     }
 
 }

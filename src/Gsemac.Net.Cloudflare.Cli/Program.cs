@@ -27,16 +27,32 @@ namespace Gsemac.Net.Cloudflare.Cli {
 
                 // Build challenge solver.
 
-                IIuamChallengeSolver solver;
+                IIuamChallengeSolver solver = null;
 
-                if (options.Firefox)
-                    challengeSolverOptions.BrowserExecutablePath = GetBrowserExecutablePath(WebBrowserId.Firefox);
-                else if (options.Chrome)
-                    challengeSolverOptions.BrowserExecutablePath = GetBrowserExecutablePath(WebBrowserId.Chrome);
-                else
-                    challengeSolverOptions.BrowserExecutablePath = GetBrowserExecutablePath();
+                if (string.IsNullOrWhiteSpace(options.Solver) || options.Solver.Equals("webdriver")) {
 
-                solver = new WebDriverIuamChallengeSolver(challengeSolverOptions);
+                    if (options.Firefox)
+                        challengeSolverOptions.BrowserExecutablePath = GetBrowserExecutablePath(WebBrowserId.Firefox);
+                    else if (options.Chrome)
+                        challengeSolverOptions.BrowserExecutablePath = GetBrowserExecutablePath(WebBrowserId.Chrome);
+                    else
+                        challengeSolverOptions.BrowserExecutablePath = GetBrowserExecutablePath();
+
+                    solver = new WebDriverIuamChallengeSolver(challengeSolverOptions);
+
+                }
+                else if (options.Solver.Equals("webbrowser")) {
+
+                    IWebBrowserInfo webBrowserInfo = null;
+
+                    if (options.Firefox)
+                        webBrowserInfo = WebBrowserInfo.GetWebBrowserInfo(WebBrowserId.Firefox);
+                    else if (options.Chrome)
+                        webBrowserInfo = WebBrowserInfo.GetWebBrowserInfo(WebBrowserId.Chrome);
+
+                    solver = new WebBrowserIIuamChallengeSolver(webBrowserInfo, challengeSolverOptions);
+
+                }
 
                 solver.Log += (sender, e) => Console.Error.Write(e.Message);
 
