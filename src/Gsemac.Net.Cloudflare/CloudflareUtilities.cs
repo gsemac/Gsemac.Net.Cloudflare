@@ -1,4 +1,7 @@
-﻿namespace Gsemac.Net.Cloudflare {
+﻿using Gsemac.Net.JavaScript.Extensions;
+using System;
+
+namespace Gsemac.Net.Cloudflare {
 
     public static class CloudflareUtilities {
 
@@ -38,6 +41,18 @@
         public static bool IsProtectionDetected(string htmlDocument) {
 
             return GetProtectionType(htmlDocument) != ProtectionType.None;
+
+        }
+
+        public static string DeobfuscateCfEmail(string cfEmail) {
+
+            string email = string.Empty;
+            int r = Convert.ToInt32(cfEmail.Substring(0, 2), 16);
+
+            for (int n = 2; cfEmail.Length - n > 0; n += 2)
+                email += "%" + ("0" + (Convert.ToInt32(cfEmail.Substring(n, 2), 16) ^ r).ToString("X")).Slice(-2);
+
+            return Uri.UnescapeDataString(email);
 
         }
 
