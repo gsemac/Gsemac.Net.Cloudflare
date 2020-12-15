@@ -1,12 +1,11 @@
 ﻿using CefSharp;
 using CefSharp.OffScreen;
-using Gsemac.Net.Cloudflare.Iuam;
 using System;
 using System.IO;
 using System.Net;
 using System.Threading;
 
-namespace Gsemac.Net.Cloudflare.Cef {
+namespace Gsemac.Net.Cloudflare.Iuam {
 
     public class CefIuamChallengeSolver :
         IuamChallengeSolverBase {

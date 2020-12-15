@@ -1,6 +1,4 @@
-﻿using Gsemac.Net.Cloudflare.Iuam;
-
-namespace Gsemac.Net.Cloudflare.Cef {
+﻿namespace Gsemac.Net.Cloudflare.Iuam {
 
     public class CefIuamChallengeSolverOptions :
         IuamChallengeSolverOptionsBase {
