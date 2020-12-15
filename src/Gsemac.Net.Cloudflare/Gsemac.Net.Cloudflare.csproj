@@ -4,7 +4,7 @@
 		<TargetFrameworks>netstandard2.0;net40-client</TargetFrameworks>
 		<Company />
 		<Authors>gsemac</Authors>
-		<Version>0.1.0</Version>
+		<Version>0.2.0</Version>
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 		<PackageProjectUrl>https://github.com/gsemac/Gsemac.Net.Cloudflare</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/gsemac/Gsemac.Net.Cloudflare</RepositoryUrl>
@@ -13,7 +13,7 @@
 		<Copyright></Copyright>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)' == 'Release'">
+	<PropertyGroup Condition="'$2(Configuration)' == 'Release'">
 		<DebugType>none</DebugType>
 		<DebugSymbols>false</DebugSymbols>
 	</PropertyGroup>
@@ -26,9 +26,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Properties\Resources.Designer.cs">
-	    <DesignTime>True</DesignTime>
-	  </Compile>
+		<Compile Update="Properties\Resources.Designer.cs">
+			<DesignTime>True</DesignTime>
+		</Compile>
 	</ItemGroup>
 
 </Project>
