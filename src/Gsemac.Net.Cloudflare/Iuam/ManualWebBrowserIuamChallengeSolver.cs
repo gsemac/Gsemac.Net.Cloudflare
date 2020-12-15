@@ -4,7 +4,7 @@ using System.IO;
 using System.Net;
 using System.Threading;
 
-namespace Gsemac.Net.Cloudflare {
+namespace Gsemac.Net.Cloudflare.Iuam {
 
     public delegate bool AllowManualWebBrowserIIuamChallengeSolverDelegate();
 

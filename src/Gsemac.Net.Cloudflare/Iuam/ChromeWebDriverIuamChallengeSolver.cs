@@ -3,14 +3,14 @@ using OpenQA.Selenium;
 using System;
 using System.Drawing;
 
-namespace Gsemac.Net.Cloudflare.WebDrivers {
+namespace Gsemac.Net.Cloudflare.Iuam {
 
-    public class FirefoxWebDriverIuamChallengeSolver :
+    public class ChromeWebDriverIuamChallengeSolver :
         WebDriverIuamChallengeSolverBase {
 
         // Public members
 
-        public FirefoxWebDriverIuamChallengeSolver(IWebDriverIuamChallengeSolverOptions options) :
+        public ChromeWebDriverIuamChallengeSolver(IWebDriverIuamChallengeSolverOptions options) :
             base(options) {
         }
 
@@ -18,11 +18,11 @@ namespace Gsemac.Net.Cloudflare.WebDrivers {
 
         protected override IWebDriver CreateWebDriver(IWebDriverIuamChallengeSolverOptions options, Uri uri) {
 
-            OnLog.Info("Creating web driver (Firefox)");
+            OnLog.Info("Creating web driver (Chrome)");
 
-            return WebDriverUtilities.CreateFirefoxWebDriver(new WebDriverOptions() {
+            return WebDriverUtilities.CreateChromeWebDriver(new WebDriverOptions() {
                 BrowserExecutablePath = options.BrowserExecutablePath,
-                WebDriverExecutablePath = options.WebDriverExecutablePath ?? "geckodriver.exe",
+                WebDriverExecutablePath = options.WebDriverExecutablePath ?? "chromedriver.exe",
                 UserAgent = options.UserAgent,
                 Timeout = options.Timeout,
                 Headless = options.Headless,

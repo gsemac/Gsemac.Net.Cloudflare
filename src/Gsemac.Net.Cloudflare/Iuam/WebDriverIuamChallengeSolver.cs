@@ -2,7 +2,7 @@
 using OpenQA.Selenium;
 using System;
 
-namespace Gsemac.Net.Cloudflare.WebDrivers {
+namespace Gsemac.Net.Cloudflare.Iuam {
 
     public class WebDriverIuamChallengeSolver :
           WebDriverIuamChallengeSolverBase {
@@ -17,7 +17,7 @@ namespace Gsemac.Net.Cloudflare.WebDrivers {
         public WebDriverIuamChallengeSolver(IWebDriver webDriver, IWebDriverIuamChallengeSolverOptions options) :
             base(options, disposeWebDriver: false) {
 
-            this.WebDriver = webDriver;
+            WebDriver = webDriver;
 
         }
 

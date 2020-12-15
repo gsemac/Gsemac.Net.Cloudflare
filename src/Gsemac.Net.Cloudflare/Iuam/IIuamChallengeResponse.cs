@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace Gsemac.Net.Cloudflare {
+namespace Gsemac.Net.Cloudflare.Iuam {
 
     public interface IIuamChallengeResponse {
 

@@ -1,7 +1,7 @@
 ﻿using Gsemac.IO.Logging;
 using System;
 
-namespace Gsemac.Net.Cloudflare {
+namespace Gsemac.Net.Cloudflare.Iuam {
 
     public abstract class IuamChallengeSolverBase :
         IIuamChallengeSolver {
