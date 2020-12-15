@@ -50,7 +50,7 @@ namespace Gsemac.Net.Cloudflare.Cli {
                     else if (options.Chrome)
                         webBrowserInfo = WebBrowserInfo.GetWebBrowserInfo(WebBrowserId.Chrome);
 
-                    solver = new WebBrowserIIuamChallengeSolver(webBrowserInfo, challengeSolverOptions);
+                    solver = new ManualWebBrowserIuamChallengeSolver(webBrowserInfo, challengeSolverOptions, new HttpWebRequestFactory(), () => true);
 
                 }
 
