@@ -61,27 +61,23 @@ namespace Gsemac.Net.Cloudflare.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 
-        ///// https://stackoverflow.com/a/11389138
-        ///function openNewBackgroundTab(uri) {
-        ///    
-        ///    var a = document.createElement(&quot;a&quot;);
-        ///    var evt = document.createEvent(&quot;MouseEvents&quot;);
+        ///   Looks up a localized string similar to function sleep(ms) {
+        ///    return new Promise(resolve =&gt; setTimeout(resolve, ms));
+        ///}
         ///
-        ///    a.href = uri;
-        ///    
-        ///    //the tenth parameter of initMouseEvent sets ctrl key
-        ///    evt.initMouseEvent(&quot;click&quot;, true, true, window, 0, 0, 0, 0, 0, true, false, false, false, 0, null);
-        ///    
-        ///    a.dispatchEvent(evt);
-        ///
+        ///function openAndClose(uri) {
+        ///    var handle = window.open(uri);
+        ///    sleep(5000).then(() =&gt; handle.close());
         ///}
         ///
         ///function heartbeat() {
-        ///
-        ///    // Let {PRODUCT_NAME} know that the tab is still open.
-        ///    
-        ///    fetc [rest of string was truncated]&quot;;.
+        ///    fetch(&quot;heartbeat&quot;, { method: &quot;POST&quot; })
+        ///        .then(response =&gt; response.text())
+        ///        .then(nextUri =&gt; {
+        ///            if (!!nextUri) {
+        ///                var li = document.createElement(&quot;li&quot;);
+        ///                var ul = document.getElementById(&quot;items&quot;);
+        ///                li.app [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string WebBrowserIUAMChallengeSolver {
             get {

@@ -24,4 +24,10 @@
 		<PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Compile Update="Properties\Resources.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	  </Compile>
+	</ItemGroup>
+
 </Project>
