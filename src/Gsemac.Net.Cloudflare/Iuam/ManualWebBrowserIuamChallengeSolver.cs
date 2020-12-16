@@ -42,7 +42,7 @@ namespace Gsemac.Net.Cloudflare.Iuam {
                 // We couldn't solve the challenge silently, allow the user to solve it manually.
 
                 WebHeaderCollection requestHeaders = WebBrowserUtilities.GetWebBrowserRequestHeaders(webBrowserInfo, options.Timeout,
-                    "<script>window.location.href=\"" + uri.AbsoluteUri + "\";</script>");
+                    $"Redirecting to {uri.AbsoluteUri}...<script>window.location.href=\"{uri.AbsoluteUri}\";</script>");
 
                 string userAgent = requestHeaders[HttpRequestHeader.UserAgent];
 
@@ -110,7 +110,9 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
                         request.CookieContainer = new CookieContainer();
                         request.CookieContainer.Add(uri, clearanceCookies);
-                        request.UserAgent = options.UserAgent;
+
+                        if (!string.IsNullOrWhiteSpace(options.UserAgent))
+                            request.UserAgent = options.UserAgent;
 
                         WebResponse response = request.GetResponse();
 
