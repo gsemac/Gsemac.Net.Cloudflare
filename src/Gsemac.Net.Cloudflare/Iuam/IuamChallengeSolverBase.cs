@@ -17,7 +17,7 @@ namespace Gsemac.Net.Cloudflare.Iuam {
         protected LogEventHelper OnLog => new LogEventHelper(sourceName, Log);
 
         protected IuamChallengeSolverBase() :
-            this("CF Challenge Solver") {
+            this("Cloudflare IUAM Challenge Solver") {
         }
         protected IuamChallengeSolverBase(string sourceName) {
 

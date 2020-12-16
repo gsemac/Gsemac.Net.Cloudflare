@@ -6,7 +6,7 @@ using System.Threading;
 
 namespace Gsemac.Net.Cloudflare.Iuam {
 
-    public delegate bool AllowManualWebBrowserIuamChallengeSolverDelegate();
+    public delegate bool ConfirmManualWebBrowserIuamChallengeSolverDelegate();
 
     public class ManualWebBrowserIuamChallengeSolver :
         IuamChallengeSolverBase {
@@ -14,15 +14,13 @@ namespace Gsemac.Net.Cloudflare.Iuam {
         // Public members
 
         public ManualWebBrowserIuamChallengeSolver(IWebBrowserInfo webBrowserInfo) :
-           this(webBrowserInfo, new IuamChallengeSolverOptions()) {
+           this(webBrowserInfo, IuamChallengeSolverOptions.Default) {
         }
         public ManualWebBrowserIuamChallengeSolver(IWebBrowserInfo webBrowserInfo, IIuamChallengeSolverOptions options) :
-            this(webBrowserInfo, options, null, () => true) {
+            this(webBrowserInfo, null, options, () => true) {
         }
-        public ManualWebBrowserIuamChallengeSolver(IWebBrowserInfo webBrowserInfo, IHttpWebRequestFactory webRequestFactory, AllowManualWebBrowserIuamChallengeSolverDelegate allowManualSolutionDelegate) :
-            this(webBrowserInfo, new IuamChallengeSolverOptions(), webRequestFactory, allowManualSolutionDelegate) {
-        }
-        public ManualWebBrowserIuamChallengeSolver(IWebBrowserInfo webBrowserInfo, IIuamChallengeSolverOptions options, IHttpWebRequestFactory webRequestFactory, AllowManualWebBrowserIuamChallengeSolverDelegate allowManualSolutionDelegate) {
+        public ManualWebBrowserIuamChallengeSolver(IWebBrowserInfo webBrowserInfo, IHttpWebRequestFactory webRequestFactory, IIuamChallengeSolverOptions options, ConfirmManualWebBrowserIuamChallengeSolverDelegate allowManualSolutionDelegate) :
+            base("Manual IUAM Challenge Solver") {
 
             this.webBrowserInfo = webBrowserInfo;
             this.options = options;
@@ -72,7 +70,7 @@ namespace Gsemac.Net.Cloudflare.Iuam {
         private readonly IWebBrowserInfo webBrowserInfo;
         private readonly IIuamChallengeSolverOptions options;
         private readonly IHttpWebRequestFactory webRequestFactory;
-        private readonly AllowManualWebBrowserIuamChallengeSolverDelegate allowManualSolutionDelegate;
+        private readonly ConfirmManualWebBrowserIuamChallengeSolverDelegate allowManualSolutionDelegate;
 
         private CookieCollection GetClearanceCookiesFromWebBrowser(Uri uri) {
 

@@ -41,7 +41,7 @@ namespace Gsemac.Net.Cloudflare.Cli {
                     solver = new WebDriverIuamChallengeSolver(challengeSolverOptions);
 
                 }
-                else if (options.Solver.Equals("webbrowser")) {
+                else if (options.Solver.Equals("manual")) {
 
                     IWebBrowserInfo webBrowserInfo = null;
 
@@ -50,7 +50,12 @@ namespace Gsemac.Net.Cloudflare.Cli {
                     else if (options.Chrome)
                         webBrowserInfo = WebBrowserInfo.GetWebBrowserInfo(WebBrowserId.Chrome);
 
-                    solver = new ManualWebBrowserIuamChallengeSolver(webBrowserInfo, challengeSolverOptions, new HttpWebRequestFactory(), () => true);
+                    solver = new ManualWebBrowserIuamChallengeSolver(webBrowserInfo, new HttpWebRequestFactory(), challengeSolverOptions, () => true);
+
+                }
+                else if (options.Solver.Equals("flaresolverr")) {
+
+                    solver = new FlareSolverrIuamChallengeSolver(challengeSolverOptions);
 
                 }
 

@@ -114,7 +114,7 @@ namespace Gsemac.Net.Cloudflare.Iuam {
         // Protected members
 
         protected WebDriverIuamChallengeSolverBase(IWebDriverIuamChallengeSolverOptions options, bool disposeWebDriver = true) :
-            base("CF Challenge Solver (Web Driver)") {
+            base("Web Driver IUAM Challenge Solver") {
 
             this.options = options;
             this.disposeWebDriver = disposeWebDriver;

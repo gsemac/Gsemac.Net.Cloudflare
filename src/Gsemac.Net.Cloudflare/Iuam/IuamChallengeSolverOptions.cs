@@ -2,6 +2,9 @@
 
     public class IuamChallengeSolverOptions :
         IuamChallengeSolverOptionsBase {
+
+        public static IuamChallengeSolverOptions Default => new IuamChallengeSolverOptions();
+
     }
 
 }
