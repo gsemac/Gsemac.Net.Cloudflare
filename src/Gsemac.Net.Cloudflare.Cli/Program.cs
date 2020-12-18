@@ -1,6 +1,7 @@
 ﻿using CommandLine;
 using Gsemac.Net.Cloudflare.Iuam;
 using Gsemac.Net.WebBrowsers;
+using Gsemac.Net.WebDrivers;
 using Newtonsoft.Json;
 using System;
 using System.Linq;
@@ -18,12 +19,13 @@ namespace Gsemac.Net.Cloudflare.Cli {
 
                 // Build challenge solver options.
 
-                IWebDriverIuamChallengeSolverOptions challengeSolverOptions = new WebDriverIuamChallengeSolverOptions();
+                WebDriverOptions webDriverOptions = new WebDriverOptions();
+                IuamChallengeSolverOptions challengeSolverOptions = new IuamChallengeSolverOptions();
 
                 if (!string.IsNullOrEmpty(options.UserAgent))
                     challengeSolverOptions.UserAgent = options.UserAgent;
 
-                challengeSolverOptions.Headless = options.Headless;
+                webDriverOptions.Headless = options.Headless;
 
                 // Build challenge solver.
 
@@ -31,14 +33,16 @@ namespace Gsemac.Net.Cloudflare.Cli {
 
                 if (string.IsNullOrWhiteSpace(options.Solver) || options.Solver.Equals("webdriver")) {
 
-                    if (options.Firefox)
-                        challengeSolverOptions.BrowserExecutablePath = GetBrowserExecutablePath(WebBrowserId.Firefox);
-                    else if (options.Chrome)
-                        challengeSolverOptions.BrowserExecutablePath = GetBrowserExecutablePath(WebBrowserId.Chrome);
-                    else
-                        challengeSolverOptions.BrowserExecutablePath = GetBrowserExecutablePath();
+                    IWebBrowserInfo webBrowserInfo;
 
-                    solver = new WebDriverIuamChallengeSolver(challengeSolverOptions);
+                    if (options.Firefox)
+                        webBrowserInfo = WebBrowserInfo.GetWebBrowserInfo(WebBrowserId.Firefox);
+                    else if (options.Chrome)
+                        webBrowserInfo = WebBrowserInfo.GetWebBrowserInfo(WebBrowserId.Chrome);
+                    else
+                        webBrowserInfo = WebBrowserInfo.GetDefaultWebBrowserInfo();
+
+                    solver = new WebDriverIuamChallengeSolver(webBrowserInfo, webDriverOptions, challengeSolverOptions);
 
                 }
                 else if (options.Solver.Equals("manual")) {
