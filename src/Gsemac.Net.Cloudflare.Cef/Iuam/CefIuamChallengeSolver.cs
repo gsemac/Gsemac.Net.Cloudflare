@@ -13,7 +13,7 @@ namespace Gsemac.Net.Cloudflare.Iuam {
         // Public members
 
         public CefIuamChallengeSolver(CefIuamChallengeSolverOptions options) :
-            base("CF Challenge Solver (CEF)") {
+            base("CEF IUAM Challenge Solver") {
 
             this.options = options;
 
