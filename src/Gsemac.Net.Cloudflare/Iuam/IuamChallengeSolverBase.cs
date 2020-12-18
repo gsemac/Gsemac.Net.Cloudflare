@@ -10,24 +10,22 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
         public event LogEventHandler Log;
 
+        public string Name { get; }
+
         public abstract IIuamChallengeResponse GetChallengeResponse(Uri uri);
 
         // Protected members
 
-        protected LogEventHelper OnLog => new LogEventHelper(sourceName, Log);
+        protected LogEventHelper OnLog => new LogEventHelper(Name, Log);
 
         protected IuamChallengeSolverBase() :
             this("Cloudflare IUAM Challenge Solver") {
         }
-        protected IuamChallengeSolverBase(string sourceName) {
+        protected IuamChallengeSolverBase(string name) {
 
-            this.sourceName = sourceName;
+            this.Name = name;
 
         }
-
-        // Private members
-
-        private readonly string sourceName;
 
     }
 
