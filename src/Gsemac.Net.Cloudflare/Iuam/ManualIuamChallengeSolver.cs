@@ -8,18 +8,18 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
     public delegate bool ConfirmManualWebBrowserIuamChallengeSolverDelegate();
 
-    public class ManualWebBrowserIuamChallengeSolver :
+    public class ManualIuamChallengeSolver :
         IuamChallengeSolverBase {
 
         // Public members
 
-        public ManualWebBrowserIuamChallengeSolver(IWebBrowserInfo webBrowserInfo) :
+        public ManualIuamChallengeSolver(IWebBrowserInfo webBrowserInfo) :
            this(webBrowserInfo, IuamChallengeSolverOptions.Default) {
         }
-        public ManualWebBrowserIuamChallengeSolver(IWebBrowserInfo webBrowserInfo, IIuamChallengeSolverOptions options) :
+        public ManualIuamChallengeSolver(IWebBrowserInfo webBrowserInfo, IIuamChallengeSolverOptions options) :
             this(webBrowserInfo, null, options, () => true) {
         }
-        public ManualWebBrowserIuamChallengeSolver(IWebBrowserInfo webBrowserInfo, IHttpWebRequestFactory webRequestFactory, IIuamChallengeSolverOptions options, ConfirmManualWebBrowserIuamChallengeSolverDelegate allowManualSolutionDelegate) :
+        public ManualIuamChallengeSolver(IWebBrowserInfo webBrowserInfo, IHttpWebRequestFactory webRequestFactory, IIuamChallengeSolverOptions options, ConfirmManualWebBrowserIuamChallengeSolverDelegate allowManualSolutionDelegate) :
             base("Manual IUAM Challenge Solver") {
 
             this.webBrowserInfo = webBrowserInfo;
