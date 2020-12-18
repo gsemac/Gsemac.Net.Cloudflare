@@ -48,8 +48,12 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
                 Uri flareSolverUri = new Uri($"http://localhost:{FlareSolverrPort}/v1");
 
+                OnLog.Info($"Waiting for response from {flareSolverUri.AbsoluteUri}");
+
                 string responseJson = webClient.UploadString(flareSolverUri, flareSolverrData.ToString());
                 FlareSolverrResponse response = JsonConvert.DeserializeObject<FlareSolverrResponse>(responseJson);
+
+                OnLog.Info($"Got response with status: {response.Status}");
 
                 if (response.Solution?.Status == 200) {
 
