@@ -15,6 +15,12 @@ namespace Gsemac.Net.Cloudflare.Iuam.Json {
         }
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer) {
 
+            // Eat the property name.
+
+            reader.Read();
+
+            // Read the property value.
+
             double ms = reader.ReadAsDouble() ?? 0;
             DateTimeOffset dateTimeOffset = DateUtilities.FromUnixTimeMilliseconds((long)ms);
 

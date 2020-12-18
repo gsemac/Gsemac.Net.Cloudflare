@@ -42,8 +42,6 @@ namespace Gsemac.Net.Cloudflare.Iuam {
                 MaxTimeout = options.Timeout,
             };
 
-            Console.WriteLine(flareSolverrData.ToString());
-
             using (WebClient webClient = new WebClientFactory(webRequestFactory).CreateWebClient()) {
 
                 webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
@@ -58,7 +56,7 @@ namespace Gsemac.Net.Cloudflare.Iuam {
                     // We successfully received a solution.
                     // All we want are the clearance cookies and the user agent.
 
-                    return new IuamChallengeResponse(response.Solution.UserAgent, response.Solution.Cookies);
+                    return new IuamChallengeResponse(response.Solution.UserAgent, ExtractClearanceCookies(response.Solution.Cookies));
 
                 }
                 else
@@ -72,6 +70,26 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
         private readonly IHttpWebRequestFactory webRequestFactory;
         private readonly IIuamChallengeSolverOptions options;
+
+        private CookieCollection ExtractClearanceCookies(CookieCollection cookies) {
+
+            Cookie cfduid = cookies["__cfduid"];
+            Cookie cf_clearance = cookies["cf_clearance"];
+
+            if (!(cfduid is null || cf_clearance is null)) {
+
+                CookieCollection cfCookies = new CookieCollection {
+                        cfduid,
+                        cf_clearance
+                    };
+
+                return cfCookies;
+
+            }
+
+            return new CookieCollection();
+
+        }
 
     }
 

@@ -13,7 +13,7 @@ namespace Gsemac.Net.Cloudflare.Iuam {
         public string Status { get; set; }
         [JsonProperty("message")]
         public string Message { get; set; }
-        [JsonProperty("startTimestamp"), JsonConverter(typeof(UnixDateTimeConverter))]
+        [JsonProperty("startTimestamp"), JsonConverter(typeof(MillisecondsUnixEpochConverter))]
         public DateTimeOffset StartTimestamp { get; set; }
         [JsonProperty("endTimestamp"), JsonConverter(typeof(MillisecondsUnixEpochConverter))]
         public DateTimeOffset EndTimestamp { get; set; }

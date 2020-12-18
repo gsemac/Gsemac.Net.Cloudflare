@@ -1,6 +1,7 @@
 ﻿using Gsemac.Core;
 using Gsemac.Core.Extensions;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Net;
 
@@ -19,56 +20,28 @@ namespace Gsemac.Net.Cloudflare.Iuam.Json {
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer) {
 
             Cookie cookie = new Cookie();
+            JToken token = JToken.Load(reader);
 
-            while (reader.TokenType != JsonToken.EndObject && reader.Read()) {
+            if (token["name"] != null)
+                cookie.Name = (string)token["name"];
 
-                if (reader.TokenType == JsonToken.PropertyName) {
+            if (token["value"] != null)
+                cookie.Value = (string)token["value"];
 
-                    // Read the property name and value.
+            if (token["domain"] != null)
+                cookie.Domain = (string)token["domain"];
 
-                    string property = reader.ReadAsString();
+            if (token["path"] != null)
+                cookie.Path = (string)token["path"];
 
-                    reader.Read();
+            if (token["expires"] != null)
+                cookie.Expires = DateUtilities.FromUnixTimeSeconds((long)(double)token["expires"]).DateTime;
 
-                    string value = reader.ReadAsString();
+            if (token["httpOnly"] != null)
+                cookie.HttpOnly = (bool)token["httpOnly"];
 
-                    // Set the corresponding property in the cookie object.
-
-                    switch (property.ToLowerInvariant()) {
-
-                        case "name":
-                            cookie.Name = value;
-                            break;
-
-                        case "value":
-                            cookie.Value = value;
-                            break;
-
-                        case "domain":
-                            cookie.Domain = value;
-                            break;
-
-                        case "path":
-                            cookie.Path = value;
-                            break;
-
-                        case "expires":
-                            cookie.Expires = DateUtilities.FromUnixTimeSeconds((long)reader.ReadAsDouble().Value).DateTime;
-                            break;
-
-                        case "httpOnly":
-                            cookie.HttpOnly = reader.ReadAsBoolean().Value;
-                            break;
-
-                        case "secure":
-                            cookie.HttpOnly = reader.ReadAsBoolean().Value;
-                            break;
-
-                    }
-
-                }
-
-            }
+            if (token["secure"] != null)
+                cookie.Secure = (bool)token["secure"];
 
             return cookie;
 
