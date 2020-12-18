@@ -50,8 +50,23 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
                 OnLog.Info($"Waiting for response from {flareSolverUri.AbsoluteUri}");
 
-                string responseJson = webClient.UploadString(flareSolverUri, flareSolverrData.ToString());
-                FlareSolverrResponse response = JsonConvert.DeserializeObject<FlareSolverrResponse>(responseJson);
+                FlareSolverrResponse response;
+
+                try {
+
+                    string responseJson = webClient.UploadString(flareSolverUri, flareSolverrData.ToString());
+
+                    response = JsonConvert.DeserializeObject<FlareSolverrResponse>(responseJson);
+
+                }
+                catch (WebException ex) {
+
+                    if (ex.Status == WebExceptionStatus.ConnectFailure)
+                        OnLog.Error($"Failed to connect to FlareSolverr. Make sure that FlareSolverr is running on port {FlareSolverrPort}.");
+
+                    throw ex;
+
+                }
 
                 OnLog.Info($"Got response with status: {response.Status}");
 
