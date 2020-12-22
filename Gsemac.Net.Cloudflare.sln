@@ -11,9 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gsemac.Net.Cloudflare.Cef",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gsemac.Net.Cloudflare.Cli", "src\Gsemac.Net.Cloudflare.Cli\Gsemac.Net.Cloudflare.Cli.csproj", "{E6965423-0BC9-4CB3-84A9-FFECD0F2B16A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gsemac.Net.Cloudflare.Tests", "test\Gsemac.Net.Cloudflare.Tests\Gsemac.Net.Cloudflare.Tests.csproj", "{C8537FF8-36C8-449D-8942-1EEFBE79896E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gsemac.Net.Cloudflare.Tests", "tests\Gsemac.Net.Cloudflare.Tests\Gsemac.Net.Cloudflare.Tests.csproj", "{C8537FF8-36C8-449D-8942-1EEFBE79896E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{9ED8A665-393E-4C05-883C-56C9B8B83EAD}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{9ED8A665-393E-4C05-883C-56C9B8B83EAD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
