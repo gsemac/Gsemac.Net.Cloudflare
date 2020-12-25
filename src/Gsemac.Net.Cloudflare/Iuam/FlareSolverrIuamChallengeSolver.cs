@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Gsemac.Net.Extensions;
+using Newtonsoft.Json;
 using System;
 using System.Net;
 
@@ -42,7 +43,7 @@ namespace Gsemac.Net.Cloudflare.Iuam {
                 MaxTimeout = options.Timeout,
             };
 
-            using (WebClient webClient = new WebClientFactory(webRequestFactory).CreateWebClient()) {
+            using (WebClient webClient = webRequestFactory.ToWebClientFactory().Create()) {
 
                 webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
 

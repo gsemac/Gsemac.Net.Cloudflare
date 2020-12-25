@@ -104,7 +104,7 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
                     if (clearanceCookies.Count > 0) {
 
-                        IHttpWebRequest request = webRequestFactory.CreateHttpWebRequest(uri);
+                        IHttpWebRequest request = webRequestFactory.Create(uri);
 
                         request.CookieContainer = new CookieContainer();
                         request.CookieContainer.Add(uri, clearanceCookies);
