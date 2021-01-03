@@ -6,6 +6,14 @@
 		<RootNamespace>Gsemac.Net.Cloudflare</RootNamespace>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp3.1|AnyCPU'">
+	  <NoWarn>1701;1702;MSB3270</NoWarn>
+	</PropertyGroup>
+
+  <PropertyGroup>
+    <MSBuildWarningsAsMessages>$(MSBuildWarningsAsMessages);MSB3270</MSBuildWarningsAsMessages>
+  </PropertyGroup>
+
 	<ItemGroup>
 		<PackageReference Include="CefSharp.OffScreen" Version="86.0.241" />
 		<PackageReference Include="Gsemac.IO" Version="0.5.0" />
