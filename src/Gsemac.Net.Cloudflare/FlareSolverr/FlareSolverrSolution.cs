@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 
-namespace Gsemac.Net.Cloudflare.Iuam {
+namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
     internal class FlareSolverrSolution {
 

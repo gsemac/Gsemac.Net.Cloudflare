@@ -1,4 +1,4 @@
-﻿namespace Gsemac.Net.Cloudflare.Iuam {
+﻿namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
     public class FlareSolverrConfig :
         IFlareSolverrConfig {

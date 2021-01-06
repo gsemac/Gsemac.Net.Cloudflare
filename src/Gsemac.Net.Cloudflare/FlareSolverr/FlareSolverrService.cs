@@ -5,7 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
-namespace Gsemac.Net.Cloudflare.Iuam {
+namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
     public class FlareSolverrService :
         FlareSolverrServiceBase {
@@ -88,10 +88,10 @@ namespace Gsemac.Net.Cloudflare.Iuam {
         }
         private bool IsFlareSolverrInstalled() {
 
-            string packageJsonFilePath = Path.Combine(GetFlareSolverrDirectoryPath(), "package.json");
-            string okFilePath = Path.Combine(GetFlareSolverrDirectoryPath(), "INSTALL_OK");
+            string indexJsFilePath = Path.Combine(GetFlareSolverrDirectoryPath(), @"dist/index.js");
+            string okFilePath = Path.Combine(GetFlareSolverrDirectoryPath(), @"INSTALL_OK");
 
-            return File.Exists(packageJsonFilePath) && File.Exists(okFilePath);
+            return File.Exists(indexJsFilePath) && (!config.AutoInstall || File.Exists(okFilePath));
 
         }
 

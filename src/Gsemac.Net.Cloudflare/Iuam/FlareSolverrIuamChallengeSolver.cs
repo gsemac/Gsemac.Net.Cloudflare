@@ -1,4 +1,5 @@
-﻿using Gsemac.Net.Extensions;
+﻿using Gsemac.Net.Cloudflare.FlareSolverr;
+using Gsemac.Net.Extensions;
 using Newtonsoft.Json;
 using System;
 using System.Net;

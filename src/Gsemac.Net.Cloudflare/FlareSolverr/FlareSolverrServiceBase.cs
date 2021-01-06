@@ -1,6 +1,6 @@
 ﻿using Gsemac.IO.Logging;
 
-namespace Gsemac.Net.Cloudflare.Iuam {
+namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
     public abstract class FlareSolverrServiceBase :
         IFlareSolverrService {

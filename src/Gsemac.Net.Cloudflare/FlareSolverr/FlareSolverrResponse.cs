@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
 
-namespace Gsemac.Net.Cloudflare.Iuam {
+namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
     internal class FlareSolverrResponse {
 
