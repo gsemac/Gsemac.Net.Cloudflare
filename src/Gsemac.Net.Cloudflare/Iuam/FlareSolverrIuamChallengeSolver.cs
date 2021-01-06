@@ -10,8 +10,6 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
         // Public members
 
-        public const int FlareSolverrPort = 8191;
-
         public FlareSolverrIuamChallengeSolver() :
             this(IuamChallengeSolverOptions.Default) {
         }
@@ -47,7 +45,7 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
                 webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
 
-                Uri flareSolverUri = new Uri($"http://localhost:{FlareSolverrPort}/v1");
+                Uri flareSolverUri = new Uri($"http://localhost:{FlareSolverrUtilities.DefaultPort}/v1");
 
                 OnLog.Info($"Waiting for response from {flareSolverUri.AbsoluteUri}");
 
@@ -63,7 +61,7 @@ namespace Gsemac.Net.Cloudflare.Iuam {
                 catch (WebException ex) {
 
                     if (ex.Status == WebExceptionStatus.ConnectFailure)
-                        OnLog.Error($"Failed to connect to FlareSolverr. Make sure that FlareSolverr is running on port {FlareSolverrPort}.");
+                        OnLog.Error($"Failed to connect to FlareSolverr. Make sure that FlareSolverr is running on port {FlareSolverrUtilities.DefaultPort}.");
 
                     throw ex;
 
