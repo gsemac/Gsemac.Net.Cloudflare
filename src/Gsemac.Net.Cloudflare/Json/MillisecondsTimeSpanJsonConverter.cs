@@ -1,11 +1,9 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Gsemac.Net.Cloudflare.Iuam.Json {
+namespace Gsemac.Net.Cloudflare.Json {
 
-    public class MillisecondsTimeSpanJsonConverter :
+    internal class MillisecondsTimeSpanJsonConverter :
         JsonConverter {
 
         public override bool CanConvert(Type objectType) {

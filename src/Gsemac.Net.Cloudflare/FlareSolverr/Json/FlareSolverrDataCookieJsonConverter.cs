@@ -5,7 +5,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Net;
 
-namespace Gsemac.Net.Cloudflare.Iuam.Json {
+namespace Gsemac.Net.Cloudflare.FlareSolverr.Json {
 
     internal class FlareSolverrDataCookieJsonConverter :
         JsonConverter {

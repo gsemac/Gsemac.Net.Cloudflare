@@ -1,4 +1,4 @@
-﻿using Gsemac.Net.Cloudflare.Iuam.Json;
+﻿using Gsemac.Net.Cloudflare.Json;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;

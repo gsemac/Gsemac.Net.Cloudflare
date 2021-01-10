@@ -9,7 +9,7 @@ namespace Gsemac.Net.Cloudflare.Tests {
 
         [TestMethod]
         public void TestDeobfuscateCfEmail() {
-
+            
             Assert.AreEqual("me@usamaejaz.com", CloudflareUtilities.DeobfuscateCfEmail("543931142127353935313e352e7a373b39"));
 
         }

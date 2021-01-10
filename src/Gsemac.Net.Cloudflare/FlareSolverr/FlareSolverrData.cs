@@ -1,4 +1,5 @@
-﻿using Gsemac.Net.Cloudflare.Iuam.Json;
+﻿using Gsemac.Net.Cloudflare.FlareSolverr.Json;
+using Gsemac.Net.Cloudflare.Json;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

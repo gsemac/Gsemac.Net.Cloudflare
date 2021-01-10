@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using System;
 
-namespace Gsemac.Net.Cloudflare.Iuam.Json {
+namespace Gsemac.Net.Cloudflare.Json {
 
     public class MillisecondsUnixEpochConverter :
         JsonConverter {
