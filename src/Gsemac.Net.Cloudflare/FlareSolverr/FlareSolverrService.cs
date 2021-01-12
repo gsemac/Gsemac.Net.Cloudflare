@@ -1,11 +1,8 @@
-﻿using Gsemac.Core;
-using Gsemac.IO.Logging;
+﻿using Gsemac.IO.Logging;
 using Gsemac.IO.Logging.Extensions;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 
 namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
@@ -29,12 +26,25 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
                 if (!processStarted) {
 
-                    OnLog.Info("Starting FlareSolverr service");
+                    if (!SocketUtilities.IsPortAvailable(FlareSolverrUtilities.DefaultPort)) {
 
-                    processStarted = StartFlareSolverr();
+                        // If FlareSolverr already appears to be running (port 8191 in use), don't attempt to start it.
 
-                    if (!processStarted)
-                        OnLog.Error(" Failed to start FlareSolverr process");
+                        OnLog.Warning($"Port {FlareSolverrUtilities.DefaultPort} is already in use; assuming FlareSolverr is already running");
+
+                        return true;
+
+                    }
+                    else {
+
+                        OnLog.Info("Starting FlareSolverr service");
+
+                        processStarted = StartFlareSolverr();
+
+                        if (!processStarted)
+                            OnLog.Error("Failed to start FlareSolverr process");
+
+                    }
 
                 }
 
