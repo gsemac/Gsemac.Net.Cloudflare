@@ -1,4 +1,6 @@
 ﻿using Gsemac.Core;
+using Gsemac.IO.Logging;
+using Gsemac.IO.Logging.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,10 +14,13 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
         // Public members
 
-        public FlareSolverrService(IFlareSolverrConfig config, IHttpWebRequestFactory webRequestFactory = null) {
+        public FlareSolverrService(IFlareSolverrConfig config, IHttpWebRequestFactory webRequestFactory = null, ILogger logger = null) {
 
             this.config = config;
             this.webRequestFactory = webRequestFactory ?? new HttpWebRequestFactory();
+
+            if (logger is object)
+                Log += logger.CreateLogEventHandler();
 
         }
 
