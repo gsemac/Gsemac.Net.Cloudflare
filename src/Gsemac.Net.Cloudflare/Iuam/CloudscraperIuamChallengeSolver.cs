@@ -1,4 +1,5 @@
 ﻿using Gsemac.Core;
+using Gsemac.Net.Cloudflare.Cloudscraper;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Diagnostics;
@@ -9,21 +10,21 @@ using System.Threading;
 
 namespace Gsemac.Net.Cloudflare.Iuam {
 
-    public class BinCloudscraperIuamChallengeSolver :
+    public class CloudscraperIuamChallengeSolver :
         IuamChallengeSolverBase {
 
         // Public members
 
-        public BinCloudscraperIuamChallengeSolver(string cloudscraperExecutablePath) :
-            this(cloudscraperExecutablePath, IuamChallengeSolverOptions.Default) {
+        public CloudscraperIuamChallengeSolver(ICloudscraperOptions cloudscraperOptions) :
+            this(cloudscraperOptions, IuamChallengeSolverOptions.Default) {
         }
-        public BinCloudscraperIuamChallengeSolver(string cloudscraperExecutablePath, IIuamChallengeSolverOptions options) :
+        public CloudscraperIuamChallengeSolver(ICloudscraperOptions cloudscraperOptions, IIuamChallengeSolverOptions options) :
             base("Cloudscraper IUAM Challenge Solver") {
 
             if (options is null)
                 throw new ArgumentNullException(nameof(options));
 
-            this.cloudscraperExecutablePath = cloudscraperExecutablePath;
+            this.cloudscraperOptions = cloudscraperOptions;
             this.options = options;
 
         }
@@ -32,11 +33,11 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
             string url = uri.AbsoluteUri;
 
-            if (!System.IO.File.Exists(cloudscraperExecutablePath)) {
+            if (!System.IO.File.Exists(cloudscraperOptions.CloudscraperExecutablePath)) {
 
-                OnLog.Error($"cloudscraper was not found at '{cloudscraperExecutablePath}'");
+                OnLog.Error($"cloudscraper was not found at '{cloudscraperOptions.CloudscraperExecutablePath}'");
 
-                throw new System.IO.FileNotFoundException(cloudscraperExecutablePath);
+                throw new System.IO.FileNotFoundException(cloudscraperOptions.CloudscraperExecutablePath);
 
             }
 
@@ -50,7 +51,7 @@ namespace Gsemac.Net.Cloudflare.Iuam {
                 argumentsBuilder.AddArgument("--proxy", options.Proxy.GetProxy(new Uri(url)).AbsoluteUri);
 
             ProcessStartInfo startInfo = new ProcessStartInfo() {
-                FileName = cloudscraperExecutablePath,
+                FileName = cloudscraperOptions.CloudscraperExecutablePath,
                 Arguments = argumentsBuilder.ToString(),
                 CreateNoWindow = true,
                 UseShellExecute = false,
@@ -151,7 +152,7 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
         private static readonly object cloudscraperMutex = new object();
 
-        private readonly string cloudscraperExecutablePath;
+        private readonly ICloudscraperOptions cloudscraperOptions;
         private readonly IIuamChallengeSolverOptions options;
 
     }
