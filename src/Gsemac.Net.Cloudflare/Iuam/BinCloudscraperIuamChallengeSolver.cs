@@ -34,7 +34,7 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
             if (!System.IO.File.Exists(cloudscraperExecutablePath)) {
 
-                OnLog.Error($"cloudscraper was not found at \"{cloudscraperExecutablePath}\"");
+                OnLog.Error($"cloudscraper was not found at '{cloudscraperExecutablePath}'");
 
                 throw new System.IO.FileNotFoundException(cloudscraperExecutablePath);
 
