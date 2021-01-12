@@ -12,15 +12,20 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
         // Public members
 
-        public override bool Start(IFlareSolverrConfig config) {
+        public FlareSolverrService(IFlareSolverrConfig config, IHttpWebRequestFactory webRequestFactory = null) {
+
+            this.config = config;
+            this.webRequestFactory = webRequestFactory ?? new HttpWebRequestFactory();
+
+        }
+
+        public override bool Start() {
 
             lock (mutex) {
 
                 if (!processStarted) {
 
                     OnLog.Info("Starting FlareSolverr service");
-
-                    this.config = config;
 
                     AddEnvironmentPath(config.FlareSolverrDirectoryPath);
                     AddEnvironmentPath(config.NodeJsDirectoryPath);
@@ -78,7 +83,8 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
         private readonly object mutex = new object();
         private bool processStarted = false;
-        private IFlareSolverrConfig config;
+        private readonly IFlareSolverrConfig config;
+        private readonly IHttpWebRequestFactory webRequestFactory;
         private Process flareSolverrProcess;
 
         private string GetFlareSolverrDirectoryPath() {

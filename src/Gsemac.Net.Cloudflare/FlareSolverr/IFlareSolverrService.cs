@@ -7,7 +7,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
         ILoggable,
         IDisposable {
 
-        bool Start(IFlareSolverrConfig config);
+        bool Start();
         bool Stop();
 
     }

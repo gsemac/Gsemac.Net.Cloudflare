@@ -9,7 +9,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
         public event LogEventHandler Log;
 
-        public abstract bool Start(IFlareSolverrConfig config);
+        public abstract bool Start();
         public abstract bool Stop();
 
         public void Dispose() {
