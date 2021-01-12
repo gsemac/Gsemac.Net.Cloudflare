@@ -2,32 +2,31 @@
 using Newtonsoft.Json;
 using System;
 
-namespace Gsemac.Net.Cloudflare.Json {
+namespace Gsemac.Net.Cloudflare.FlareSolverr.Json {
 
-    public class MillisecondsUnixEpochConverter :
+    internal class FlareSolverrDataMillisecondsUnixEpochConverter :
         JsonConverter {
 
         public override bool CanConvert(Type objectType) {
 
-            return objectType.Equals(typeof(DateTime)) ||
-                objectType.Equals(typeof(DateTimeOffset));
+            return objectType.Equals(typeof(DateTime)) || objectType.Equals(typeof(DateTimeOffset));
 
         }
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer) {
 
-            // Eat the property name.
+            long unixTimeMilliseconds = (long)reader.Value;
+            DateTimeOffset dateTimeOffset = DateUtilities.FromUnixTimeMilliseconds(unixTimeMilliseconds);
 
-            reader.Read();
+            if (objectType.Equals(typeof(DateTime))) {
 
-            // Read the property value.
-
-            double ms = reader.ReadAsDouble() ?? 0;
-            DateTimeOffset dateTimeOffset = DateUtilities.FromUnixTimeMilliseconds((long)ms);
-
-            if (objectType.Equals(typeof(DateTime)))
                 return dateTimeOffset.DateTime;
-            else if (objectType.Equals(typeof(DateTimeOffset)))
+
+            }
+            else if (objectType.Equals(typeof(DateTimeOffset))) {
+
                 return dateTimeOffset;
+
+            }
             else
                 throw new ArgumentException(nameof(objectType));
 

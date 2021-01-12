@@ -1,6 +1,5 @@
-﻿using Gsemac.Net.Cloudflare.Json;
+﻿using Gsemac.Net.Cloudflare.FlareSolverr.Json;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using System;
 
 namespace Gsemac.Net.Cloudflare.FlareSolverr {
@@ -13,11 +12,12 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
         public string Status { get; set; }
         [JsonProperty("message")]
         public string Message { get; set; }
-        [JsonProperty("startTimestamp"), JsonConverter(typeof(MillisecondsUnixEpochConverter))]
+        [JsonProperty("startTimestamp"), JsonConverter(typeof(FlareSolverrDataMillisecondsUnixEpochConverter))]
         public DateTimeOffset StartTimestamp { get; set; }
-        [JsonProperty("endTimestamp"), JsonConverter(typeof(MillisecondsUnixEpochConverter))]
+        [JsonProperty("endTimestamp"), JsonConverter(typeof(FlareSolverrDataMillisecondsUnixEpochConverter))]
         public DateTimeOffset EndTimestamp { get; set; }
-        [JsonProperty("version"), JsonConverter(typeof(VersionConverter))]
+        // Version strings are of the form "v1.2.3", which the built-in version converter can't parse
+        [JsonProperty("version"), JsonConverter(typeof(FlareSolverrDataVersionConverter))]
         public Version Version { get; set; } = new Version();
 
     }

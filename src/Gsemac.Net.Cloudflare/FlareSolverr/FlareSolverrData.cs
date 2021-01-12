@@ -1,5 +1,4 @@
 ﻿using Gsemac.Net.Cloudflare.FlareSolverr.Json;
-using Gsemac.Net.Cloudflare.Json;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -15,7 +14,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
         public Uri Url { get; set; }
         [JsonProperty("userAgent")]
         public string UserAgent { get; set; }
-        [JsonProperty("maxTimeout"), JsonConverter(typeof(MillisecondsTimeSpanJsonConverter))]
+        [JsonProperty("maxTimeout"), JsonConverter(typeof(FlareSolverrDataMillisecondsTimeSpanJsonConverter))]
         public TimeSpan MaxTimeout { get; set; } = TimeSpan.FromSeconds(60);
         [JsonProperty("headers")]
         public IDictionary<string, string> Headers { get; set; } = new Dictionary<string, string>();

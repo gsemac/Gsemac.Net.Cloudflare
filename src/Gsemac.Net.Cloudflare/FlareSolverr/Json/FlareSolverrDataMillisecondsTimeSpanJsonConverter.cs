@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace Gsemac.Net.Cloudflare.Json {
+namespace Gsemac.Net.Cloudflare.FlareSolverr.Json {
 
-    internal class MillisecondsTimeSpanJsonConverter :
+    internal class FlareSolverrDataMillisecondsTimeSpanJsonConverter :
         JsonConverter {
 
         public override bool CanConvert(Type objectType) {
