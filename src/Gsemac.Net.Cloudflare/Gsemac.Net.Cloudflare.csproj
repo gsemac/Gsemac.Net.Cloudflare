@@ -19,9 +19,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Gsemac.Core" Version="0.9.0" />
-		<PackageReference Include="Gsemac.IO" Version="0.6.1" />
-		<PackageReference Include="Gsemac.IO.Compression" Version="0.2.0" />
+		<PackageReference Include="Gsemac.Core" Version="0.10.0" />
+		<PackageReference Include="Gsemac.IO" Version="0.7.0" />
 		<PackageReference Include="Gsemac.Net" Version="0.7.0" />
 		<PackageReference Include="Gsemac.Net.WebBrowsers" Version="0.2.1" />
 		<PackageReference Include="Gsemac.Net.WebDrivers" Version="0.3.0" />
