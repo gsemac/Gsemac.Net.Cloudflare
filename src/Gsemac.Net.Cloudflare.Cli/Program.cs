@@ -42,7 +42,7 @@ namespace Gsemac.Net.Cloudflare.Cli {
                     else
                         webBrowserInfo = WebBrowserInfo.GetDefaultWebBrowserInfo();
 
-                    solver = new WebDriverIuamChallengeSolver(webBrowserInfo, webDriverOptions, challengeSolverOptions);
+                    solver = new WebDriverIuamChallengeSolver(new WebDriverFactory(), challengeSolverOptions);
 
                 }
                 else if (options.Solver.Equals("manual")) {

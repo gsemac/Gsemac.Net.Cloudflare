@@ -20,7 +20,7 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
             try {
 
-                driver = CreateWebDriver(GetWebDriverOptions(uri));
+                driver = CreateWebDriver();
 
                 OnLog.Info($"Navigating to {url}");
 
@@ -46,12 +46,7 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
                         OnLog.Info("Captcha challenge received");
 
-                        if (webDriverOptions.Headless) {
-
-                            OnLog.Warning("Solving the captcha challenge requires user interaction, which is not possible when the headless option is enabled.");
-
-                        }
-                        else if (wait.Until(d => CloudflareUtilities.GetProtectionType(d.PageSource) != ProtectionType.CaptchaBypass)) {
+                        if (wait.Until(d => CloudflareUtilities.GetProtectionType(d.PageSource) != ProtectionType.CaptchaBypass)) {
 
                             OnLog.Info("Captcha response received");
 
@@ -99,7 +94,7 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
                 OnLog.Info("Closing web driver");
 
-                if (driver != null && disposeWebDriver) {
+                if (driver is object && disposeWebDriver) {
 
                     driver.Quit();
 
@@ -115,42 +110,21 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
         // Protected members
 
-        protected WebDriverIuamChallengeSolverBase(IWebDriverOptions webDriverOptions, IIuamChallengeSolverOptions solverOptions, bool disposeWebDriver = true) :
+        protected WebDriverIuamChallengeSolverBase(IIuamChallengeSolverOptions solverOptions, bool disposeWebDriver = true) :
             base("Web Driver IUAM Challenge Solver") {
 
-            this.webDriverOptions = webDriverOptions;
             this.solverOptions = solverOptions;
             this.disposeWebDriver = disposeWebDriver;
 
         }
 
-        protected abstract IWebDriver CreateWebDriver(IWebDriverOptions webDriverOptions);
+        protected abstract IWebDriver CreateWebDriver();
 
         // Private members
 
         private readonly bool disposeWebDriver = true;
-        private readonly IWebDriverOptions webDriverOptions;
         private readonly IIuamChallengeSolverOptions solverOptions;
 
-        private IWebDriverOptions GetWebDriverOptions(Uri uri) {
-
-            // Combine options from both the WebDriverOptions and IuamChallengeSolverOptions, with the latter taking priority.
-
-            return new WebDriverOptions() {
-                DisablePopUps = webDriverOptions.DisablePopUps,
-                Headless = webDriverOptions.Headless,
-                PageLoadStrategy = webDriverOptions.PageLoadStrategy,
-                Proxy = solverOptions.Proxy.IsEmpty() ? webDriverOptions.Proxy : solverOptions.Proxy,
-                Stealth = webDriverOptions.Stealth,
-                Timeout = solverOptions.Timeout,
-                Uri = uri,
-                UserAgent = string.IsNullOrWhiteSpace(solverOptions.UserAgent) ? webDriverOptions.UserAgent : solverOptions.UserAgent,
-                WebDriverExecutablePath = webDriverOptions.WebDriverExecutablePath,
-                WindowPosition = webDriverOptions.WindowPosition,
-                WindowSize = webDriverOptions.WindowSize,
-            };
-
-        }
         private IIuamChallengeResponse CreateSuccessfulChallengeResponse(IWebDriver driver) {
 
             return new IuamChallengeResponse(driver.GetUserAgent(), driver.GetCookies());

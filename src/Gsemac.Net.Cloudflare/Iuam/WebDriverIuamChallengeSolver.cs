@@ -1,6 +1,6 @@
-﻿using Gsemac.Net.WebBrowsers;
-using Gsemac.Net.WebDrivers;
+﻿using Gsemac.Net.WebDrivers;
 using OpenQA.Selenium;
+using System;
 
 namespace Gsemac.Net.Cloudflare.Iuam {
 
@@ -9,35 +9,43 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
         // Public members
 
-        public IWebDriver WebDriver { get; private set; }
+        public WebDriverIuamChallengeSolver(IWebDriverFactory webDriverFactory, IIuamChallengeSolverOptions solverOptions) :
+            base(solverOptions) {
 
-        public WebDriverIuamChallengeSolver(IWebBrowserInfo webBrowserInfo, IWebDriverOptions webDriverOptions, IIuamChallengeSolverOptions solverOptions) :
-            base(webDriverOptions, solverOptions) {
+            if (webDriverFactory is null)
+                throw new ArgumentNullException(nameof(webDriverFactory));
 
-            this.webBrowserInfo = webBrowserInfo;
+            if (solverOptions is null)
+                throw new ArgumentNullException(nameof(solverOptions));
+
+            this.webDriverFactory = webDriverFactory;
 
         }
         public WebDriverIuamChallengeSolver(IWebDriver webDriver, IIuamChallengeSolverOptions solverOptions) :
-            base(new WebDriverOptions(), solverOptions, disposeWebDriver: false) {
+            base(solverOptions, disposeWebDriver: false) {
 
-            WebDriver = webDriver;
+            if (webDriver is null)
+                throw new ArgumentNullException(nameof(webDriver));
+
+            this.webDriver = webDriver;
 
         }
 
         // Protected members
 
-        protected override IWebDriver CreateWebDriver(IWebDriverOptions webDriverOptions) {
+        protected override IWebDriver CreateWebDriver() {
 
-            if (WebDriver != null)
-                return WebDriver;
+            if (webDriver is object)
+                return webDriver;
 
-            return WebDrivers.WebDriver.Create(webBrowserInfo, webDriverOptions);
+            return webDriverFactory.Create();
 
         }
 
         // Private members
 
-        private readonly IWebBrowserInfo webBrowserInfo;
+        private readonly IWebDriver webDriver = null;
+        private readonly IWebDriverFactory webDriverFactory;
 
     }
 
