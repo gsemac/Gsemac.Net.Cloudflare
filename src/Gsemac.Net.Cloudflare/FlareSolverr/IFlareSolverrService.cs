@@ -7,6 +7,9 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
         ILoggable,
         IDisposable {
 
+        event DownloadFileProgressChangedEventHandler DownloadFileProgressChanged;
+        event DownloadFileCompletedEventHandler DownloadFileCompleted;
+
         bool Start();
         bool Stop();
 

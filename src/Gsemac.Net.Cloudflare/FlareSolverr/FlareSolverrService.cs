@@ -15,6 +15,8 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
             this.options = options;
 
+            flareSolverrExecutablePath = new Lazy<string>(GetFlareSolverrExecutablePath);
+
             if (logger is object)
                 Log += logger.CreateLogEventHandler();
 
@@ -88,24 +90,25 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
         // Private members
 
-        private readonly object mutex = new object();
-        private bool processStarted = false;
         private readonly IFlareSolverrOptions options;
+        private readonly object mutex = new object();
+        private readonly Lazy<string> flareSolverrExecutablePath;
+        private bool processStarted = false;
         private Process flareSolverrProcess;
 
         private bool StartFlareSolverr() {
 
-            if (!File.Exists(options.FlareSolverrExecutablePath)) {
+            if (!File.Exists(flareSolverrExecutablePath.Value)) {
 
-                OnLog.Error($"FlareSolverr was not found at '{options.FlareSolverrExecutablePath}'");
+                OnLog.Error($"FlareSolverr was not found at '{flareSolverrExecutablePath.Value}'");
 
-                throw new FileNotFoundException(options.FlareSolverrExecutablePath);
+                throw new FileNotFoundException(flareSolverrExecutablePath.Value);
 
             }
 
             OnLog.Info($"Starting FlareSolverr process");
 
-            flareSolverrProcess = CreateProcess(options.FlareSolverrExecutablePath);
+            flareSolverrProcess = CreateProcess(flareSolverrExecutablePath.Value);
 
             bool success = flareSolverrProcess.Start();
 
@@ -139,6 +142,41 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
                 flareSolverrProcess = null;
 
             }
+
+        }
+
+        private string GetFlareSolverrExecutablePath() {
+
+            string baseDirectoryPath = options.FlareSolverrDirectory;
+
+            if (string.IsNullOrWhiteSpace(baseDirectoryPath))
+                baseDirectoryPath = Directory.GetCurrentDirectory();
+
+            // ./flaresolverr.exe
+
+            if (File.Exists(Path.Combine(baseDirectoryPath, FlareSolverrUtilities.FlareSolverrExecutablePath)))
+                return Path.Combine(baseDirectoryPath, FlareSolverrUtilities.FlareSolverrExecutablePath);
+
+            // ./flaresolverr/flaresolverr.exe
+            // ./flaresolverr-vx.x.x-windows-xxx/flaresolverr/flaresolverr.exe
+
+            foreach (string directoryPath in Directory.EnumerateDirectories(baseDirectoryPath, "flaresolverr*", SearchOption.TopDirectoryOnly)) {
+
+                foreach (string candidateExecutablePath in new[] {
+                    Path.Combine(directoryPath, FlareSolverrUtilities.FlareSolverrExecutablePath),
+                    Path.Combine(directoryPath, "flaresolverr", FlareSolverrUtilities.FlareSolverrExecutablePath),
+                }) {
+
+                    if (File.Exists(candidateExecutablePath))
+                        return candidateExecutablePath;
+
+                }
+
+            }
+
+            // The FlareSolverr executable could not be found.
+
+            return string.Empty;
 
         }
 

@@ -2,7 +2,8 @@
 
     public interface IFlareSolverrOptions {
 
-        string FlareSolverrExecutablePath { get; }
+        bool AutoUpdateEnabled { get; }
+        string FlareSolverrDirectory { get; }
 
     }
 

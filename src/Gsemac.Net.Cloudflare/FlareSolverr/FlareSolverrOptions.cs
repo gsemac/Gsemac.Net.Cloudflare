@@ -5,7 +5,8 @@
 
         public static FlareSolverrOptions Default => new FlareSolverrOptions();
 
-        public string FlareSolverrExecutablePath { get; set; } = "flaresolverr.exe";
+        public bool AutoUpdateEnabled { get; } = true;
+        public string FlareSolverrDirectory { get; set; }
 
     }
 
