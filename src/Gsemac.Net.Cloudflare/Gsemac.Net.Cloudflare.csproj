@@ -4,7 +4,7 @@
 		<TargetFrameworks>netstandard2.0;net40-client</TargetFrameworks>
 		<Company />
 		<Authors>gsemac</Authors>
-		<Version>0.9.0</Version>
+		<Version>0.10.0</Version>
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 		<PackageProjectUrl>https://github.com/gsemac/Gsemac.Net.Cloudflare</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/gsemac/Gsemac.Net.Cloudflare</RepositoryUrl>
@@ -23,7 +23,7 @@
 		<PackageReference Include="Gsemac.IO" Version="0.8.0" />
 		<PackageReference Include="Gsemac.Net" Version="0.8.2" />
 		<PackageReference Include="Gsemac.Net.WebBrowsers" Version="0.2.1" />
-		<PackageReference Include="Gsemac.Net.WebDrivers" Version="0.6.1" />
+		<PackageReference Include="Gsemac.Net.WebDrivers" Version="0.7.0" />
 		<PackageReference Include="Gsemac.Reflection" Version="0.2.4" />
 		<PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
 		<PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
