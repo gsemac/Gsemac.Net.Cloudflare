@@ -16,7 +16,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="CefSharp.OffScreen" Version="87.1.132" />
-		<PackageReference Include="Gsemac.IO" Version="0.8.0" />
+		<PackageReference Include="Gsemac.IO" Version="0.9.0" />
 		<PackageReference Include="NETStandard.Library" Version="2.0.3" />
 	</ItemGroup>
 
@@ -26,7 +26,7 @@
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
 		<PackageReference Include="System.Drawing.Common">
-			<Version>5.0.0</Version>
+			<Version>5.0.1</Version>
 		</PackageReference>
 	</ItemGroup>
 

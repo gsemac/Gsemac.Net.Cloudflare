@@ -41,7 +41,7 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
             }
 
-            CommandLineArgumentsBuilder argumentsBuilder = new CommandLineArgumentsBuilder()
+            CmdArgumentsBuilder argumentsBuilder = new CmdArgumentsBuilder()
                 .WithArgument(url);
 
             if (!string.IsNullOrWhiteSpace(options.UserAgent))
