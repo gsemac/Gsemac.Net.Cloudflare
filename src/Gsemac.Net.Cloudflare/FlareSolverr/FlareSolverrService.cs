@@ -147,7 +147,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
         private string GetFlareSolverrExecutablePath() {
 
-            string baseDirectoryPath = options.FlareSolverrDirectory;
+            string baseDirectoryPath = options.FlareSolverrDirectoryPath;
 
             if (string.IsNullOrWhiteSpace(baseDirectoryPath))
                 baseDirectoryPath = Directory.GetCurrentDirectory();
