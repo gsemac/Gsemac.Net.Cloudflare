@@ -70,7 +70,10 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
                 OnLog.Info($"Got response with status: {response.Status}");
 
-                if (response.Solution?.Status == 200) {
+                // I used to check that the response code was 200 instead of 503, but sometimes the response code will be 503 even after a successful bypass.
+                // Therefore, it is more reliable to check the status code returned by FlareSolverr rather than the webpage.
+
+                if (response.Status?.Equals("ok", StringComparison.OrdinalIgnoreCase) ?? false) {
 
                     // We successfully received a solution.
                     // All we want are the clearance cookies and the user agent.
