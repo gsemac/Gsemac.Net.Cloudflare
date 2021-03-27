@@ -1,46 +1,52 @@
 ﻿using Gsemac.Net.JavaScript.Extensions;
 using System;
+using System.Net;
+using System.Text.RegularExpressions;
 
 namespace Gsemac.Net.Cloudflare {
 
     public static class CloudflareUtilities {
 
+        public static bool IsProtectionDetected(WebResponse webResponse) {
+
+            if (webResponse is HttpWebResponse httpWebResponse) {
+
+                bool isServiceUnavailable = httpWebResponse.StatusCode == HttpStatusCode.ServiceUnavailable;
+                bool isCloudflareServer = httpWebResponse.Headers["Server"]?.Equals("cloudflare", StringComparison.OrdinalIgnoreCase) ?? false;
+
+                return isServiceUnavailable && isCloudflareServer;
+
+            }
+
+            return false;
+
+
+        }
         public static ProtectionType GetProtectionType(string htmlDocument) {
 
-            if (htmlDocument.Contains("cf-im-under-attack\">")) {
+            Match protectionMatch = Regex.Match(htmlDocument,
+                @"cf-(?:im-under-attack|cookie-error|captcha-container)|captcha-bypass|has banned your IP address");
 
-                return ProtectionType.ImUnderAttack;
+            if (protectionMatch.Success) {
 
-            }
-            else if (htmlDocument.Contains("id=\"captcha-bypass\">")) {
+                switch (protectionMatch.Value) {
 
+                    case "cf-im-under-attack":
+                    case "cf-cookie-error":
+                        return ProtectionType.ImUnderAttack;
 
-                return ProtectionType.CaptchaBypass;
+                    case "cf-captcha-bypass":
+                    case "cf-captcha-container":
+                        return ProtectionType.CaptchaBypass;
 
-            }
-            else if (htmlDocument.Contains("cf-wrapper\">")) {
-
-                if (htmlDocument.Contains("cf-captcha-container\">")) {
-
-                    // This is the same challenge as the "One More Step" captcha.
-
-                    return ProtectionType.CaptchaBypass;
-
-                }
-                else if (htmlDocument.Contains(") has banned your IP address (")) {
-
-                    return ProtectionType.AccessDenied;
+                    case "has banned your IP address":
+                        return ProtectionType.AccessDenied;
 
                 }
 
             }
 
             return ProtectionType.None;
-
-        }
-        public static bool IsProtectionDetected(string htmlDocument) {
-
-            return GetProtectionType(htmlDocument) != ProtectionType.None;
 
         }
 
