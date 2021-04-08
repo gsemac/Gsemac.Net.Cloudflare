@@ -1,8 +1,10 @@
-﻿using Gsemac.IO.Logging;
+﻿using Gsemac.Collections;
+using Gsemac.IO.Logging;
 using Gsemac.IO.Logging.Extensions;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 
 namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
@@ -160,7 +162,9 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
             // ./flaresolverr/flaresolverr.exe
             // ./flaresolverr-vx.x.x-windows-xxx/flaresolverr/flaresolverr.exe
 
-            foreach (string directoryPath in Directory.EnumerateDirectories(baseDirectoryPath, "flaresolverr*", SearchOption.TopDirectoryOnly)) {
+            // Use natural sorting so that newer versions are listed before older versions.
+
+            foreach (string directoryPath in Directory.EnumerateDirectories(baseDirectoryPath, "flaresolverr*", SearchOption.TopDirectoryOnly).OrderByDescending(path => path, new NaturalSortComparer())) {
 
                 foreach (string candidateExecutablePath in new[] {
                     Path.Combine(directoryPath, FlareSolverrUtilities.FlareSolverrExecutablePath),
