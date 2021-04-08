@@ -1,8 +1,9 @@
-﻿using Gsemac.Net.WebDrivers;
+﻿using Gsemac.Net.Cloudflare.Iuam;
+using Gsemac.Net.WebDrivers;
 using OpenQA.Selenium;
 using System;
 
-namespace Gsemac.Net.Cloudflare.Iuam {
+namespace Gsemac.Net.Cloudflare.WebDriver {
 
     public class WebDriverIuamChallengeSolver :
           WebDriverIuamChallengeSolverBase {

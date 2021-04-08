@@ -1,5 +1,5 @@
 ﻿using Gsemac.Core;
-using Gsemac.Net.Cloudflare.Cloudscraper;
+using Gsemac.Net.Cloudflare.Iuam;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Diagnostics;
@@ -8,7 +8,7 @@ using System.Net;
 using System.Text;
 using System.Threading;
 
-namespace Gsemac.Net.Cloudflare.Iuam {
+namespace Gsemac.Net.Cloudflare.Cloudscraper {
 
     public class CloudscraperIuamChallengeSolver :
         IuamChallengeSolverBase {

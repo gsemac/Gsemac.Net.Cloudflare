@@ -1,10 +1,10 @@
-﻿using Gsemac.Net.Cloudflare.FlareSolverr;
+﻿using Gsemac.Net.Cloudflare.Iuam;
 using Gsemac.Net.Extensions;
 using Newtonsoft.Json;
 using System;
 using System.Net;
 
-namespace Gsemac.Net.Cloudflare.Iuam {
+namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
     public class FlareSolverrIuamChallengeSolver :
         IuamChallengeSolverBase {
