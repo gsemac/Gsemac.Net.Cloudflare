@@ -1,6 +1,9 @@
 ﻿using Gsemac.Net.WebBrowsers;
+using Gsemac.Net.WebBrowsers.Extensions;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Threading;
 
@@ -74,11 +77,12 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
         private CookieCollection GetClearanceCookiesFromWebBrowser(Uri uri) {
 
-            IWebBrowserCookieReader cookieReader = new WebBrowserCookieReader(webBrowserInfo);
-            CookieCollection cookies = cookieReader.GetCookies(uri);
+            ICookiesReaderFactory cookiesReaderFactory = new CookiesReaderFactory();
+            ICookiesReader cookieReader = cookiesReaderFactory.Create(webBrowserInfo);
+            IEnumerable<Cookie> cookies = cookieReader.GetCookies(uri);
 
-            Cookie cfduid = cookies["__cfduid"];
-            Cookie cf_clearance = cookies["cf_clearance"];
+            Cookie cfduid = cookies.Where(cookie => cookie.Name.Equals("__cfduid")).FirstOrDefault();
+            Cookie cf_clearance = cookies.Where(cookie => cookie.Name.Equals("cf_clearance")).FirstOrDefault();
 
             if (!(cfduid is null || cf_clearance is null)) {
 

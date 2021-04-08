@@ -4,7 +4,7 @@ using System;
 namespace Gsemac.Net.Cloudflare.Iuam {
 
     public interface IIuamChallengeSolver :
-        ILoggable {
+        ILogEventSource {
 
         string Name { get; }
 

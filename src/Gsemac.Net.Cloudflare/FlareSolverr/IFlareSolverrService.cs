@@ -4,7 +4,7 @@ using System;
 namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
     public interface IFlareSolverrService :
-        ILoggable,
+        ILogEventSource,
         IDisposable {
 
         event DownloadFileProgressChangedEventHandler DownloadFileProgressChanged;

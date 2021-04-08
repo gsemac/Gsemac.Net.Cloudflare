@@ -18,7 +18,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
             flareSolverrExecutablePath = new Lazy<string>(GetFlareSolverrExecutablePath);
 
             if (logger is object)
-                Log += logger.CreateLogEventHandler();
+                Log += logger.CreateEventHandler();
 
         }
 
