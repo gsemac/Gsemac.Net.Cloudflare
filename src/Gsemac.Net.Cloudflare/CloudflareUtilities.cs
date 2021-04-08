@@ -30,7 +30,7 @@ namespace Gsemac.Net.Cloudflare {
         public static ProtectionType GetProtectionType(string htmlDocument) {
 
             Match protectionMatch = Regex.Match(htmlDocument,
-                @"cf-(?:im-under-attack|cookie-error|captcha-container)|captcha-bypass|has banned your IP address");
+                @"\bcf-(?:im-under-attack|cookie-error|captcha-container)|captcha-bypass|has banned your IP address\b");
 
             if (protectionMatch.Success) {
 
