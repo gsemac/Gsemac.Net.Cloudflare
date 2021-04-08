@@ -22,6 +22,11 @@ namespace Gsemac.Net.Cloudflare {
 
 
         }
+        public static bool IsProtectionDetected(string htmlDocument) {
+
+            return GetProtectionType(htmlDocument) != ProtectionType.None;
+
+        }
         public static ProtectionType GetProtectionType(string htmlDocument) {
 
             Match protectionMatch = Regex.Match(htmlDocument,
