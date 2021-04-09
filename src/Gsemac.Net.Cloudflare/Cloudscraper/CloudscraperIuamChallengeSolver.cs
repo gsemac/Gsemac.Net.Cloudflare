@@ -135,7 +135,10 @@ namespace Gsemac.Net.Cloudflare.Cloudscraper {
 
                 }
 
-                return new IuamChallengeResponse(userAgent, cookies);
+                return new IuamChallengeResponse(uri) {
+                    UserAgent = userAgent,
+                    Cookies = cookies,
+                };
 
             }
             catch (Exception ex) {

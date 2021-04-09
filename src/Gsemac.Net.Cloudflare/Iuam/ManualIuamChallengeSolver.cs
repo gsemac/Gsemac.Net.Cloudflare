@@ -55,8 +55,14 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
                     CookieCollection cfCookies = GetClearanceCookiesFromWebBrowser(uri);
 
-                    if (cfCookies.Count > 0)
-                        return new IuamChallengeResponse(userAgent, cfCookies);
+                    if (cfCookies.Count > 0) {
+
+                        return new IuamChallengeResponse(uri) {
+                            UserAgent = userAgent,
+                            Cookies = cfCookies,
+                        };
+
+                    }
 
                     Thread.Sleep(TimeSpan.FromSeconds(5));
 
@@ -121,8 +127,14 @@ namespace Gsemac.Net.Cloudflare.Iuam {
                         using (Stream responseStream = response.GetResponseStream())
                         using (StreamReader reader = new StreamReader(responseStream)) {
 
-                            if (CloudflareUtilities.GetProtectionType(reader.ReadToEnd()) == ProtectionType.None)
-                                return new IuamChallengeResponse(request.UserAgent, clearanceCookies);
+                            if (CloudflareUtilities.GetProtectionType(reader.ReadToEnd()) == ProtectionType.None) {
+
+                                return new IuamChallengeResponse(uri) {
+                                    UserAgent = request.UserAgent,
+                                    Cookies = clearanceCookies,
+                                };
+
+                            }
 
                         }
 

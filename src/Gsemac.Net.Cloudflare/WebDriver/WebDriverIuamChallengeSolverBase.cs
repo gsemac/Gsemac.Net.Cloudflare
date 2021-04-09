@@ -126,7 +126,10 @@ namespace Gsemac.Net.Cloudflare.WebDriver {
 
         private IIuamChallengeResponse CreateSuccessfulChallengeResponse(IWebDriver driver) {
 
-            return new IuamChallengeResponse(driver.GetUserAgent(), driver.GetCookies());
+            return new IuamChallengeResponse(new Uri(driver.Url)) {
+                UserAgent = driver.GetUserAgent(),
+                Cookies = driver.GetCookies(),
+            };
 
         }
 

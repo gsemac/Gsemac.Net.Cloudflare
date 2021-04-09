@@ -78,7 +78,12 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
                     // We successfully received a solution.
                     // All we want are the clearance cookies and the user agent.
 
-                    return new IuamChallengeResponse(response.Solution.UserAgent, response.Solution.Cookies);
+                    return new IuamChallengeResponse(uri) {
+                        UserAgent = response.Solution.UserAgent,
+                        Cookies = response.Solution.Cookies,
+                        ResponseUri = response.Solution.Url,
+                        ResponseBody = response.Solution.Response,
+                    };
 
                 }
                 else

@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 
 namespace Gsemac.Net.Cloudflare.Iuam {
 
@@ -6,6 +7,8 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
         string UserAgent { get; }
         CookieCollection Cookies { get; }
+        Uri ResponseUri { get; }
+        string ResponseBody { get; }
 
         bool Success { get; }
 

@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 
 namespace Gsemac.Net.Cloudflare.Iuam {
 
@@ -7,24 +8,18 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
         // Public members
 
-        public string UserAgent { get; }
-        public CookieCollection Cookies { get; } = new CookieCollection();
+        public string UserAgent { get; set; }
+        public CookieCollection Cookies { get; set; } = new CookieCollection();
+        public Uri ResponseUri { get; set; }
+        public string ResponseBody { get; set; } = string.Empty;
         public bool Success => !string.IsNullOrEmpty(UserAgent) && Cookies.Count > 0;
 
-        public static IuamChallengeResponse Failed => new IuamChallengeResponse();
+        public static IuamChallengeResponse Failed => new IuamChallengeResponse(null);
 
-        public IuamChallengeResponse(string userAgent = "", CookieCollection cookies = null) {
+        public IuamChallengeResponse(Uri requestUri) {
 
-            UserAgent = userAgent;
+            ResponseUri = requestUri;
 
-            if (cookies != null)
-                Cookies = cookies;
-
-        }
-
-        // Private members
-
-        private IuamChallengeResponse() {
         }
 
     }

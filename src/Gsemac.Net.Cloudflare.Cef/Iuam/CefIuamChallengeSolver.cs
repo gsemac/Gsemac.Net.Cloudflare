@@ -53,8 +53,10 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
                             OnLog.Info($"Solved challenge successfully");
 
-                            result = new IuamChallengeResponse(GetUserAgent(browser), GetCookies(url, browser));
-
+                            result = new IuamChallengeResponse(uri) {
+                                UserAgent = GetUserAgent(browser),
+                                Cookies = GetCookies(url, browser),
+                            };
 
                         }
                         else {
