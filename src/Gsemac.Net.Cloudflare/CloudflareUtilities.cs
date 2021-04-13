@@ -43,7 +43,7 @@ namespace Gsemac.Net.Cloudflare {
                     case "cf-cookie-error":
                         return ProtectionType.ImUnderAttack;
 
-                    case "cf-captcha-bypass":
+                    case "captcha-bypass":
                     case "cf-captcha-container":
                         return ProtectionType.CaptchaBypass;
 
