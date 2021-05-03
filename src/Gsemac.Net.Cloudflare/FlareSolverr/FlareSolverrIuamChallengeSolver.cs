@@ -3,6 +3,7 @@ using Gsemac.Net.Extensions;
 using Newtonsoft.Json;
 using System;
 using System.Net;
+using System.Text;
 
 namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
@@ -43,6 +44,12 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
             };
 
             using (WebClient webClient = webRequestFactory.ToWebClientFactory().Create()) {
+
+                // WebClient will use Encoding.Default, which varies by .NET implementation.
+                // For example, older implementations use ANSI, while newer implementations use UTF8. Using ANSI will give us garbled characters.
+                // Furthermore, RFC4627 states that JSON text will always be encoded in UTF8.
+
+                webClient.Encoding = Encoding.UTF8;
 
                 webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
 
