@@ -24,6 +24,12 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
         public event DownloadFileCompletedEventHandler DownloadFileCompleted;
         public event LogEventHandler Log;
 
+        public FlareSolverrUpdater() :
+           this(FlareSolverrUpdaterOptions.Default) {
+        }
+        public FlareSolverrUpdater(IFlareSolverrUpdaterOptions options) :
+            this(new HttpWebRequestFactory(), options) {
+        }
         public FlareSolverrUpdater(IHttpWebRequestFactory webRequestFactory, IFlareSolverrUpdaterOptions options) {
 
             if (webRequestFactory is null)
@@ -38,6 +44,8 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
         }
 
         public IFlareSolverrInfo Update() {
+
+            OnLog.Info("Checking for FlareSolverr updates");
 
             IFlareSolverrInfo flareSolverrInfo = GetFlareSolverrInfo();
             System.Version latestVersion = GetLatestFlareSolverrVersion();
@@ -141,7 +149,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
         }
         private System.Version GetLatestFlareSolverrVersion() {
 
-            OnLog.Info("Checking newest FlareSolverr version");
+            OnLog.Info("Checking latest FlareSolverr version");
 
             System.Version version = new System.Version();
 
@@ -155,14 +163,14 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
             }
 
-            OnLog.Info($"Newest FlareSolverr version is {version}");
+            OnLog.Info($"Latest FlareSolverr version is {version}");
 
             return version;
 
         }
         private void DownloadFlareSolverr() {
 
-            OnLog.Info("Getting web driver download url");
+            OnLog.Info("Getting FlareSolverr download url");
 
             IGitHubClient gitHubClient = new GitHubWebClient(webRequestFactory);
             IRelease latestRelease = gitHubClient.GetLatestRelease("https://github.com/FlareSolverr/FlareSolverr");
@@ -178,6 +186,9 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
                     currentDirectory = Directory.GetCurrentDirectory();
 
                 string downloadFilePath = Path.Combine(currentDirectory, asset.Name);
+
+                client.DownloadProgressChanged += (sender, e) => OnDownloadFileProgressChanged(this, new DownloadFileProgressChangedEventArgs(new Uri(asset.DownloadUrl), downloadFilePath, e));
+                client.DownloadFileCompleted += (sender, e) => OnDownloadFileCompleted(this, new DownloadFileCompletedEventArgs(new Uri(asset.DownloadUrl), downloadFilePath, e.Error is null));
 
                 client.DownloadFileSync(new Uri(asset.DownloadUrl), downloadFilePath);
 

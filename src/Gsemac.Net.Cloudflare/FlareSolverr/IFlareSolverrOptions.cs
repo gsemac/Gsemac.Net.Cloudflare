@@ -3,6 +3,7 @@
     public interface IFlareSolverrOptions {
 
         bool AutoUpdateEnabled { get; }
+        bool IgnoreUpdateErrors { get; }
         string FlareSolverrDirectoryPath { get; }
 
     }

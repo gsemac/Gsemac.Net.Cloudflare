@@ -1,10 +1,8 @@
-﻿using Gsemac.Collections;
-using Gsemac.IO.Logging;
+﻿using Gsemac.IO.Logging;
 using Gsemac.IO.Logging.Extensions;
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 
 namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
@@ -13,6 +11,9 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
         // Public members
 
+        public FlareSolverrService() :
+            this(FlareSolverrOptions.Default) {
+        }
         public FlareSolverrService(IFlareSolverrOptions options, ILogger logger = null) {
 
             this.options = options;
@@ -40,6 +41,9 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
                     }
                     else {
+
+                        if (options.AutoUpdateEnabled)
+                            UpdateFlareSolverr();
 
                         OnLog.Info("Starting FlareSolverr service");
 
@@ -104,7 +108,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
                 OnLog.Error($"FlareSolverr was not found at '{flareSolverrExecutablePath.Value}'");
 
-                throw new FileNotFoundException(flareSolverrExecutablePath.Value);
+                throw new FileNotFoundException(string.Format(Properties.ExceptionMessages.FileNotFound, flareSolverrExecutablePath.Value));
 
             }
 
@@ -142,6 +146,31 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
                 flareSolverrProcess.Dispose();
 
                 flareSolverrProcess = null;
+
+            }
+
+        }
+        private void UpdateFlareSolverr() {
+
+            try {
+
+                IFlareSolverrUpdater updater = new FlareSolverrUpdater(new FlareSolverrUpdaterOptions() {
+                    FlareSolverrDirectoryPath = options.FlareSolverrDirectoryPath,
+                });
+
+                updater.DownloadFileProgressChanged += OnDownloadFileProgressChanged;
+                updater.DownloadFileCompleted += OnDownloadFileCompleted;
+                updater.Log += OnLog.Log;
+
+                updater.Update();
+
+            }
+            catch (Exception ex) {
+
+                OnLog.Error(ex.ToString());
+
+                if (!options.IgnoreUpdateErrors)
+                    throw ex;
 
             }
 
