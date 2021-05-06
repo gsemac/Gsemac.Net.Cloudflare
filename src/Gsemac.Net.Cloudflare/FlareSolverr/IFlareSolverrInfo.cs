@@ -2,7 +2,7 @@
 
 namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
-    internal interface IFlareSolverrInfo {
+    public interface IFlareSolverrInfo {
 
         Version Version { get; }
         string ExecutablePath { get; }
