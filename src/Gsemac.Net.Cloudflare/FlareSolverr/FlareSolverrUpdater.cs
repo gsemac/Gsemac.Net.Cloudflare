@@ -11,6 +11,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 
 namespace Gsemac.Net.Cloudflare.FlareSolverr {
@@ -177,39 +178,48 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
             IRelease latestRelease = gitHubClient.GetLatestRelease("https://github.com/FlareSolverr/FlareSolverr");
             IReleaseAsset asset = latestRelease.Assets.Where(a => a.Name.Contains(GetPlatformOS())).FirstOrDefault();
 
-            OnLog.Info($"Downloading {asset.DownloadUrl}");
+            if (asset is null) {
 
-            using (WebClient client = webRequestFactory.ToWebClientFactory().Create()) {
+                OnLog.Warning($"Could not find appropriate release for this platform ({GetPlatformOS()}).");
 
-                string currentDirectory = options.FlareSolverrDirectoryPath;
+            }
+            else {
 
-                if (string.IsNullOrWhiteSpace(currentDirectory))
-                    currentDirectory = Directory.GetCurrentDirectory();
+                OnLog.Info($"Downloading {asset.DownloadUrl}");
 
-                string downloadFilePath = Path.Combine(currentDirectory, asset.Name);
+                using (WebClient client = webRequestFactory.ToWebClientFactory().Create()) {
 
-                client.DownloadProgressChanged += (sender, e) => OnDownloadFileProgressChanged(this, new DownloadFileProgressChangedEventArgs(new Uri(asset.DownloadUrl), downloadFilePath, e));
-                client.DownloadFileCompleted += (sender, e) => OnDownloadFileCompleted(this, new DownloadFileCompletedEventArgs(new Uri(asset.DownloadUrl), downloadFilePath, e.Error is null));
+                    string currentDirectory = options.FlareSolverrDirectoryPath;
 
-                client.DownloadFileSync(new Uri(asset.DownloadUrl), downloadFilePath);
+                    if (string.IsNullOrWhiteSpace(currentDirectory))
+                        currentDirectory = Directory.GetCurrentDirectory();
 
-                OnLog.Info($"Extracting {PathUtilities.GetFilename(downloadFilePath)}");
+                    string downloadFilePath = Path.Combine(currentDirectory, asset.Name);
 
-                try {
+                    client.DownloadProgressChanged += (sender, e) => OnDownloadFileProgressChanged(this, new DownloadFileProgressChangedEventArgs(new Uri(asset.DownloadUrl), downloadFilePath, e));
+                    client.DownloadFileCompleted += (sender, e) => OnDownloadFileCompleted(this, new DownloadFileCompletedEventArgs(new Uri(asset.DownloadUrl), downloadFilePath, e.Error is null));
 
-                    Archive.Extract(downloadFilePath, extractToNewFolder: true);
+                    client.DownloadFileSync(new Uri(asset.DownloadUrl), downloadFilePath);
 
-                }
-                catch (Exception ex) {
+                    OnLog.Info($"Extracting {PathUtilities.GetFilename(downloadFilePath)}");
 
-                    OnLog.Info(ex.ToString());
+                    try {
 
-                    throw ex;
+                        Archive.Extract(downloadFilePath, extractToNewFolder: true);
 
-                }
-                finally {
+                    }
+                    catch (Exception ex) {
 
-                    File.Delete(downloadFilePath);
+                        OnLog.Info(ex.ToString());
+
+                        throw ex;
+
+                    }
+                    finally {
+
+                        File.Delete(downloadFilePath);
+
+                    }
 
                 }
 
@@ -219,7 +229,15 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
         private string GetPlatformOS() {
 
-            return "windows-x64";
+#if !NETFRAMEWORK
+            string operatingSystemStr = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "windows" : "linux";
+#else
+            string operatingSystemStr = "windows";
+#endif
+
+            string architectureStr = Environment.Is64BitOperatingSystem ? "x64" : "x86";
+
+            return $"{operatingSystemStr}-{architectureStr}";
 
         }
 
