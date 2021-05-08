@@ -3,6 +3,7 @@ using Gsemac.IO.Logging.Extensions;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Threading;
 
 namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
@@ -130,8 +131,13 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
             }
 
-            if (success)
+            if (success) {
+
+                WaitForFlareSolverr();
+
                 OnLog.Info($"FlareSolverr is now listening on port {FlareSolverrUtilities.DefaultPort}");
+
+            }
 
             return success;
 
@@ -173,6 +179,18 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
                     throw ex;
 
             }
+
+        }
+        private void WaitForFlareSolverr() {
+
+            // Wait for FlareSolverr to start listening on its designated port.
+
+            DateTimeOffset startTime = DateTimeOffset.Now;
+            TimeSpan timeout = TimeSpan.FromSeconds(60);
+
+            while (SocketUtilities.IsPortAvailable(FlareSolverrUtilities.DefaultPort) && (DateTimeOffset.Now - startTime) < timeout)
+                Thread.Sleep(TimeSpan.FromMilliseconds(250));
+
 
         }
 
