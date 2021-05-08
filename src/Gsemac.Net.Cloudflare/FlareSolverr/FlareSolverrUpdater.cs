@@ -50,7 +50,8 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
             IFlareSolverrInfo flareSolverrInfo = GetFlareSolverrInfo();
             System.Version latestVersion = GetLatestFlareSolverrVersion();
 
-            bool updateRequired = !flareSolverrInfo.Version?.Equals(latestVersion) ?? true;
+            bool updateRequired = (!flareSolverrInfo.Version?.Equals(latestVersion) ?? true) ||
+                !File.Exists(flareSolverrInfo.ExecutablePath);
 
             if (updateRequired) {
 
