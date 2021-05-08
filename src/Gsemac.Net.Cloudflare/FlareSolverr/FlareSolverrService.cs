@@ -119,25 +119,17 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
             bool success = flareSolverrProcess.Start();
 
-            flareSolverrProcess.BeginOutputReadLine();
-            flareSolverrProcess.BeginErrorReadLine();
-
-            // Give the process some time to fail so we can detect if FlareSolverr failed to start.
-
             if (success) {
 
-                if (flareSolverrProcess.WaitForExit((int)TimeSpan.FromSeconds(1).TotalMilliseconds))
-                    success = success && flareSolverrProcess.ExitCode == 0;
+                flareSolverrProcess.BeginOutputReadLine();
+                flareSolverrProcess.BeginErrorReadLine();
+
+                success = success && WaitForFlareSolverr();
 
             }
 
-            if (success) {
-
-                WaitForFlareSolverr();
-
+            if (success)
                 OnLog.Info($"FlareSolverr is now listening on port {FlareSolverrUtilities.DefaultPort}");
-
-            }
 
             return success;
 
@@ -181,16 +173,27 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
             }
 
         }
-        private void WaitForFlareSolverr() {
+        private bool WaitForFlareSolverr() {
+
+            // Give the process some time to fail so we can detect if FlareSolverr failed to start.
+
+            if (flareSolverrProcess.WaitForExit((int)TimeSpan.FromSeconds(1).TotalMilliseconds))
+                if (flareSolverrProcess.ExitCode != 0)
+                    return false;
 
             // Wait for FlareSolverr to start listening on its designated port.
 
             DateTimeOffset startTime = DateTimeOffset.Now;
             TimeSpan timeout = TimeSpan.FromSeconds(60);
 
-            while (SocketUtilities.IsPortAvailable(FlareSolverrUtilities.DefaultPort) && (DateTimeOffset.Now - startTime) < timeout)
-                Thread.Sleep(TimeSpan.FromMilliseconds(250));
+            do {
 
+                Thread.Sleep(TimeSpan.FromSeconds(1));
+
+            }
+            while (SocketUtilities.IsPortAvailable(FlareSolverrUtilities.DefaultPort) && (DateTimeOffset.Now - startTime) < timeout);
+
+            return !SocketUtilities.IsPortAvailable(FlareSolverrUtilities.DefaultPort);
 
         }
 
