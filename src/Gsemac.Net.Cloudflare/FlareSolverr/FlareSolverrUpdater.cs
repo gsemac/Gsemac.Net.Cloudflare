@@ -195,7 +195,23 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
                 OnLog.Info($"Extracting {PathUtilities.GetFilename(downloadFilePath)}");
 
-                Archive.Extract(downloadFilePath, extractToNewFolder: true);
+                try {
+
+                    Archive.Extract(downloadFilePath, extractToNewFolder: true);
+
+                }
+                catch (Exception ex) {
+
+                    OnLog.Info(ex.ToString());
+
+                    throw ex;
+
+                }
+                finally {
+
+                    File.Delete(downloadFilePath);
+
+                }
 
             }
 
