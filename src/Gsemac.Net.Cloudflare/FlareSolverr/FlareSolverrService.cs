@@ -1,5 +1,4 @@
-﻿using Gsemac.IO.Logging;
-using Gsemac.Net.Extensions;
+﻿using Gsemac.Net.Extensions;
 using Newtonsoft.Json;
 using System;
 using System.Diagnostics;
@@ -121,14 +120,8 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
             if (disposing) {
 
-                lock (mutex) {
-
-                    if (!string.IsNullOrWhiteSpace(sessionId))
-                        DestroySession();
-
+                lock (mutex)
                     StopFlareSolverr();
-
-                }
 
             }
 
@@ -177,7 +170,10 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
         }
         private void StopFlareSolverr() {
 
-            if (processStarted && flareSolverrProcess != null && !flareSolverrProcess.HasExited) {
+            if (!string.IsNullOrWhiteSpace(sessionId))
+                DestroySession();
+
+            if (processStarted && flareSolverrProcess is object && !flareSolverrProcess.HasExited) {
 
                 OnLog.Info("Stopping FlareSolverr process");
 
