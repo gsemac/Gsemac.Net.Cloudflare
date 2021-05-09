@@ -32,7 +32,7 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
         }
 
-        public override IIuamChallengeResponse GetChallengeResponse(Uri uri) {
+        public override IIuamChallengeResponse GetResponse(Uri uri) {
 
             // Attempt to solve the challenge silently (without directly opening the user's web browser) if possible.
 

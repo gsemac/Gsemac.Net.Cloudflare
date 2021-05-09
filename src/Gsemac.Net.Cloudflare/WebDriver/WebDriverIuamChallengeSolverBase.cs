@@ -11,7 +11,7 @@ namespace Gsemac.Net.Cloudflare.WebDriver {
 
         // Public members
 
-        public override IIuamChallengeResponse GetChallengeResponse(Uri uri) {
+        public override IIuamChallengeResponse GetResponse(Uri uri) {
 
             string url = uri.AbsoluteUri;
             IWebDriver driver = null;

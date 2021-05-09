@@ -8,7 +8,7 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
         string Name { get; }
 
-        IIuamChallengeResponse GetChallengeResponse(Uri uri);
+        IIuamChallengeResponse GetResponse(Uri uri);
 
     }
 

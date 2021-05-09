@@ -29,7 +29,7 @@ namespace Gsemac.Net.Cloudflare.Cloudscraper {
 
         }
 
-        public override IIuamChallengeResponse GetChallengeResponse(Uri uri) {
+        public override IIuamChallengeResponse GetResponse(Uri uri) {
 
             string url = uri.AbsoluteUri;
 

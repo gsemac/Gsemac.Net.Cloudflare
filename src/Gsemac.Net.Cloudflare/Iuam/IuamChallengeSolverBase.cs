@@ -12,7 +12,7 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
         public string Name { get; }
 
-        public abstract IIuamChallengeResponse GetChallengeResponse(Uri uri);
+        public abstract IIuamChallengeResponse GetResponse(Uri uri);
 
         // Protected members
 

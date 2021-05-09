@@ -6,7 +6,7 @@ using System.Net;
 
 namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
-    internal class FlareSolverrSolution {
+    public class FlareSolverrSolution {
 
         [JsonProperty("url")]
         public Uri Url { get; set; }

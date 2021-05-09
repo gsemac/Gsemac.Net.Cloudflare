@@ -1,8 +1,11 @@
 ﻿using Gsemac.IO.Logging;
-using Gsemac.IO.Logging.Extensions;
+using Gsemac.Net.Extensions;
+using Newtonsoft.Json;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Net;
+using System.Text;
 using System.Threading;
 
 namespace Gsemac.Net.Cloudflare.FlareSolverr {
@@ -15,20 +18,23 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
         public FlareSolverrService() :
             this(FlareSolverrOptions.Default) {
         }
-        public FlareSolverrService(IFlareSolverrOptions options, ILogger logger = null) {
+        public FlareSolverrService(IFlareSolverrOptions options) :
+            this(HttpWebRequestFactory.Default, options) {
+        }
+        public FlareSolverrService(IHttpWebRequestFactory webRequestFactory, IFlareSolverrOptions options) {
 
+            this.webRequestFactory = webRequestFactory;
             this.options = options;
 
             flareSolverrExecutablePath = new Lazy<string>(GetFlareSolverrExecutablePath);
-
-            if (logger is object)
-                Log += logger.CreateEventHandler();
 
         }
 
         public override bool Start() {
 
             lock (mutex) {
+
+                bool success = false;
 
                 if (!processStarted) {
 
@@ -38,7 +44,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
                         OnLog.Warning($"Port {FlareSolverrUtilities.DefaultPort} is already in use; assuming FlareSolverr is already running");
 
-                        return true;
+                        success = true;
 
                     }
                     else {
@@ -53,13 +59,18 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
                         if (!processStarted)
                             OnLog.Error("Failed to start FlareSolverr process");
 
+                        success = processStarted;
+
                     }
+
+                    if (options.UseSession)
+                        CreateSession();
 
                 }
 
-            }
+                return success;
 
-            return processStarted;
+            }
 
         }
         public override bool Stop() {
@@ -82,14 +93,42 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
         }
 
+        public override IFlareSolverrResponse ExecuteCommand(IFlareSolverrCommand command) {
+
+            if (command is null)
+                throw new ArgumentNullException(nameof(command));
+
+            if (string.IsNullOrEmpty(command.Session) && !string.IsNullOrWhiteSpace(sessionId) && command is FlareSolverrCommand mutableCommand)
+                mutableCommand.Session = sessionId;
+
+            using (WebClient webClient = CreateWebClient()) {
+
+                Uri flareSolverrUri = new Uri($"http://localhost:{FlareSolverrUtilities.DefaultPort}/v1");
+
+                OnLog.Info($"Waiting for response from {flareSolverrUri.AbsoluteUri}");
+
+                string responseJson = webClient.UploadString(flareSolverrUri, command.ToString());
+
+                return JsonConvert.DeserializeObject<FlareSolverrResponse>(responseJson);
+
+            }
+
+        }
+
         // Protected members
 
         protected override void Dispose(bool disposing) {
 
             if (disposing) {
 
-                lock (mutex)
+                lock (mutex) {
+
+                    if (!string.IsNullOrWhiteSpace(sessionId))
+                        DestroySession();
+
                     StopFlareSolverr();
+
+                }
 
             }
 
@@ -97,10 +136,12 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
         // Private members
 
+        private readonly IHttpWebRequestFactory webRequestFactory;
         private readonly IFlareSolverrOptions options;
         private readonly object mutex = new object();
         private readonly Lazy<string> flareSolverrExecutablePath;
         private bool processStarted = false;
+        private string sessionId;
         private Process flareSolverrProcess;
 
         private bool StartFlareSolverr() {
@@ -152,7 +193,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
             try {
 
-                IFlareSolverrUpdater updater = new FlareSolverrUpdater(new FlareSolverrUpdaterOptions() {
+                IFlareSolverrUpdater updater = new FlareSolverrUpdater(webRequestFactory, new FlareSolverrUpdaterOptions() {
                     FlareSolverrDirectoryPath = options.FlareSolverrDirectoryPath,
                 });
 
@@ -197,6 +238,44 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
         }
 
+        private WebClient CreateWebClient() {
+
+            WebClient webClient = webRequestFactory.ToWebClientFactory().Create();
+
+            // WebClient will use Encoding.Default, which varies by .NET implementation.
+            // For example, older implementations use ANSI, while newer implementations use UTF8. Using ANSI will give us garbled characters.
+            // Furthermore, RFC4627 states that JSON text will always be encoded in UTF8.
+
+            webClient.Encoding = Encoding.UTF8;
+
+            webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
+
+            return webClient;
+
+        }
+        private void CreateSession() {
+
+            OnLog.Info($"Starting new session");
+
+            IFlareSolverrResponse response = ExecuteCommand(new FlareSolverrCommand("sessions.create") {
+                UserAgent = options.UserAgent,
+            });
+
+            OnLog.Info($"Started session with ID {response.Session}");
+
+            sessionId = response.Session;
+
+        }
+        private void DestroySession() {
+
+            OnLog.Info($"Destroying session {sessionId}");
+
+            ExecuteCommand(new FlareSolverrCommand("sessions.destroy") {
+                Session = sessionId,
+            });
+
+        }
+
         private string GetFlareSolverrExecutablePath() {
 
             return FlareSolverrUtilities.FindFlareSolverrExecutablePath(options.FlareSolverrDirectoryPath);
@@ -218,8 +297,8 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
                 StartInfo = processStartInfo
             };
 
-            process.OutputDataReceived += (sender, e) => OnLog.Info(e.Data);
-            process.ErrorDataReceived += (sender, e) => OnLog.Error(e.Data);
+            process.OutputDataReceived += (sender, e) => OnFlareSolverrLog.Info(e.Data);
+            process.ErrorDataReceived += (sender, e) => OnFlareSolverrLog.Error(e.Data);
 
             return process;
 

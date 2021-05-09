@@ -19,7 +19,7 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
         }
 
-        public override IIuamChallengeResponse GetChallengeResponse(Uri uri) {
+        public override IIuamChallengeResponse GetResponse(Uri uri) {
 
             IIuamChallengeResponse result = null;
 

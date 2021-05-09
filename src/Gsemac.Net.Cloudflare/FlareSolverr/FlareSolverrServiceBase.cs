@@ -8,11 +8,14 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
         // Public members
 
         public event LogEventHandler Log;
+        public event LogEventHandler FlareSolverrLog;
         public event DownloadFileProgressChangedEventHandler DownloadFileProgressChanged;
         public event DownloadFileCompletedEventHandler DownloadFileCompleted;
 
         public abstract bool Start();
         public abstract bool Stop();
+
+        public abstract IFlareSolverrResponse ExecuteCommand(IFlareSolverrCommand command);
 
         public void Dispose() {
 
@@ -25,6 +28,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
         // Protected members
 
         protected LogEventHelper OnLog => new LogEventHelper("FlareSolverr Service", Log);
+        protected LogEventHelper OnFlareSolverrLog => new LogEventHelper("FlareSolverr", FlareSolverrLog);
 
         protected void OnDownloadFileProgressChanged(object sender, DownloadFileProgressChangedEventArgs e) {
 
