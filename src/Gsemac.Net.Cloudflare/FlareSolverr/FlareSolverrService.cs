@@ -102,9 +102,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
             using (IWebClient webClient = CreateWebClient()) {
 
-                Uri flareSolverrUri = new Uri($"http://localhost:{FlareSolverrUtilities.DefaultPort}/v1");
-
-                OnLog.Info($"Waiting for response from {flareSolverrUri.AbsoluteUri}");
+                Uri flareSolverrUri = GetFlareSolverrUri();
 
                 string responseJson = webClient.UploadString(flareSolverrUri, command.ToString());
 
@@ -143,7 +141,9 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
                 OnLog.Error($"FlareSolverr was not found at '{flareSolverrExecutablePath.Value}'");
 
-                throw new FileNotFoundException(string.Format(Properties.ExceptionMessages.FileNotFound, flareSolverrExecutablePath.Value));
+                throw new FileNotFoundException(string.IsNullOrWhiteSpace(flareSolverrExecutablePath.Value) ?
+                    Properties.ExceptionMessages.FlareSolverrExecutableNotFound :
+                    string.Format(Properties.ExceptionMessages.FileNotFoundWithFilePath, flareSolverrExecutablePath.Value));
 
             }
 
@@ -251,15 +251,20 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
         }
         private void CreateSession() {
 
-            OnLog.Info($"Starting new session");
+            if (string.IsNullOrWhiteSpace(sessionId)) {
 
-            IFlareSolverrResponse response = ExecuteCommand(new FlareSolverrCommand("sessions.create") {
-                UserAgent = options.UserAgent,
-            });
 
-            OnLog.Info($"Started session with ID {response.Session}");
+                OnLog.Info($"Starting new session");
 
-            sessionId = response.Session;
+                IFlareSolverrResponse response = ExecuteCommand(new FlareSolverrCommand("sessions.create") {
+                    UserAgent = options.UserAgent,
+                });
+
+                OnLog.Info($"Started session with ID {response.Session}");
+
+                sessionId = response.Session;
+
+            }
 
         }
         private void DestroySession() {
@@ -275,6 +280,11 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
         private string GetFlareSolverrExecutablePath() {
 
             return FlareSolverrUtilities.FindFlareSolverrExecutablePath(options.FlareSolverrDirectoryPath);
+
+        }
+        private Uri GetFlareSolverrUri() {
+
+            return new Uri($"http://localhost:{FlareSolverrUtilities.DefaultPort}/v1");
 
         }
 

@@ -10,6 +10,9 @@ namespace Gsemac.Net.Cloudflare.Cloudscraper {
 
         public event LogEventHandler Log;
 
+        public CloudscraperIuamChallengeSolverFactory(ICloudscraperOptions cloudscraperOptions) :
+            this(cloudscraperOptions, IuamChallengeSolverOptions.Default) {
+        }
         public CloudscraperIuamChallengeSolverFactory(ICloudscraperOptions cloudscraperOptions, IIuamChallengeSolverOptions solverOptions) {
 
             this.cloudscraperOptions = cloudscraperOptions;

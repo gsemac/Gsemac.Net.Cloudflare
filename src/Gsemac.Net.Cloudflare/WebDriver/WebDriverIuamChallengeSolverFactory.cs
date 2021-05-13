@@ -11,6 +11,9 @@ namespace Gsemac.Net.Cloudflare.WebDriver {
 
         public event LogEventHandler Log;
 
+        public WebDriverIuamChallengeSolverFactory(IWebDriverFactory webDriverFactory) :
+            this(webDriverFactory, IuamChallengeSolverOptions.Default) {
+        }
         public WebDriverIuamChallengeSolverFactory(IWebDriverFactory webDriverFactory, IIuamChallengeSolverOptions solverOptions) {
 
             this.webDriverFactory = webDriverFactory;

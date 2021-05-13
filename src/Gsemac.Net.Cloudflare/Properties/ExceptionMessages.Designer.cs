@@ -61,11 +61,29 @@ namespace Gsemac.Net.Cloudflare.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to solve Cloudflare IUAM challenge for {0}..
+        /// </summary>
+        internal static string FailedToSolveCloudflareIUAMChallengeWithUri {
+            get {
+                return ResourceManager.GetString("FailedToSolveCloudflareIUAMChallengeWithUri", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Could not find file &apos;{0}&apos;..
         /// </summary>
-        internal static string FileNotFound {
+        internal static string FileNotFoundWithFilePath {
             get {
-                return ResourceManager.GetString("FileNotFound", resourceCulture);
+                return ResourceManager.GetString("FileNotFoundWithFilePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not find FlareSolverr executable..
+        /// </summary>
+        internal static string FlareSolverrExecutableNotFound {
+            get {
+                return ResourceManager.GetString("FlareSolverrExecutableNotFound", resourceCulture);
             }
         }
     }

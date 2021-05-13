@@ -1,6 +1,7 @@
 ﻿using Gsemac.Net.Cloudflare.Iuam;
-using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Net;
 
 namespace Gsemac.Net.Cloudflare.FlareSolverr {
@@ -33,6 +34,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
             FlareSolverrCommand getCommand = new FlareSolverrCommand("request.get") {
                 Url = uri,
+                Download = true,
                 UserAgent = options.UserAgent,
                 MaxTimeout = options.Timeout,
             };
@@ -63,11 +65,12 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
                 // We successfully received a solution.
                 // All we want are the clearance cookies and the user agent.
 
-                return new IuamChallengeResponse(uri) {
+                return new IuamChallengeResponse(uri, () => StreamFromBase64(response.Solution.Response)) {
                     UserAgent = response.Solution.UserAgent,
                     Cookies = response.Solution.Cookies,
                     ResponseUri = response.Solution.Url,
-                    ResponseBody = response.Solution.Response,
+                    Headers = DictionaryToWebHeaderCollection(response.Solution.Headers),
+                    StatusCode = (HttpStatusCode)response.Solution.Status,
                 };
 
             }
@@ -80,6 +83,40 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
         private readonly IFlareSolverrService flareSolverrService;
         private readonly IIuamChallengeSolverOptions options;
+
+        private static Stream StreamFromBase64(string base64String) {
+
+            return new MemoryStream(Convert.FromBase64String(base64String));
+
+        }
+        private static WebHeaderCollection DictionaryToWebHeaderCollection(IDictionary<string, string> headers) {
+
+            WebHeaderCollection webHeaderCollection = new WebHeaderCollection();
+
+            foreach (var header in headers) {
+
+                switch (header.Key.ToLowerInvariant()) {
+
+                    case "set-cookie":
+
+                        // FlareSolverr combines multiple set-cookie headers into one newline-delimited header.
+
+                        foreach (string setCookieValue in header.Value.Split('\n'))
+                            webHeaderCollection.Add(HttpResponseHeader.SetCookie, setCookieValue);
+
+                        break;
+
+                    default:
+                        webHeaderCollection.Add(header.Key, header.Value);
+                        break;
+
+                }
+
+            }
+
+            return webHeaderCollection;
+
+        }
 
     }
 

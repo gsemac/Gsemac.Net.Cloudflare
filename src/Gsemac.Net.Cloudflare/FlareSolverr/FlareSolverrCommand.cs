@@ -9,6 +9,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
         IFlareSolverrCommand {
 
         public string Cmd { get; set; }
+        public bool Download { get; set; } = false;
         public Uri Url { get; set; }
         public string UserAgent { get; set; }
         public TimeSpan MaxTimeout { get; set; } = TimeSpan.FromSeconds(60);

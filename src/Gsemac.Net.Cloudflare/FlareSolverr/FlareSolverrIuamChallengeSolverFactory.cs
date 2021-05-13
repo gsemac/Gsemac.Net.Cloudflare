@@ -11,6 +11,9 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
         public event LogEventHandler Log;
 
+        public FlareSolverrIuamChallengeSolverFactory(IFlareSolverrService flareSolverrService) :
+            this(flareSolverrService, IuamChallengeSolverOptions.Default) {
+        }
         public FlareSolverrIuamChallengeSolverFactory(IFlareSolverrService flareSolverrService, IIuamChallengeSolverOptions solverOptions) {
 
             this.flareSolverrService = flareSolverrService;
@@ -19,19 +22,6 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
         }
 
         public IIuamChallengeSolver Create() {
-
-            try {
-
-                flareSolverrService.Start();
-
-            }
-            catch (Exception ex) {
-
-                OnLog.Log(ex.ToString());
-
-                throw ex;
-
-            }
 
             IIuamChallengeSolver solver = new FlareSolverrIuamChallengeSolver(flareSolverrService, solverOptions);
 

@@ -57,7 +57,7 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
                     if (cfCookies.Count > 0) {
 
-                        return new IuamChallengeResponse(uri) {
+                        return new IuamChallengeResponse(uri, string.Empty) {
                             UserAgent = userAgent,
                             Cookies = cfCookies,
                         };
@@ -129,7 +129,7 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
                             if (CloudflareUtilities.GetProtectionType(reader.ReadToEnd()) == ProtectionType.None) {
 
-                                return new IuamChallengeResponse(uri) {
+                                return new IuamChallengeResponse(uri, string.Empty) {
                                     UserAgent = request.UserAgent,
                                     Cookies = clearanceCookies,
                                 };

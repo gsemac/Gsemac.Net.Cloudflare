@@ -10,6 +10,8 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
         [JsonProperty("cmd")]
         string Cmd { get; }
+        [JsonProperty("download")]
+        bool Download { get; }
         [JsonProperty("url")]
         Uri Url { get; }
         [JsonProperty("session")]

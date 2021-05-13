@@ -8,7 +8,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
         IFlareSolverrResponse {
 
         public FlareSolverrSolution Solution { get; set; } = new FlareSolverrSolution();
-        public string Session { get; set; } 
+        public string Session { get; set; }
         public IEnumerable<string> Sessions { get; set; } = Enumerable.Empty<string>();
         public string Status { get; set; }
         public string Message { get; set; }
