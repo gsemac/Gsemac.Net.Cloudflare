@@ -100,7 +100,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
             if (string.IsNullOrEmpty(command.Session) && !string.IsNullOrWhiteSpace(sessionId) && command is FlareSolverrCommand mutableCommand)
                 mutableCommand.Session = sessionId;
 
-            using (WebClient webClient = CreateWebClient()) {
+            using (IWebClient webClient = CreateWebClient()) {
 
                 Uri flareSolverrUri = new Uri($"http://localhost:{FlareSolverrUtilities.DefaultPort}/v1");
 
@@ -234,9 +234,9 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
         }
 
-        private WebClient CreateWebClient() {
+        private IWebClient CreateWebClient() {
 
-            WebClient webClient = webRequestFactory.ToWebClientFactory().Create();
+            IWebClient webClient = webRequestFactory.ToWebClientFactory().Create();
 
             // WebClient will use Encoding.Default, which varies by .NET implementation.
             // For example, older implementations use ANSI, while newer implementations use UTF8. Using ANSI will give us garbled characters.

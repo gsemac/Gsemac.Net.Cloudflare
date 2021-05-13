@@ -187,7 +187,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
                 OnLog.Info($"Downloading {asset.DownloadUrl}");
 
-                using (WebClient client = webRequestFactory.ToWebClientFactory().Create()) {
+                using (IWebClient client = webRequestFactory.ToWebClientFactory().Create()) {
 
                     string currentDirectory = options.FlareSolverrDirectoryPath;
 
