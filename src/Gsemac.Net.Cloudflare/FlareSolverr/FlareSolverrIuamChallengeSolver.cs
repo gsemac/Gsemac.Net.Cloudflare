@@ -71,6 +71,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
                     ResponseUri = response.Solution.Url,
                     Headers = DictionaryToWebHeaderCollection(response.Solution.Headers),
                     StatusCode = (HttpStatusCode)response.Solution.Status,
+                    Success = (HttpStatusCode)response.Solution.Status == HttpStatusCode.OK, // Success is set manually because we won't always have cookies even if the request succeeded
                 };
 
             }

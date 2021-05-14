@@ -18,7 +18,10 @@ namespace Gsemac.Net.Cloudflare.Iuam {
         public WebHeaderCollection Headers { get; set; } = new WebHeaderCollection();
         public HttpStatusCode StatusCode { get; set; } = HttpStatusCode.OK;
 
-        public bool Success => StatusCode == HttpStatusCode.OK && !string.IsNullOrEmpty(UserAgent) && Cookies.Count > 0;
+        public bool Success {
+            get => success ?? GetDefaultSuccess();
+            set => success = value;
+        }
         public bool HasResponseStream => streamFactory is object;
 
         public static IuamChallengeResponse Failed => new IuamChallengeResponse();
@@ -62,8 +65,15 @@ namespace Gsemac.Net.Cloudflare.Iuam {
         // Private members
 
         private readonly Func<Stream> streamFactory;
+        private bool? success;
 
         private IuamChallengeResponse() { }
+
+        private bool GetDefaultSuccess() {
+
+            return StatusCode == HttpStatusCode.OK && !string.IsNullOrEmpty(UserAgent) && Cookies.Count > 0;
+
+        }
 
     }
 
