@@ -303,7 +303,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
                 StartInfo = processStartInfo
             };
 
-            process.OutputDataReceived += (sender, e) => OnFlareSolverrLog.Info(e.Data);
+            process.OutputDataReceived += (sender, e) => OnFlareSolverrLog.Debug(e.Data);
             process.ErrorDataReceived += (sender, e) => OnFlareSolverrLog.Error(e.Data);
 
             return process;
