@@ -82,7 +82,8 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
                     // Make sure to close the response before returning, because it will not be accessible to the caller.
 
-                    ex.Response.Close();
+                    if (ex.Response is object)
+                        ex.Response.Close();
 
                 }
 
