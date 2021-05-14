@@ -17,7 +17,9 @@ namespace Gsemac.Net.Cloudflare.Iuam {
         public Uri ResponseUri { get; set; }
         public WebHeaderCollection Headers { get; set; } = new WebHeaderCollection();
         public HttpStatusCode StatusCode { get; set; } = HttpStatusCode.OK;
+
         public bool Success => StatusCode == HttpStatusCode.OK && !string.IsNullOrEmpty(UserAgent) && Cookies.Count > 0;
+        public bool HasResponseStream => streamFactory is object;
 
         public static IuamChallengeResponse Failed => new IuamChallengeResponse();
 

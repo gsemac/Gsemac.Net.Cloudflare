@@ -13,6 +13,7 @@ namespace Gsemac.Net.Cloudflare.Iuam {
         string UserAgent { get; }
 
         bool Success { get; }
+        bool HasResponseStream { get; }
 
         Stream GetResponseStream();
 

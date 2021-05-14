@@ -51,9 +51,9 @@ namespace Gsemac.Net.Cloudflare.Iuam {
                     // Not all solvers return a body (some of them just return clearance cookies).
                     // If we didn't get a body, retry the request with the new cookies.
 
-                    if (response.ContentLength <= 0 && request is IHttpWebRequest httpWebRequest && response is IuamChallengeSolverHttpWebResponse httpWebResponse) {
+                    if (response is IuamChallengeSolverHttpWebResponse httpWebResponse && !httpWebResponse.ChallengeResponse.HasResponseStream) {
 
-                        IHttpWebRequest newHttpWebRequest = httpWebRequestFactory.Create(httpWebRequest.RequestUri);
+                        IHttpWebRequest newHttpWebRequest = httpWebRequestFactory.Create(request.RequestUri);
 
                         newHttpWebRequest.UserAgent = httpWebResponse.ChallengeResponse.UserAgent;
 
