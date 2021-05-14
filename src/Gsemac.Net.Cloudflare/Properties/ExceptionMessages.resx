@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="FailedToConnectToFlareSolverrWithPort" xml:space="preserve">
+    <value>Failed to connect to FlareSolverr. Make sure that FlareSolverr is running on port {0}.</value>
+  </data>
+  <data name="FailedToExecuteFlareSolverrCommand" xml:space="preserve">
+    <value>Failed to execute FlareSolverr command.</value>
+  </data>
   <data name="FailedToSolveCloudflareIUAMChallengeWithUri" xml:space="preserve">
     <value>Failed to solve Cloudflare IUAM challenge for {0}.</value>
   </data>

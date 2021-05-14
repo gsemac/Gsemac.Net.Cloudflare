@@ -49,9 +49,9 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
             catch (WebException ex) {
 
                 if (ex.Status == WebExceptionStatus.ConnectFailure)
-                    OnLog.Error($"Failed to connect to FlareSolverr. Make sure that FlareSolverr is running on port {FlareSolverrUtilities.DefaultPort}.");
+                    throw new FlareSolverrException(string.Format(Properties.ExceptionMessages.FailedToConnectToFlareSolverrWithPort, FlareSolverrUtilities.DefaultPort), ex);
 
-                throw ex;
+                throw new FlareSolverrException(Properties.ExceptionMessages.FailedToExecuteFlareSolverrCommand, ex);
 
             }
 
