@@ -33,7 +33,7 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
             byte[] responseBytes = Encoding.UTF8.GetBytes(responseBody);
 
-            if (!Headers.TryGetHeaderValue(HttpResponseHeader.ContentLength, out _))
+            if (!Headers.TryGetHeader(HttpResponseHeader.ContentLength, out _))
                 Headers[HttpResponseHeader.ContentLength] = responseBytes.Length.ToString(CultureInfo.InvariantCulture);
 
             this.ResponseUri = requestUri;

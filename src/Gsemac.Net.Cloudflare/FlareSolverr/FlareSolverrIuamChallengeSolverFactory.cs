@@ -33,7 +33,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
         // Protected members
 
-        protected LogEventHelper OnLog => new LogEventHelper("Cloudflare IUAM Challenge Solver Factory", Log);
+        protected LogEventHandlerWrapper OnLog => new LogEventHandlerWrapper(Log, "Cloudflare IUAM Challenge Solver Factory");
 
         // Private members
 

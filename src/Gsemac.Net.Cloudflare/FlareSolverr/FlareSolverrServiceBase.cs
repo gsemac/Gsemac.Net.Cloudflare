@@ -27,8 +27,8 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
         // Protected members
 
-        protected LogEventHelper OnLog => new LogEventHelper("FlareSolverr Service", Log);
-        protected LogEventHelper OnFlareSolverrLog => new LogEventHelper("FlareSolverr", FlareSolverrLog);
+        protected LogEventHandlerWrapper OnLog => new LogEventHandlerWrapper(Log, "FlareSolverr Service");
+        protected LogEventHandlerWrapper OnFlareSolverrLog => new LogEventHandlerWrapper(FlareSolverrLog, "FlareSolverr");
 
         protected void OnDownloadFileProgressChanged(object sender, DownloadFileProgressChangedEventArgs e) {
 

@@ -25,7 +25,7 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
         // Protected members
 
-        protected LogEventHelper OnLog => new LogEventHelper("Delegating Handler", Log);
+        protected LogEventHandlerWrapper OnLog => new LogEventHandlerWrapper(Log, "Delegating Handler");
 
         protected override WebResponse Send(WebRequest request, CancellationToken cancellationToken) {
 
