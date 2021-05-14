@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Gsemac.Net.Extensions;
+using System;
+using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Text;
@@ -24,8 +26,13 @@ namespace Gsemac.Net.Cloudflare.Iuam {
             if (requestUri is null)
                 throw new ArgumentNullException(nameof(requestUri));
 
+            byte[] responseBytes = Encoding.UTF8.GetBytes(responseBody);
+
+            if (!Headers.TryGetHeaderValue(HttpResponseHeader.ContentLength, out _))
+                Headers[HttpResponseHeader.ContentLength] = responseBytes.Length.ToString(CultureInfo.InvariantCulture);
+
             this.ResponseUri = requestUri;
-            this.streamFactory = () => new MemoryStream(Encoding.UTF8.GetBytes(responseBody));
+            this.streamFactory = () => new MemoryStream(responseBytes);
 
         }
         public IuamChallengeResponse(Uri requestUri, Func<Stream> streamFactory) {

@@ -13,12 +13,13 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
         public event LogEventHandler Log;
 
-        public IuamChallengeSolverDelegatingWebRequestHandler(IIuamChallengeSolverFactory challengeSolverFactory) {
+        public IuamChallengeSolverDelegatingWebRequestHandler(IIuamChallengeSolverFactory challengeSolverFactory, IHttpWebRequestFactory httpWebRequestFactory) {
 
             if (challengeSolverFactory is null)
                 throw new ArgumentNullException(nameof(challengeSolverFactory));
 
             this.challengeSolverFactory = challengeSolverFactory;
+            this.httpWebRequestFactory = httpWebRequestFactory;
 
         }
 
@@ -43,13 +44,45 @@ namespace Gsemac.Net.Cloudflare.Iuam {
                     OnLog.Warning($"Cloudflare detected on {request.RequestUri.AbsoluteUri}");
 
                     IIuamChallengeSolver challengeSolver = challengeSolverFactory.Create();
+                    IuamChallengeSolverHttpWebRequest challengeSolverWebRequest = new IuamChallengeSolverHttpWebRequest(request.RequestUri, challengeSolver);
 
-                    return base.Send(new IuamChallengeSolverHttpWebRequest(request.RequestUri, challengeSolver), cancellationToken);
+                    WebResponse response = base.Send(challengeSolverWebRequest, cancellationToken);
+
+                    // Not all solvers return a body (some of them just return clearance cookies).
+                    // If we didn't get a body, retry the request with the new cookies.
+
+                    if (response.ContentLength <= 0 && request is IHttpWebRequest httpWebRequest && response is IuamChallengeSolverHttpWebResponse httpWebResponse) {
+
+                        IHttpWebRequest newHttpWebRequest = httpWebRequestFactory.Create(httpWebRequest.RequestUri);
+
+                        newHttpWebRequest.UserAgent = httpWebResponse.ChallengeResponse.UserAgent;
+
+                        newHttpWebRequest.CookieContainer.Add(httpWebResponse.Cookies);
+
+                        // Close the previous response before we make a new one.
+
+                        response.Close();
+
+                        return base.Send((WebRequest)newHttpWebRequest, cancellationToken);
+
+                    }
+                    else {
+
+                        return response;
+
+                    }
 
                 }
                 catch (Exception solverEx) {
 
                     throw new AggregateException(solverEx, ex);
+
+                }
+                finally {
+
+                    // Make sure to close the response before returning, because it will not be accessible to the caller.
+
+                    ex.Response.Close();
 
                 }
 
@@ -60,6 +93,7 @@ namespace Gsemac.Net.Cloudflare.Iuam {
         // Private members
 
         private readonly IIuamChallengeSolverFactory challengeSolverFactory;
+        private readonly IHttpWebRequestFactory httpWebRequestFactory;
 
     }
 

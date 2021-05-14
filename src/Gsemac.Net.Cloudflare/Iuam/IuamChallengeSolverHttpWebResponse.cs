@@ -9,6 +9,8 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
         // Public members
 
+        public IIuamChallengeResponse ChallengeResponse { get; }
+
         public IuamChallengeSolverHttpWebResponse(Uri requestUri, IIuamChallengeResponse challengeResponse) :
             base(challengeResponse.ResponseUri, challengeResponse.GetResponseStream()) {
 
@@ -17,6 +19,8 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
             if (!challengeResponse.Success)
                 throw new WebException(string.Format(Properties.ExceptionMessages.FailedToSolveCloudflareIUAMChallengeWithUri, requestUri));
+
+            this.ChallengeResponse = challengeResponse;
 
             ReadChallengeResponse(challengeResponse);
 
