@@ -8,7 +8,7 @@
 	<ItemGroup>
 		<PackageReference Include="CommandLineParser" Version="2.8.0" />
 		<PackageReference Include="Gsemac.IO" Version="0.13.0" />
-		<PackageReference Include="Gsemac.Net" Version="0.15.2" />
+		<PackageReference Include="Gsemac.Net" Version="0.15.3" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 		<PackageReference Include="Portable.BouncyCastle" Version="1.8.10" />
 		<PackageReference Include="System.Data.SQLite" Version="1.0.113.7" />

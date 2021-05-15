@@ -13,6 +13,7 @@ using System.Linq;
 using System.Net;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
@@ -44,7 +45,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
         }
 
-        public IFlareSolverrInfo Update() {
+        public IFlareSolverrInfo Update(CancellationToken cancellationToken) {
 
             OnLog.Info("Checking for FlareSolverr updates");
 
@@ -58,7 +59,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
                 OnLog.Info($"Updating FlareSolverr to version {latestVersion}");
 
-                DownloadFlareSolverr();
+                DownloadFlareSolverr(cancellationToken);
 
                 flareSolverrInfo = new FlareSolverrInfo() {
                     ExecutablePath = FlareSolverrUtilities.FindFlareSolverrExecutablePath(options.FlareSolverrDirectoryPath),
@@ -170,7 +171,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
             return version;
 
         }
-        private void DownloadFlareSolverr() {
+        private void DownloadFlareSolverr(CancellationToken cancellationToken) {
 
             OnLog.Info("Getting FlareSolverr download url");
 
@@ -199,7 +200,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
                     client.DownloadProgressChanged += (sender, e) => OnDownloadFileProgressChanged(this, new DownloadFileProgressChangedEventArgs(new Uri(asset.DownloadUrl), downloadFilePath, e));
                     client.DownloadFileCompleted += (sender, e) => OnDownloadFileCompleted(this, new DownloadFileCompletedEventArgs(new Uri(asset.DownloadUrl), downloadFilePath, e.Error is null));
 
-                    client.DownloadFileSync(new Uri(asset.DownloadUrl), downloadFilePath);
+                    client.DownloadFileSync(new Uri(asset.DownloadUrl), downloadFilePath, cancellationToken);
 
                     OnLog.Info($"Extracting {PathUtilities.GetFilename(downloadFilePath)}");
 

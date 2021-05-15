@@ -1,4 +1,5 @@
 ﻿using Gsemac.IO.Logging;
+using System.Threading;
 
 namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
@@ -8,7 +9,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
         event DownloadFileProgressChangedEventHandler DownloadFileProgressChanged;
         event DownloadFileCompletedEventHandler DownloadFileCompleted;
 
-        IFlareSolverrInfo Update();
+        IFlareSolverrInfo Update(CancellationToken cancellationToken);
 
     }
 

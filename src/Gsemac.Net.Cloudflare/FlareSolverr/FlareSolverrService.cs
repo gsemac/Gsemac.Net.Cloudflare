@@ -74,6 +74,8 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
         }
         public override bool Stop() {
 
+            updaterCancellationTokenSource.Cancel();
+
             lock (mutex) {
 
                 if (processStarted) {
@@ -118,8 +120,12 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
             if (disposing) {
 
+                updaterCancellationTokenSource.Cancel();
+
                 lock (mutex)
                     StopFlareSolverr();
+
+                updaterCancellationTokenSource.Dispose();
 
             }
 
@@ -131,6 +137,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
         private readonly IFlareSolverrOptions options;
         private readonly object mutex = new object();
         private readonly Lazy<string> flareSolverrExecutablePath;
+        private readonly CancellationTokenSource updaterCancellationTokenSource = new CancellationTokenSource();
         private bool processStarted = false;
         private string sessionId;
         private Process flareSolverrProcess;
@@ -170,6 +177,8 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
         }
         private void StopFlareSolverr() {
 
+            updaterCancellationTokenSource.Cancel();
+
             if (!string.IsNullOrWhiteSpace(sessionId))
                 DestroySession();
 
@@ -197,7 +206,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
                 updater.DownloadFileCompleted += OnDownloadFileCompleted;
                 updater.Log += OnLog.Log;
 
-                updater.Update();
+                updater.Update(updaterCancellationTokenSource.Token);
 
             }
             catch (Exception ex) {
