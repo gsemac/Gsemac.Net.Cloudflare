@@ -22,7 +22,7 @@
     <PackageReference Include="Gsemac.Core" Version="0.13.0" />
     <PackageReference Include="Gsemac.IO" Version="0.13.0" />
     <PackageReference Include="Gsemac.IO.Compression" Version="0.4.0" />
-    <PackageReference Include="Gsemac.Net" Version="0.15.0" />
+    <PackageReference Include="Gsemac.Net" Version="0.15.2" />
     <PackageReference Include="Gsemac.Net.GitHub" Version="0.4.1" />
     <PackageReference Include="Gsemac.Net.WebBrowsers" Version="0.4.0" />
     <PackageReference Include="Gsemac.Net.WebDrivers" Version="0.12.2" />

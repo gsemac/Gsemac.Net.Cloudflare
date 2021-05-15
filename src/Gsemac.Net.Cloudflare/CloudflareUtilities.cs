@@ -7,16 +7,23 @@ namespace Gsemac.Net.Cloudflare {
 
     public static class CloudflareUtilities {
 
+        // Public members
+
         public static bool IsProtectionDetected(WebResponse webResponse) {
 
-            if (webResponse is HttpWebResponse httpWebResponse) {
+            if (webResponse is null)
+                throw new ArgumentNullException(nameof(webResponse));
+
+            HttpStatusCode? httpStatusCode = GetStatusCodeFromWebResponse(webResponse);
+
+            if (httpStatusCode.HasValue) {
 
                 // We usually get a 503, but sometimes Cloudflare will complain about cookies not being enabled and returned a 403 instead.
 
-                bool isServiceUnavailable = httpWebResponse.StatusCode == HttpStatusCode.ServiceUnavailable ||
-                    httpWebResponse.StatusCode == HttpStatusCode.Forbidden;
+                bool isServiceUnavailable = httpStatusCode == HttpStatusCode.ServiceUnavailable ||
+                    httpStatusCode == HttpStatusCode.Forbidden;
 
-                bool isCloudflareServer = httpWebResponse.Headers["Server"]?.Equals("cloudflare", StringComparison.OrdinalIgnoreCase) ?? false;
+                bool isCloudflareServer = webResponse.Headers["Server"]?.Equals("cloudflare", StringComparison.OrdinalIgnoreCase) ?? false;
 
                 return isServiceUnavailable && isCloudflareServer;
 
@@ -70,6 +77,19 @@ namespace Gsemac.Net.Cloudflare {
                 email += "%" + ("0" + (Convert.ToInt32(cfEmail.Substring(n, 2), 16) ^ r).ToString("X")).Slice(-2);
 
             return Uri.UnescapeDataString(email);
+
+        }
+
+        // Private members
+
+        private static HttpStatusCode? GetStatusCodeFromWebResponse(WebResponse webResponse) {
+
+            if (webResponse is HttpWebResponse httpWebResponse)
+                return httpWebResponse.StatusCode;
+            else if (webResponse is IHttpWebResponse iHttpWebResponse)
+                return iHttpWebResponse.StatusCode;
+
+            return null;
 
         }
 
