@@ -188,19 +188,39 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
                 OnLog.Info($"Downloading {asset.DownloadUrl}");
 
+                string currentDirectory = options.FlareSolverrDirectoryPath;
+
+                if (string.IsNullOrWhiteSpace(currentDirectory))
+                    currentDirectory = Directory.GetCurrentDirectory();
+
+                string downloadFilePath = Path.Combine(currentDirectory, asset.Name);
+
                 using (IWebClient client = webRequestFactory.ToWebClientFactory().Create()) {
-
-                    string currentDirectory = options.FlareSolverrDirectoryPath;
-
-                    if (string.IsNullOrWhiteSpace(currentDirectory))
-                        currentDirectory = Directory.GetCurrentDirectory();
-
-                    string downloadFilePath = Path.Combine(currentDirectory, asset.Name);
 
                     client.DownloadProgressChanged += (sender, e) => OnDownloadFileProgressChanged(this, new DownloadFileProgressChangedEventArgs(new Uri(asset.DownloadUrl), downloadFilePath, e));
                     client.DownloadFileCompleted += (sender, e) => OnDownloadFileCompleted(this, new DownloadFileCompletedEventArgs(new Uri(asset.DownloadUrl), downloadFilePath, e.Error is null));
 
-                    client.DownloadFileSync(new Uri(asset.DownloadUrl), downloadFilePath, cancellationToken);
+                    // This is terrible! But I'm tired of working on this, and CancelAsync doesn't actually work.
+                    // https://github.com/dotnet/runtime/issues/31479
+
+                    Thread downloadThread = new Thread(() => client.DownloadFileSync(new Uri(asset.DownloadUrl), downloadFilePath, cancellationToken));
+
+                    using (cancellationToken.Register(() => downloadThread.Abort())) {
+
+                        downloadThread.Start();
+                        downloadThread.Join();
+
+                    }
+
+                    // Delete the partially downloaded file.
+
+                    if (downloadThread.ThreadState == ThreadState.Aborted && File.Exists(downloadFilePath)) {
+
+                        File.Delete(downloadFilePath);
+
+                        throw new WebException("The request was aborted: The request was canceled.", WebExceptionStatus.RequestCanceled);
+
+                    }
 
                     OnLog.Info($"Extracting {PathUtilities.GetFilename(downloadFilePath)}");
 
