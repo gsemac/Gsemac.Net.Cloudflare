@@ -5,7 +5,7 @@ using System.Threading;
 
 namespace Gsemac.Net.Cloudflare.Iuam {
 
-    public class IuamChallengeSolverDelegatingWebRequestHandler :
+    public class IuamChallengeHandler :
         DelegatingWebRequestHandler,
         ILogEventSource {
 
@@ -13,7 +13,7 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
         public event LogEventHandler Log;
 
-        public IuamChallengeSolverDelegatingWebRequestHandler(IIuamChallengeSolverFactory challengeSolverFactory, IHttpWebRequestFactory httpWebRequestFactory) {
+        public IuamChallengeHandler(IIuamChallengeSolverFactory challengeSolverFactory, IHttpWebRequestFactory httpWebRequestFactory) {
 
             if (challengeSolverFactory is null)
                 throw new ArgumentNullException(nameof(challengeSolverFactory));
