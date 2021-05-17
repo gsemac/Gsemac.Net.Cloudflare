@@ -139,7 +139,7 @@ namespace Gsemac.Net.Cloudflare {
             if (webResponse is null)
                 throw new ArgumentNullException(nameof(webResponse));
 
-            return GetProtectionType(new HttpWebResponseWrapper(webResponse));
+            return GetProtectionType((IHttpWebResponse)new HttpWebResponseWrapper(webResponse));
 
         }
 
