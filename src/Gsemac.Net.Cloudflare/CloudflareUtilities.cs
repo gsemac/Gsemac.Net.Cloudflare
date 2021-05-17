@@ -10,12 +10,23 @@ namespace Gsemac.Net.Cloudflare {
 
         // Public members
 
-        public static bool IsProtectionDetected(HttpWebResponse webResponse) {
+        public static bool IsProtectionDetected(WebResponse webResponse) {
 
             if (webResponse is null)
                 throw new ArgumentNullException(nameof(webResponse));
 
-            return IsProtectionDetected(new HttpWebResponseWrapper(webResponse));
+            switch (webResponse) {
+
+                case HttpWebResponse httpWebResponse:
+                    return IsProtectionDetected(httpWebResponse);
+
+                case IHttpWebResponse iHttpWebResponse:
+                    return IsProtectionDetected(iHttpWebResponse);
+
+                default:
+                    return false;
+
+            }
 
         }
         public static bool IsProtectionDetected(IHttpWebResponse webResponse) {
@@ -39,12 +50,23 @@ namespace Gsemac.Net.Cloudflare {
             return GetProtectionType(htmlDocument) != ProtectionType.None;
 
         }
-        public static ProtectionType GetProtectionType(HttpWebResponse webResponse) {
+        public static ProtectionType GetProtectionType(WebResponse webResponse) {
 
             if (webResponse is null)
                 throw new ArgumentNullException(nameof(webResponse));
 
-            return GetProtectionType(new HttpWebResponseWrapper(webResponse));
+            switch (webResponse) {
+
+                case HttpWebResponse httpWebResponse:
+                    return GetProtectionType(httpWebResponse);
+
+                case IHttpWebResponse iHttpWebResponse:
+                    return GetProtectionType(iHttpWebResponse);
+
+                default:
+                    return ProtectionType.None;
+
+            }
 
         }
         public static ProtectionType GetProtectionType(IHttpWebResponse webResponse) {
@@ -99,6 +121,25 @@ namespace Gsemac.Net.Cloudflare {
                 email += "%" + ("0" + (Convert.ToInt32(cfEmail.Substring(n, 2), 16) ^ r).ToString("X")).Slice(-2);
 
             return Uri.UnescapeDataString(email);
+
+        }
+
+        // Private members
+
+        private static bool IsProtectionDetected(HttpWebResponse webResponse) {
+
+            if (webResponse is null)
+                throw new ArgumentNullException(nameof(webResponse));
+
+            return IsProtectionDetected((IHttpWebResponse)new HttpWebResponseWrapper(webResponse));
+
+        }
+        private static ProtectionType GetProtectionType(HttpWebResponse webResponse) {
+
+            if (webResponse is null)
+                throw new ArgumentNullException(nameof(webResponse));
+
+            return GetProtectionType(new HttpWebResponseWrapper(webResponse));
 
         }
 

@@ -36,8 +36,11 @@ namespace Gsemac.Net.Cloudflare.Iuam {
             }
             catch (WebException ex) {
 
-                if (ex.Response is null || !CloudflareUtilities.IsProtectionDetected(ex.Response))
-                    throw ex;
+                bool isCloudflareDetected = ex.Response is object && CloudflareUtilities.IsProtectionDetected(ex.Response);
+                bool isSolvableChallenge = isCloudflareDetected && CloudflareUtilities.GetProtectionType(ex.Response) != ProtectionType.AccessDenied;
+
+                if (!isSolvableChallenge)
+                    throw;
 
                 try {
 
