@@ -1,5 +1,6 @@
 ﻿using Gsemac.Net.JavaScript.Extensions;
 using System;
+using System.IO;
 using System.Net;
 using System.Text.RegularExpressions;
 
@@ -9,32 +10,53 @@ namespace Gsemac.Net.Cloudflare {
 
         // Public members
 
-        public static bool IsProtectionDetected(WebResponse webResponse) {
+        public static bool IsProtectionDetected(HttpWebResponse webResponse) {
 
             if (webResponse is null)
                 throw new ArgumentNullException(nameof(webResponse));
 
-            HttpStatusCode? httpStatusCode = GetStatusCodeFromWebResponse(webResponse);
+            return IsProtectionDetected(new HttpWebResponseWrapper(webResponse));
 
-            if (httpStatusCode.HasValue) {
+        }
+        public static bool IsProtectionDetected(IHttpWebResponse webResponse) {
 
-                // We usually get a 503, but sometimes Cloudflare will complain about cookies not being enabled and returned a 403 instead.
+            if (webResponse is null)
+                throw new ArgumentNullException(nameof(webResponse));
 
-                bool isServiceUnavailable = httpStatusCode == HttpStatusCode.ServiceUnavailable ||
-                    httpStatusCode == HttpStatusCode.Forbidden;
 
-                bool isCloudflareServer = webResponse.Headers["Server"]?.Equals("cloudflare", StringComparison.OrdinalIgnoreCase) ?? false;
+            // We usually get a 503, but sometimes Cloudflare will complain about cookies not being enabled and returned a 403 instead.
 
-                return isServiceUnavailable && isCloudflareServer;
+            bool isServiceUnavailable = webResponse.StatusCode == HttpStatusCode.ServiceUnavailable ||
+                webResponse.StatusCode == HttpStatusCode.Forbidden;
 
-            }
+            bool isCloudflareServer = webResponse.Headers["Server"]?.Equals("cloudflare", StringComparison.OrdinalIgnoreCase) ?? false;
 
-            return false;
+            return isServiceUnavailable && isCloudflareServer;
 
         }
         public static bool IsProtectionDetected(string htmlDocument) {
 
             return GetProtectionType(htmlDocument) != ProtectionType.None;
+
+        }
+        public static ProtectionType GetProtectionType(HttpWebResponse webResponse) {
+
+            if (webResponse is null)
+                throw new ArgumentNullException(nameof(webResponse));
+
+            return GetProtectionType(new HttpWebResponseWrapper(webResponse));
+
+        }
+        public static ProtectionType GetProtectionType(IHttpWebResponse webResponse) {
+
+            if (webResponse is null)
+                throw new ArgumentNullException(nameof(webResponse));
+
+            if (!IsProtectionDetected(webResponse))
+                return ProtectionType.None;
+
+            using (StreamReader sr = new StreamReader(webResponse.GetResponseStream()))
+                return GetProtectionType(sr.ReadToEnd());
 
         }
         public static ProtectionType GetProtectionType(string htmlDocument) {
@@ -77,19 +99,6 @@ namespace Gsemac.Net.Cloudflare {
                 email += "%" + ("0" + (Convert.ToInt32(cfEmail.Substring(n, 2), 16) ^ r).ToString("X")).Slice(-2);
 
             return Uri.UnescapeDataString(email);
-
-        }
-
-        // Private members
-
-        private static HttpStatusCode? GetStatusCodeFromWebResponse(WebResponse webResponse) {
-
-            if (webResponse is HttpWebResponse httpWebResponse)
-                return httpWebResponse.StatusCode;
-            else if (webResponse is IHttpWebResponse iHttpWebResponse)
-                return iHttpWebResponse.StatusCode;
-
-            return null;
 
         }
 
