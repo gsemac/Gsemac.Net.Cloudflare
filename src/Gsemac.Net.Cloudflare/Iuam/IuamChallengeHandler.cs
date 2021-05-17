@@ -47,14 +47,15 @@ namespace Gsemac.Net.Cloudflare.Iuam {
                     OnLog.Warning($"Cloudflare detected on {request.RequestUri.AbsoluteUri}");
 
                     IIuamChallengeSolver challengeSolver = challengeSolverFactory.Create();
+
                     IuamChallengeSolverHttpWebRequest challengeSolverWebRequest = new IuamChallengeSolverHttpWebRequest(request.RequestUri, challengeSolver);
 
                     WebResponse response = base.Send(challengeSolverWebRequest, cancellationToken);
 
-                    // Not all solvers return a body (some of them just return clearance cookies).
-                    // If we didn't get a body, retry the request with the new cookies.
+                    if (response is IuamChallengeSolverHttpWebResponse httpWebResponse && !httpWebResponse.ChallengeResponse.HasResponseStream && httpWebResponse.Cookies.Count > 0) {
 
-                    if (response is IuamChallengeSolverHttpWebResponse httpWebResponse && !httpWebResponse.ChallengeResponse.HasResponseStream) {
+                        // Not all solvers return a body (some of them just return clearance cookies).
+                        // If we didn't get a body, retry the request with the new cookies.
 
                         IHttpWebRequest newHttpWebRequest = httpWebRequestFactory.Create(request.RequestUri);
 
