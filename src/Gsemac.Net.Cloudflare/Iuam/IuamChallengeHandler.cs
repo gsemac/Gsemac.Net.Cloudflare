@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Gsemac.Net.Extensions;
+using System;
 using System.Net;
 using System.Threading;
 
@@ -9,13 +10,12 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
         // Public members
 
-        public IuamChallengeHandler(IIuamChallengeSolverFactory challengeSolverFactory, IHttpWebRequestFactory httpWebRequestFactory) {
+        public IuamChallengeHandler(IIuamChallengeSolverFactory challengeSolverFactory) {
 
             if (challengeSolverFactory is null)
                 throw new ArgumentNullException(nameof(challengeSolverFactory));
 
             this.challengeSolverFactory = challengeSolverFactory;
-            this.httpWebRequestFactory = httpWebRequestFactory;
 
         }
 
@@ -36,37 +36,40 @@ namespace Gsemac.Net.Cloudflare.Iuam {
                 if (!isSolvableChallenge)
                     throw;
 
+                if (!(request is IHttpWebRequest httpWebRequest))
+                    throw;
+
                 try {
 
-                    IIuamChallengeSolver challengeSolver = challengeSolverFactory.Create();
+                    IIuamChallengeResponse challengeResponse = GetChallengeResponse(request.RequestUri);
 
-                    IuamChallengeSolverHttpWebRequest challengeSolverWebRequest = new IuamChallengeSolverHttpWebRequest(request.RequestUri, ex, challengeSolver);
+                    if (challengeResponse is null || !challengeResponse.Success)
+                        throw;
 
-                    WebResponse response = base.Send(challengeSolverWebRequest, cancellationToken);
+                    if (challengeResponse.HasResponseStream) {
 
-                    if (response is IuamChallengeSolverHttpWebResponse httpWebResponse && !httpWebResponse.ChallengeResponse.HasResponseStream && httpWebResponse.Cookies.Count > 0) {
+                        // Copy the web request parameters to the new web request.
+                        // While IuamChallengeSolverHttpWebRequest will not make use of them, the inner handler might.
+
+                        IHttpWebRequest challengeSolverWebRequest = new IuamChallengeSolverHttpWebRequest(request.RequestUri, challengeResponse)
+                            .WithOptions(HttpWebRequestOptions.FromHttpWebRequest(httpWebRequest));
+
+                        return base.Send((WebRequest)challengeSolverWebRequest, cancellationToken);
+
+                    }
+                    else if (challengeResponse.Cookies.Count > 0) {
 
                         // Not all solvers return a body (some of them just return clearance cookies).
                         // If we didn't get a body, retry the request with the new cookies.
 
-                        IHttpWebRequest newHttpWebRequest = httpWebRequestFactory.Create(request.RequestUri);
+                        httpWebRequest.UserAgent = challengeResponse.UserAgent;
+                        httpWebRequest.CookieContainer.Add(challengeResponse.Cookies);
 
-                        newHttpWebRequest.UserAgent = httpWebResponse.ChallengeResponse.UserAgent;
-
-                        newHttpWebRequest.CookieContainer.Add(httpWebResponse.Cookies);
-
-                        // Close the previous response before we make a new one.
-
-                        response.Close();
-
-                        return base.Send((WebRequest)newHttpWebRequest, cancellationToken);
+                        return base.Send((WebRequest)httpWebRequest, cancellationToken);
 
                     }
-                    else {
-
-                        return response;
-
-                    }
+                    else
+                        throw;
 
                 }
                 finally {
@@ -84,8 +87,70 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
         // Private members
 
+        private class IuamChallengeSolverHttpWebRequest :
+            HttpWebRequestBase {
+
+            // Public members
+
+            public IuamChallengeSolverHttpWebRequest(Uri requestUri, IIuamChallengeResponse challengeResponse) :
+                base(requestUri) {
+
+                this.challengeResponse = challengeResponse;
+
+            }
+
+            public override WebResponse GetResponse() {
+
+                return new IuamChallengeSolverHttpWebResponse(challengeResponse);
+
+            }
+
+            // Private members
+
+            private readonly IIuamChallengeResponse challengeResponse;
+
+        }
+
+        private class IuamChallengeSolverHttpWebResponse :
+            HttpWebResponseBase {
+
+            // Public members
+
+            public IIuamChallengeResponse ChallengeResponse { get; }
+
+            public IuamChallengeSolverHttpWebResponse(IIuamChallengeResponse challengeResponse) :
+                base(challengeResponse.ResponseUri, challengeResponse.GetResponseStream()) {
+
+                if (challengeResponse is null)
+                    throw new ArgumentNullException(nameof(challengeResponse));
+
+                this.ChallengeResponse = challengeResponse;
+
+                ReadChallengeResponse(challengeResponse);
+
+            }
+
+            // Private members
+
+            private void ReadChallengeResponse(IIuamChallengeResponse challengeResponse) {
+
+                Cookies.Add(challengeResponse.Cookies);
+
+                challengeResponse.Headers.CopyTo(Headers);
+
+                StatusCode = challengeResponse.StatusCode;
+
+            }
+
+        }
+
         private readonly IIuamChallengeSolverFactory challengeSolverFactory;
-        private readonly IHttpWebRequestFactory httpWebRequestFactory;
+
+        private IIuamChallengeResponse GetChallengeResponse(Uri requestUri) {
+
+            return challengeSolverFactory.Create()?.GetResponse(requestUri);
+
+        }
 
     }
 
