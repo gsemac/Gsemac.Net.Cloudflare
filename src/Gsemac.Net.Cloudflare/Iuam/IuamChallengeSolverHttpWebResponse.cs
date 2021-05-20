@@ -18,7 +18,7 @@ namespace Gsemac.Net.Cloudflare.Iuam {
                 throw new ArgumentNullException(nameof(challengeResponse));
 
             if (!challengeResponse.Success)
-                throw new WebException(string.Format(Properties.ExceptionMessages.FailedToSolveCloudflareIUAMChallengeWithUri, requestUri), originalException, WebExceptionStatus.ProtocolError, originalException.Response);
+                throw new WebException(string.Format(Properties.ExceptionMessages.FailedToSolveCloudflareIUAMChallengeWithUri, requestUri), originalException, originalException.Status, originalException.Response);
 
             this.ChallengeResponse = challengeResponse;
 

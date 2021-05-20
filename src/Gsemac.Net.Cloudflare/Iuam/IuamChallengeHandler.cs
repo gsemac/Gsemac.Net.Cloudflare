@@ -1,17 +1,13 @@
-﻿using Gsemac.IO.Logging;
-using System;
+﻿using System;
 using System.Net;
 using System.Threading;
 
 namespace Gsemac.Net.Cloudflare.Iuam {
 
     public class IuamChallengeHandler :
-        DelegatingWebRequestHandler,
-        ILogEventSource {
+        DelegatingWebRequestHandler {
 
         // Public members
-
-        public event LogEventHandler Log;
 
         public IuamChallengeHandler(IIuamChallengeSolverFactory challengeSolverFactory, IHttpWebRequestFactory httpWebRequestFactory) {
 
@@ -24,8 +20,6 @@ namespace Gsemac.Net.Cloudflare.Iuam {
         }
 
         // Protected members
-
-        protected LogEventHandlerWrapper OnLog => new LogEventHandlerWrapper(Log, "Delegating Handler");
 
         protected override WebResponse Send(WebRequest request, CancellationToken cancellationToken) {
 
@@ -44,11 +38,9 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
                 try {
 
-                    OnLog.Warning($"Cloudflare detected on {request.RequestUri.AbsoluteUri}");
-
                     IIuamChallengeSolver challengeSolver = challengeSolverFactory.Create();
 
-                    IuamChallengeSolverHttpWebRequest challengeSolverWebRequest = new IuamChallengeSolverHttpWebRequest(request.RequestUri, ex,challengeSolver);
+                    IuamChallengeSolverHttpWebRequest challengeSolverWebRequest = new IuamChallengeSolverHttpWebRequest(request.RequestUri, ex, challengeSolver);
 
                     WebResponse response = base.Send(challengeSolverWebRequest, cancellationToken);
 
@@ -75,11 +67,6 @@ namespace Gsemac.Net.Cloudflare.Iuam {
                         return response;
 
                     }
-
-                }
-                catch (Exception solverEx) {
-
-                    throw new AggregateException(solverEx, ex);
 
                 }
                 finally {
