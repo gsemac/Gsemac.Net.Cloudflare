@@ -11,14 +11,14 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
         public IIuamChallengeResponse ChallengeResponse { get; }
 
-        public IuamChallengeSolverHttpWebResponse(Uri requestUri, IIuamChallengeResponse challengeResponse) :
+        public IuamChallengeSolverHttpWebResponse(Uri requestUri, WebException originalException, IIuamChallengeResponse challengeResponse) :
             base(challengeResponse.ResponseUri, challengeResponse.GetResponseStream()) {
 
             if (challengeResponse is null)
                 throw new ArgumentNullException(nameof(challengeResponse));
 
             if (!challengeResponse.Success)
-                throw new WebException(string.Format(Properties.ExceptionMessages.FailedToSolveCloudflareIUAMChallengeWithUri, requestUri));
+                throw new WebException(string.Format(Properties.ExceptionMessages.FailedToSolveCloudflareIUAMChallengeWithUri, requestUri), originalException, WebExceptionStatus.ProtocolError, originalException.Response);
 
             this.ChallengeResponse = challengeResponse;
 

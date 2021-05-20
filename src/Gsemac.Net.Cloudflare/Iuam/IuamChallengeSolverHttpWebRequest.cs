@@ -8,10 +8,11 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
         // Public members
 
-        public IuamChallengeSolverHttpWebRequest(Uri requestUri, IIuamChallengeSolver challengeSolver) :
+        public IuamChallengeSolverHttpWebRequest(Uri requestUri, WebException originalException, IIuamChallengeSolver challengeSolver) :
             base(requestUri) {
 
             this.challengeSolver = challengeSolver;
+            this.originalException = originalException;
 
         }
 
@@ -19,13 +20,14 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
             IIuamChallengeResponse challengeResponse = challengeSolver.GetResponse(RequestUri);
 
-            return new IuamChallengeSolverHttpWebResponse(RequestUri, challengeResponse);
+            return new IuamChallengeSolverHttpWebResponse(RequestUri, originalException, challengeResponse);
 
         }
 
         // Private members
 
         private readonly IIuamChallengeSolver challengeSolver;
+        private readonly WebException originalException;
 
     }
 

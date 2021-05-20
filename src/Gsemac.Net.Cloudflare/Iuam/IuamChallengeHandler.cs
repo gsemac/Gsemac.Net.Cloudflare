@@ -48,7 +48,7 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
                     IIuamChallengeSolver challengeSolver = challengeSolverFactory.Create();
 
-                    IuamChallengeSolverHttpWebRequest challengeSolverWebRequest = new IuamChallengeSolverHttpWebRequest(request.RequestUri, challengeSolver);
+                    IuamChallengeSolverHttpWebRequest challengeSolverWebRequest = new IuamChallengeSolverHttpWebRequest(request.RequestUri, ex,challengeSolver);
 
                     WebResponse response = base.Send(challengeSolverWebRequest, cancellationToken);
 
