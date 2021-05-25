@@ -17,6 +17,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
         public CookieCollection Cookies { get; set; } = new CookieCollection();
         public string Session { get; set; }
         public bool ReturnOnlyCookies { get; set; } = false;
+        public string PostData { get; set; }
 
         public FlareSolverrCommand(string cmd) {
 

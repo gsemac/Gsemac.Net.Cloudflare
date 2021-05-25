@@ -26,6 +26,8 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
         CookieCollection Cookies { get; }
         [JsonProperty("returnOnlyCookies")]
         bool ReturnOnlyCookies { get; }
+        [JsonProperty("postData")]
+        string PostData { get; }
 
     }
 
