@@ -63,7 +63,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
             if (response.Status?.Equals("ok", StringComparison.OrdinalIgnoreCase) ?? false) {
 
                 // We successfully received a solution.
-                // All we want are the clearance cookies and the user agent.
+                // "Success" is set manually because we may not meet success conditions (sometimes we get a 503 on a successful response or don't get any cookies).
 
                 return new IuamChallengeResponse(uri, () => StreamFromBase64(response.Solution.Response)) {
                     UserAgent = response.Solution.UserAgent,
@@ -71,7 +71,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
                     ResponseUri = response.Solution.Url,
                     Headers = DictionaryToWebHeaderCollection(response.Solution.Headers),
                     StatusCode = (HttpStatusCode)response.Solution.Status,
-                    Success = (HttpStatusCode)response.Solution.Status == HttpStatusCode.OK, // Success is set manually because we won't always have cookies even if the request succeeded
+                    Success = true,
                 };
 
             }

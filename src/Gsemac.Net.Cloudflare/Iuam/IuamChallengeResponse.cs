@@ -71,7 +71,10 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
         private bool GetDefaultSuccess() {
 
-            return StatusCode == HttpStatusCode.OK && !string.IsNullOrEmpty(UserAgent) && Cookies.Count > 0;
+            // It is still possible to get other status codes on success (e.g. 503), or end up with no response cookies.
+            // In such cases, the property should be set manually.
+
+            return StatusCode == HttpStatusCode.OK && !string.IsNullOrWhiteSpace(UserAgent) && Cookies.Count > 0;
 
         }
 
