@@ -31,7 +31,11 @@ namespace Gsemac.Net.Cloudflare.Iuam {
             catch (WebException ex) {
 
                 bool isCloudflareDetected = ex.Response is object && CloudflareUtilities.IsProtectionDetected(ex.Response);
-                bool isSolvableChallenge = isCloudflareDetected && CloudflareUtilities.GetProtectionType(ex.Response) != ProtectionType.AccessDenied;
+
+                // Even though 1020 "Access Denied" errors can't be "solved", they're sometimes the result of Cloudflare detecting something unusual about the request (e.g. header order).
+                // It's worth letting the solver make an attempt in case it's able to have the request go through successfully.
+
+                bool isSolvableChallenge = isCloudflareDetected; // isCloudflareDetected && CloudflareUtilities.GetProtectionType(ex.Response) != ProtectionType.AccessDenied;
 
                 if (!isSolvableChallenge)
                     throw;
