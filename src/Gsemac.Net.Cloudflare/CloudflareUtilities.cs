@@ -91,13 +91,13 @@ namespace Gsemac.Net.Cloudflare {
                 switch (protectionMatch.Value) {
 
                     case "cf-im-under-attack":
-                    case "cf-cookie-error":
                         return ProtectionType.ImUnderAttack;
 
                     case "captcha-bypass":
                     case "cf-captcha-container":
                         return ProtectionType.CaptchaBypass;
 
+                    case "cf-cookie-error":
                     case "has banned your IP address":
                         return ProtectionType.AccessDenied;
 
