@@ -1,20 +1,19 @@
-﻿using Gsemac.Net.Cloudflare.Iuam;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
 
 namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
-    public class FlareSolverrIuamChallengeSolver :
-        IuamChallengeSolverBase {
+    public class FlareSolverrChallengeSolver :
+        ChallengeSolverBase {
 
         // Public members
 
-        public FlareSolverrIuamChallengeSolver(IFlareSolverrService flareSolverrService) :
-            this(flareSolverrService, IuamChallengeSolverOptions.Default) {
+        public FlareSolverrChallengeSolver(IFlareSolverrService flareSolverrService) :
+            this(flareSolverrService, ChallengeSolverOptions.Default) {
         }
-        public FlareSolverrIuamChallengeSolver(IFlareSolverrService flareSolverrService, IIuamChallengeSolverOptions options) :
+        public FlareSolverrChallengeSolver(IFlareSolverrService flareSolverrService, IChallengeSolverOptions options) :
             base("FlareSolverr IUAM Challenge Solver") {
 
             if (flareSolverrService is null)
@@ -28,7 +27,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
         }
 
-        public override IIuamChallengeResponse GetResponse(Uri uri) {
+        public override IChallengeResponse GetResponse(Uri uri) {
 
             // Assume that the FlareSolverr proxy server is already running (on port 8191).
 
@@ -65,7 +64,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
                 // We successfully received a solution.
                 // "Success" is set manually because we may not meet success conditions (sometimes we get a 503 on a successful response or don't get any cookies).
 
-                return new IuamChallengeResponse(uri, () => StreamFromBase64(response.Solution.Response)) {
+                return new ChallengeResponse(uri, () => StreamFromBase64(response.Solution.Response)) {
                     UserAgent = response.Solution.UserAgent,
                     Cookies = response.Solution.Cookies,
                     ResponseUri = response.Solution.Url,
@@ -76,14 +75,14 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
             }
             else
-                return IuamChallengeResponse.Failed;
+                return ChallengeResponse.Failed;
 
         }
 
         // Private members
 
         private readonly IFlareSolverrService flareSolverrService;
-        private readonly IIuamChallengeSolverOptions options;
+        private readonly IChallengeSolverOptions options;
 
         private static Stream StreamFromBase64(string base64String) {
 

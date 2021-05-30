@@ -3,14 +3,14 @@ using System;
 using System.Net;
 using System.Threading;
 
-namespace Gsemac.Net.Cloudflare.Iuam {
+namespace Gsemac.Net.Cloudflare {
 
-    public class IuamChallengeHandler :
+    public class ChallengeHandler :
         DelegatingWebRequestHandler {
 
         // Public members
 
-        public IuamChallengeHandler(IIuamChallengeSolverFactory challengeSolverFactory) {
+        public ChallengeHandler(IChallengeSolverFactory challengeSolverFactory) {
 
             if (challengeSolverFactory is null)
                 throw new ArgumentNullException(nameof(challengeSolverFactory));
@@ -45,7 +45,7 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
                 try {
 
-                    IIuamChallengeResponse challengeResponse = GetChallengeResponse(request.RequestUri);
+                    IChallengeResponse challengeResponse = GetChallengeResponse(request.RequestUri);
 
                     if (challengeResponse is null || !challengeResponse.Success)
                         throw;
@@ -96,7 +96,7 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
             // Public members
 
-            public IuamChallengeSolverHttpWebRequest(Uri requestUri, IIuamChallengeResponse challengeResponse) :
+            public IuamChallengeSolverHttpWebRequest(Uri requestUri, IChallengeResponse challengeResponse) :
                 base(requestUri) {
 
                 this.challengeResponse = challengeResponse;
@@ -111,7 +111,7 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
             // Private members
 
-            private readonly IIuamChallengeResponse challengeResponse;
+            private readonly IChallengeResponse challengeResponse;
 
         }
 
@@ -120,15 +120,15 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
             // Public members
 
-            public IIuamChallengeResponse ChallengeResponse { get; }
+            public IChallengeResponse ChallengeResponse { get; }
 
-            public IuamChallengeSolverHttpWebResponse(IIuamChallengeResponse challengeResponse) :
+            public IuamChallengeSolverHttpWebResponse(IChallengeResponse challengeResponse) :
                 base(challengeResponse.ResponseUri, challengeResponse.GetResponseStream()) {
 
                 if (challengeResponse is null)
                     throw new ArgumentNullException(nameof(challengeResponse));
 
-                this.ChallengeResponse = challengeResponse;
+                ChallengeResponse = challengeResponse;
 
                 ReadChallengeResponse(challengeResponse);
 
@@ -136,7 +136,7 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
             // Private members
 
-            private void ReadChallengeResponse(IIuamChallengeResponse challengeResponse) {
+            private void ReadChallengeResponse(IChallengeResponse challengeResponse) {
 
                 Cookies.Add(challengeResponse.Cookies);
 
@@ -148,9 +148,9 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
         }
 
-        private readonly IIuamChallengeSolverFactory challengeSolverFactory;
+        private readonly IChallengeSolverFactory challengeSolverFactory;
 
-        private IIuamChallengeResponse GetChallengeResponse(Uri requestUri) {
+        private IChallengeResponse GetChallengeResponse(Uri requestUri) {
 
             return challengeSolverFactory.Create()?.GetResponse(requestUri);
 

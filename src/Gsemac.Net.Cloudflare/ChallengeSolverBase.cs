@@ -1,29 +1,31 @@
 ﻿using Gsemac.IO.Logging;
 using System;
 
-namespace Gsemac.Net.Cloudflare.Iuam {
+namespace Gsemac.Net.Cloudflare {
 
-    public abstract class IuamChallengeSolverBase :
-        IIuamChallengeSolver {
+    public abstract class ChallengeSolverBase :
+        IChallengeSolver {
 
         // Public members
+
+
 
         public event LogEventHandler Log;
 
         public string Name { get; }
 
-        public abstract IIuamChallengeResponse GetResponse(Uri uri);
+        public abstract IChallengeResponse GetResponse(Uri uri);
 
         // Protected members
 
         protected LogEventHandlerWrapper OnLog => new LogEventHandlerWrapper(Log, Name);
 
-        protected IuamChallengeSolverBase() :
+        protected ChallengeSolverBase() :
             this("Cloudflare IUAM Challenge Solver") {
         }
-        protected IuamChallengeSolverBase(string name) {
+        protected ChallengeSolverBase(string name) {
 
-            this.Name = name;
+            Name = name;
 
         }
 

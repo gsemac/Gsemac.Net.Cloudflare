@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Net;
 
-namespace Gsemac.Net.Cloudflare.Iuam {
+namespace Gsemac.Net.Cloudflare {
 
-    public abstract class IuamChallengeSolverOptionsBase :
-        IIuamChallengeSolverOptions {
+    public abstract class ChallengeSolverOptionsBase :
+        IChallengeSolverOptions {
 
         public IWebProxy Proxy { get; set; }
         public TimeSpan Timeout { get; set; } = TimeSpan.FromSeconds(30);

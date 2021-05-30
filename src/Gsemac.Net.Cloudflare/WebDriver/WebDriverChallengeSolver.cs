@@ -1,16 +1,15 @@
-﻿using Gsemac.Net.Cloudflare.Iuam;
-using Gsemac.Net.WebDrivers;
+﻿using Gsemac.Net.WebDrivers;
 using OpenQA.Selenium;
 using System;
 
 namespace Gsemac.Net.Cloudflare.WebDriver {
 
-    public class WebDriverIuamChallengeSolver :
-          WebDriverIuamChallengeSolverBase {
+    public class WebDriverChallengeSolver :
+          WebDriverChallengeSolverBase {
 
         // Public members
 
-        public WebDriverIuamChallengeSolver(IWebDriverFactory webDriverFactory, IIuamChallengeSolverOptions solverOptions) :
+        public WebDriverChallengeSolver(IWebDriverFactory webDriverFactory, IChallengeSolverOptions solverOptions) :
             base(solverOptions) {
 
             if (webDriverFactory is null)
@@ -22,7 +21,7 @@ namespace Gsemac.Net.Cloudflare.WebDriver {
             this.webDriverFactory = webDriverFactory;
 
         }
-        public WebDriverIuamChallengeSolver(IWebDriver webDriver, IIuamChallengeSolverOptions solverOptions) :
+        public WebDriverChallengeSolver(IWebDriver webDriver, IChallengeSolverOptions solverOptions) :
             base(solverOptions, disposeWebDriver: false) {
 
             if (webDriver is null)

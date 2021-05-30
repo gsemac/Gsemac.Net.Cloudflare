@@ -7,22 +7,22 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 
-namespace Gsemac.Net.Cloudflare.Iuam {
+namespace Gsemac.Net.Cloudflare {
 
     public delegate bool ConfirmManualWebBrowserIuamChallengeSolverDelegate();
 
-    public class ManualIuamChallengeSolver :
-        IuamChallengeSolverBase {
+    public class ManualChallengeSolver :
+        ChallengeSolverBase {
 
         // Public members
 
-        public ManualIuamChallengeSolver(IWebBrowserInfo webBrowserInfo) :
-           this(webBrowserInfo, IuamChallengeSolverOptions.Default) {
+        public ManualChallengeSolver(IWebBrowserInfo webBrowserInfo) :
+           this(webBrowserInfo, ChallengeSolverOptions.Default) {
         }
-        public ManualIuamChallengeSolver(IWebBrowserInfo webBrowserInfo, IIuamChallengeSolverOptions options) :
+        public ManualChallengeSolver(IWebBrowserInfo webBrowserInfo, IChallengeSolverOptions options) :
             this(webBrowserInfo, null, options, () => true) {
         }
-        public ManualIuamChallengeSolver(IWebBrowserInfo webBrowserInfo, IHttpWebRequestFactory webRequestFactory, IIuamChallengeSolverOptions options, ConfirmManualWebBrowserIuamChallengeSolverDelegate allowManualSolutionDelegate) :
+        public ManualChallengeSolver(IWebBrowserInfo webBrowserInfo, IHttpWebRequestFactory webRequestFactory, IChallengeSolverOptions options, ConfirmManualWebBrowserIuamChallengeSolverDelegate allowManualSolutionDelegate) :
             base("Manual IUAM Challenge Solver") {
 
             this.webBrowserInfo = webBrowserInfo;
@@ -32,11 +32,11 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
         }
 
-        public override IIuamChallengeResponse GetResponse(Uri uri) {
+        public override IChallengeResponse GetResponse(Uri uri) {
 
             // Attempt to solve the challenge silently (without directly opening the user's web browser) if possible.
 
-            IIuamChallengeResponse response = GetChallengeResponseSilent(uri);
+            IChallengeResponse response = GetChallengeResponseSilent(uri);
 
             if (!response.Success && allowManualSolutionDelegate()) {
 
@@ -57,7 +57,7 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
                     if (cfCookies.Count > 0) {
 
-                        return new IuamChallengeResponse(uri, string.Empty) {
+                        return new ChallengeResponse(uri, string.Empty) {
                             UserAgent = userAgent,
                             Cookies = cfCookies,
                         };
@@ -77,7 +77,7 @@ namespace Gsemac.Net.Cloudflare.Iuam {
         // Private members
 
         private readonly IWebBrowserInfo webBrowserInfo;
-        private readonly IIuamChallengeSolverOptions options;
+        private readonly IChallengeSolverOptions options;
         private readonly IHttpWebRequestFactory webRequestFactory;
         private readonly ConfirmManualWebBrowserIuamChallengeSolverDelegate allowManualSolutionDelegate;
 
@@ -104,7 +104,7 @@ namespace Gsemac.Net.Cloudflare.Iuam {
             return new CookieCollection();
 
         }
-        private IIuamChallengeResponse GetChallengeResponseSilent(Uri uri) {
+        private IChallengeResponse GetChallengeResponseSilent(Uri uri) {
 
             if (!(webRequestFactory is null)) {
 
@@ -129,7 +129,7 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
                             if (CloudflareUtilities.GetProtectionType(reader.ReadToEnd()) == ProtectionType.None) {
 
-                                return new IuamChallengeResponse(uri, string.Empty) {
+                                return new ChallengeResponse(uri, string.Empty) {
                                     UserAgent = request.UserAgent,
                                     Cookies = clearanceCookies,
                                 };
@@ -145,7 +145,7 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
             }
 
-            return IuamChallengeResponse.Failed;
+            return ChallengeResponse.Failed;
 
         }
 

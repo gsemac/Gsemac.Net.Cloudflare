@@ -5,10 +5,10 @@ using System.IO;
 using System.Net;
 using System.Text;
 
-namespace Gsemac.Net.Cloudflare.Iuam {
+namespace Gsemac.Net.Cloudflare {
 
-    public sealed class IuamChallengeResponse :
-        IIuamChallengeResponse {
+    public sealed class ChallengeResponse :
+        IChallengeResponse {
 
         // Public members
 
@@ -24,9 +24,9 @@ namespace Gsemac.Net.Cloudflare.Iuam {
         }
         public bool HasResponseStream => streamFactory is object;
 
-        public static IuamChallengeResponse Failed => new IuamChallengeResponse();
+        public static ChallengeResponse Failed => new ChallengeResponse();
 
-        public IuamChallengeResponse(Uri requestUri, string responseBody) {
+        public ChallengeResponse(Uri requestUri, string responseBody) {
 
             if (requestUri is null)
                 throw new ArgumentNullException(nameof(requestUri));
@@ -36,11 +36,11 @@ namespace Gsemac.Net.Cloudflare.Iuam {
             if (!Headers.TryGetHeader(HttpResponseHeader.ContentLength, out _))
                 Headers[HttpResponseHeader.ContentLength] = responseBytes.Length.ToString(CultureInfo.InvariantCulture);
 
-            this.ResponseUri = requestUri;
-            this.streamFactory = () => new MemoryStream(responseBytes);
+            ResponseUri = requestUri;
+            streamFactory = () => new MemoryStream(responseBytes);
 
         }
-        public IuamChallengeResponse(Uri requestUri, Func<Stream> streamFactory) {
+        public ChallengeResponse(Uri requestUri, Func<Stream> streamFactory) {
 
             if (requestUri is null)
                 throw new ArgumentNullException(nameof(requestUri));
@@ -48,7 +48,7 @@ namespace Gsemac.Net.Cloudflare.Iuam {
             if (streamFactory is null)
                 throw new ArgumentNullException(nameof(streamFactory));
 
-            this.ResponseUri = requestUri;
+            ResponseUri = requestUri;
             this.streamFactory = streamFactory;
 
         }
@@ -67,7 +67,7 @@ namespace Gsemac.Net.Cloudflare.Iuam {
         private readonly Func<Stream> streamFactory;
         private bool? success;
 
-        private IuamChallengeResponse() { }
+        private ChallengeResponse() { }
 
         private bool GetDefaultSuccess() {
 

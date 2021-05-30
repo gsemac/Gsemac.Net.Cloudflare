@@ -1,21 +1,20 @@
-﻿using Gsemac.Net.Cloudflare.Iuam;
-using Gsemac.Net.WebDrivers.Extensions;
+﻿using Gsemac.Net.WebDrivers.Extensions;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System;
 
 namespace Gsemac.Net.Cloudflare.WebDriver {
 
-    public abstract class WebDriverIuamChallengeSolverBase :
-        IuamChallengeSolverBase {
+    public abstract class WebDriverChallengeSolverBase :
+        ChallengeSolverBase {
 
         // Public members
 
-        public override IIuamChallengeResponse GetResponse(Uri uri) {
+        public override IChallengeResponse GetResponse(Uri uri) {
 
             string url = uri.AbsoluteUri;
             IWebDriver driver = null;
-            IIuamChallengeResponse challengeResponse = IuamChallengeResponse.Failed;
+            IChallengeResponse challengeResponse = ChallengeResponse.Failed;
 
             try {
 
@@ -109,7 +108,7 @@ namespace Gsemac.Net.Cloudflare.WebDriver {
 
         // Protected members
 
-        protected WebDriverIuamChallengeSolverBase(IIuamChallengeSolverOptions solverOptions, bool disposeWebDriver = true) :
+        protected WebDriverChallengeSolverBase(IChallengeSolverOptions solverOptions, bool disposeWebDriver = true) :
             base("Web Driver IUAM Challenge Solver") {
 
             this.solverOptions = solverOptions;
@@ -122,11 +121,11 @@ namespace Gsemac.Net.Cloudflare.WebDriver {
         // Private members
 
         private readonly bool disposeWebDriver = true;
-        private readonly IIuamChallengeSolverOptions solverOptions;
+        private readonly IChallengeSolverOptions solverOptions;
 
-        private IIuamChallengeResponse CreateSuccessfulChallengeResponse(IWebDriver driver) {
+        private IChallengeResponse CreateSuccessfulChallengeResponse(IWebDriver driver) {
 
-            return new IuamChallengeResponse(new Uri(driver.Url), driver.PageSource) {
+            return new ChallengeResponse(new Uri(driver.Url), driver.PageSource) {
                 UserAgent = driver.GetUserAgent(),
                 Cookies = driver.GetCookies(),
             };

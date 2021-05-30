@@ -2,9 +2,9 @@
 using System.IO;
 using System.Net;
 
-namespace Gsemac.Net.Cloudflare.Iuam {
+namespace Gsemac.Net.Cloudflare {
 
-    public interface IIuamChallengeResponse {
+    public interface IChallengeResponse {
 
         CookieCollection Cookies { get; }
         WebHeaderCollection Headers { get; }

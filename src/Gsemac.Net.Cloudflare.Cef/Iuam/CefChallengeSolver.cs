@@ -7,21 +7,21 @@ using System.Threading;
 
 namespace Gsemac.Net.Cloudflare.Iuam {
 
-    public class CefIuamChallengeSolver :
-        IuamChallengeSolverBase {
+    public class CefChallengeSolver :
+        ChallengeSolverBase {
 
         // Public members
 
-        public CefIuamChallengeSolver(CefIuamChallengeSolverOptions options) :
+        public CefChallengeSolver(CefChallengeSolverOptions options) :
             base("CEF IUAM Challenge Solver") {
 
             this.options = options;
 
         }
 
-        public override IIuamChallengeResponse GetResponse(Uri uri) {
+        public override IChallengeResponse GetResponse(Uri uri) {
 
-            IIuamChallengeResponse result = null;
+            IChallengeResponse result = null;
 
             try {
 
@@ -53,7 +53,7 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
                             OnLog.Info($"Solved challenge successfully");
 
-                            result = new IuamChallengeResponse(uri, string.Empty) {
+                            result = new ChallengeResponse(uri, string.Empty) {
                                 UserAgent = GetUserAgent(browser),
                                 Cookies = GetCookies(url, browser),
                             };
@@ -116,11 +116,11 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
         }
 
-        private readonly CefIuamChallengeSolverOptions options;
+        private readonly CefChallengeSolverOptions options;
         private readonly object lockObject = new object();
         private readonly AutoResetEvent waitHandle = new AutoResetEvent(false);
 
-        private void InitializeCef(CefIuamChallengeSolverOptions options) {
+        private void InitializeCef(CefChallengeSolverOptions options) {
 
             if (!CefSharp.Cef.IsInitialized) {
 

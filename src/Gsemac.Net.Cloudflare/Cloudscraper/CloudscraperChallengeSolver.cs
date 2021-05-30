@@ -1,5 +1,4 @@
 ﻿using Gsemac.Core;
-using Gsemac.Net.Cloudflare.Iuam;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Diagnostics;
@@ -10,15 +9,15 @@ using System.Threading;
 
 namespace Gsemac.Net.Cloudflare.Cloudscraper {
 
-    public class CloudscraperIuamChallengeSolver :
-        IuamChallengeSolverBase {
+    public class CloudscraperChallengeSolver :
+        ChallengeSolverBase {
 
         // Public members
 
-        public CloudscraperIuamChallengeSolver(ICloudscraperOptions cloudscraperOptions) :
-            this(cloudscraperOptions, IuamChallengeSolverOptions.Default) {
+        public CloudscraperChallengeSolver(ICloudscraperOptions cloudscraperOptions) :
+            this(cloudscraperOptions, ChallengeSolverOptions.Default) {
         }
-        public CloudscraperIuamChallengeSolver(ICloudscraperOptions cloudscraperOptions, IIuamChallengeSolverOptions options) :
+        public CloudscraperChallengeSolver(ICloudscraperOptions cloudscraperOptions, IChallengeSolverOptions options) :
             base("Cloudscraper IUAM Challenge Solver") {
 
             if (options is null)
@@ -29,7 +28,7 @@ namespace Gsemac.Net.Cloudflare.Cloudscraper {
 
         }
 
-        public override IIuamChallengeResponse GetResponse(Uri uri) {
+        public override IChallengeResponse GetResponse(Uri uri) {
 
             string url = uri.AbsoluteUri;
 
@@ -135,7 +134,7 @@ namespace Gsemac.Net.Cloudflare.Cloudscraper {
 
                 }
 
-                return new IuamChallengeResponse(uri, string.Empty) {
+                return new ChallengeResponse(uri, string.Empty) {
                     UserAgent = userAgent,
                     Cookies = cookies,
                 };
@@ -156,7 +155,7 @@ namespace Gsemac.Net.Cloudflare.Cloudscraper {
         private static readonly object cloudscraperMutex = new object();
 
         private readonly ICloudscraperOptions cloudscraperOptions;
-        private readonly IIuamChallengeSolverOptions options;
+        private readonly IChallengeSolverOptions options;
 
     }
 
