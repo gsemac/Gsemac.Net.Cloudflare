@@ -28,27 +28,44 @@ namespace Gsemac.Net.Cloudflare {
                 return base.Send(request, cancellationToken);
 
             }
-            catch (WebException ex) {
+            catch (WebException webEx) {
 
-                bool isCloudflareDetected = ex.Response is object && CloudflareUtilities.IsProtectionDetected(ex.Response);
-
-                // Even though 1020 "Access Denied" errors can't be "solved", they're sometimes the result of Cloudflare detecting something unusual about the request (e.g. header order).
-                // It's worth letting the solver make an attempt in case it's able to have the request go through successfully.
-
-                bool isSolvableChallenge = isCloudflareDetected; // isCloudflareDetected && CloudflareUtilities.GetProtectionType(ex.Response) != ProtectionType.AccessDenied;
-
-                if (!isSolvableChallenge)
-                    throw;
+                // Cloudflare challenges are only relevant for HTTP requests.
 
                 if (!(request is IHttpWebRequest httpWebRequest))
                     throw;
 
+                // Even though 1020 "Access Denied" errors can't be "solved", they're sometimes the result of Cloudflare detecting something unusual about the request (e.g. header order).
+                // It's worth letting the solver make an attempt in case it's able to have the request go through successfully.
+
+                bool isCloudflareDetected = webEx.Response is object && CloudflareUtilities.IsProtectionDetected(webEx.Response);
+
+                if (!isCloudflareDetected)
+                    throw;
+
+                // Get a response from the challenge solver.
+
+                IChallengeResponse challengeResponse;
+
                 try {
 
-                    IChallengeResponse challengeResponse = GetChallengeResponse(request.RequestUri);
+                    challengeResponse = GetChallengeResponse(request.RequestUri);
 
-                    if (challengeResponse is null || !challengeResponse.Success)
-                        throw;
+                }
+                catch (Exception challengeSolverEx) {
+
+                    // If the challenge solver throws an exception, we still want the original response so the caller can read it.
+
+                    throw new WebException(Properties.ExceptionMessages.ChallengeSolverThrewAnException, challengeSolverEx, webEx.Status, webEx.Response);
+
+                }
+
+                // If we got a challenge response but it wasn't successful, rethrow an exception.
+
+                if (challengeResponse is null || !challengeResponse.Success || !(challengeResponse.HasResponseStream || challengeResponse.Cookies.Count > 0))
+                    throw new WebException(Properties.ExceptionMessages.ChallengeSolverFailed, webEx, webEx.Status, webEx.Response);
+
+                try {
 
                     if (challengeResponse.HasResponseStream) {
 
@@ -61,10 +78,11 @@ namespace Gsemac.Net.Cloudflare {
                         return base.Send((WebRequest)challengeSolverWebRequest, cancellationToken);
 
                     }
-                    else if (challengeResponse.Cookies.Count > 0) {
+                    else {
 
                         // Not all solvers return a body (some of them just return clearance cookies).
                         // If we didn't get a body, retry the request with the new cookies.
+                        // Only do this if we HAVE new cookies in the first place, which is checked for above.
 
                         httpWebRequest.UserAgent = challengeResponse.UserAgent;
                         httpWebRequest.CookieContainer.Add(challengeResponse.Cookies);
@@ -72,16 +90,14 @@ namespace Gsemac.Net.Cloudflare {
                         return base.Send((WebRequest)httpWebRequest, cancellationToken);
 
                     }
-                    else
-                        throw;
 
                 }
                 finally {
 
                     // Make sure to close the response before returning, because it will not be accessible to the caller.
 
-                    if (ex.Response is object)
-                        ex.Response.Close();
+                    if (webEx.Response is object)
+                        webEx.Response.Close();
 
                 }
 

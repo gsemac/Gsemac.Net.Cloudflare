@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ChallengeSolverFailed" xml:space="preserve">
+    <value>The challenge solver returned a failure response.</value>
+  </data>
+  <data name="ChallengeSolverThrewAnException" xml:space="preserve">
+    <value>The challenge solver threw an exception.</value>
+  </data>
   <data name="FailedToConnectToFlareSolverrWithPort" xml:space="preserve">
     <value>Failed to connect to FlareSolverr. Make sure that FlareSolverr is running on port {0}.</value>
   </data>

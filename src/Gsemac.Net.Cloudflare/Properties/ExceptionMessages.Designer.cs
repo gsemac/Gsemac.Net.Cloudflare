@@ -61,6 +61,24 @@ namespace Gsemac.Net.Cloudflare.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The challenge solver returned a failure response..
+        /// </summary>
+        internal static string ChallengeSolverFailed {
+            get {
+                return ResourceManager.GetString("ChallengeSolverFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The challenge solver threw an exception..
+        /// </summary>
+        internal static string ChallengeSolverThrewAnException {
+            get {
+                return ResourceManager.GetString("ChallengeSolverThrewAnException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to connect to FlareSolverr. Make sure that FlareSolverr is running on port {0}..
         /// </summary>
         internal static string FailedToConnectToFlareSolverrWithPort {

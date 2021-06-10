@@ -34,7 +34,6 @@ namespace Gsemac.Net.Cloudflare {
             if (webResponse is null)
                 throw new ArgumentNullException(nameof(webResponse));
 
-
             // We usually get a 503, but sometimes Cloudflare will complain about cookies not being enabled and returned a 403 instead.
 
             bool isServiceUnavailable = webResponse.StatusCode == HttpStatusCode.ServiceUnavailable ||
