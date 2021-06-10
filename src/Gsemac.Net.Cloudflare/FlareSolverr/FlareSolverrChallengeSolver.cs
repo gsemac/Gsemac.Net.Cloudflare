@@ -93,24 +93,13 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
             WebHeaderCollection webHeaderCollection = new WebHeaderCollection();
 
+            // FlareSolverr combines multiple headers with the same name (e.g. "set-cookie") into one newline-delimited header.
+            // We'll get a "Specified value has invalid CRLF characters" error if we try to use these values directly, so we need to split them.
+
             foreach (var header in headers) {
 
-                switch (header.Key.ToLowerInvariant()) {
-
-                    case "set-cookie":
-
-                        // FlareSolverr combines multiple set-cookie headers into one newline-delimited header.
-
-                        foreach (string setCookieValue in header.Value.Split('\n'))
-                            webHeaderCollection.Add(HttpResponseHeader.SetCookie, setCookieValue);
-
-                        break;
-
-                    default:
-                        webHeaderCollection.Add(header.Key, header.Value);
-                        break;
-
-                }
+                foreach (string headerValue in header.Value.Split('\n'))
+                    webHeaderCollection.Add(header.Key, headerValue);
 
             }
 
