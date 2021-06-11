@@ -130,7 +130,7 @@ namespace Gsemac.Net.Cloudflare {
             if (webResponse is null)
                 throw new ArgumentNullException(nameof(webResponse));
 
-            return IsProtectionDetected((IHttpWebResponse)new HttpWebResponseWrapper(webResponse));
+            return IsProtectionDetected((IHttpWebResponse)new HttpWebResponseAdapter(webResponse));
 
         }
         private static ProtectionType GetProtectionType(HttpWebResponse webResponse) {
@@ -138,7 +138,7 @@ namespace Gsemac.Net.Cloudflare {
             if (webResponse is null)
                 throw new ArgumentNullException(nameof(webResponse));
 
-            return GetProtectionType((IHttpWebResponse)new HttpWebResponseWrapper(webResponse));
+            return GetProtectionType((IHttpWebResponse)new HttpWebResponseAdapter(webResponse));
 
         }
 
