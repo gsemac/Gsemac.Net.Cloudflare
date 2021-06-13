@@ -79,7 +79,13 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
             }
 
-            if (request.Method.Equals("post", StringComparison.OrdinalIgnoreCase)) {
+            bool isPostRequest = request.Method.Equals("post", StringComparison.OrdinalIgnoreCase);
+
+            if (isPostRequest) {
+
+                // Disable the "download" parameter, because it will not return a result for POST requests.
+
+                flareSolverrCommand.Download = false;
 
                 // Read the request stream from the request, which requires that a specific decorator is used.
 
@@ -125,7 +131,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
                 // We successfully received a solution.
                 // "Success" is set manually because we may not meet success conditions (sometimes we get a 503 on a successful response or don't get any cookies).
 
-                ChallengeHttpWebResponse challengeResponse = new ChallengeHttpWebResponse(response.Solution.Url, () => StreamFromBase64(response.Solution.Response)) {
+                ChallengeHttpWebResponse challengeResponse = new ChallengeHttpWebResponse(response.Solution.Url, () => StreamFromFlareSolverrSolution(response.Solution, isBase64: flareSolverrCommand.Download)) {
                     Cookies = response.Solution.Cookies,
                     Success = true,
                 };
@@ -149,6 +155,16 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
         private readonly IFlareSolverrService flareSolverrService;
 
+        private static Stream StreamFromFlareSolverrSolution(FlareSolverrSolution solution, bool isBase64) {
+
+            string responseStr = solution.Response;
+
+            if (isBase64)
+                return StreamFromBase64(responseStr);
+            else
+                return new MemoryStream(Encoding.UTF8.GetBytes(responseStr));
+
+        }
         private static Stream StreamFromBase64(string base64String) {
 
             return new MemoryStream(Convert.FromBase64String(base64String));
