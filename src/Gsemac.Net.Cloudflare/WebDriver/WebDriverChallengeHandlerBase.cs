@@ -2,19 +2,27 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System;
+using System.Threading;
 
 namespace Gsemac.Net.Cloudflare.WebDriver {
 
-    public abstract class WebDriverChallengeSolverBase :
-        ChallengeSolverBase {
+    public abstract class WebDriverChallengeHandlerBase :
+        ChallengeHandlerBase {
 
-        // Public members
+        // Protected members
 
-        public override IChallengeResponse GetResponse(Uri uri) {
+        protected WebDriverChallengeHandlerBase(bool disposeWebDriver = true) :
+            base("Web Driver IUAM Challenge Solver") {
 
-            string url = uri.AbsoluteUri;
+            this.disposeWebDriver = disposeWebDriver;
+
+        }
+
+        protected override IHttpWebResponse GetChallengeResponse(IHttpWebRequest request, CancellationToken cancellationToken) {
+
+            string url = request.RequestUri.AbsoluteUri;
             IWebDriver driver = null;
-            IChallengeResponse challengeResponse = ChallengeResponse.Failed;
+            IHttpWebResponse response = null;
 
             try {
 
@@ -24,7 +32,7 @@ namespace Gsemac.Net.Cloudflare.WebDriver {
 
                 driver.Navigate().GoToUrl(url);
 
-                WebDriverWait wait = new WebDriverWait(driver, solverOptions.Timeout);
+                WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromMilliseconds(request.Timeout));
 
                 OnLog.Info("Waiting for challenge response");
 
@@ -48,7 +56,7 @@ namespace Gsemac.Net.Cloudflare.WebDriver {
 
                             OnLog.Info("Captcha response received");
 
-                            challengeResponse = CreateSuccessfulChallengeResponse(driver);
+                            response = CreateSuccessfulChallengeResponse(driver);
 
                         }
                         else {
@@ -69,7 +77,7 @@ namespace Gsemac.Net.Cloudflare.WebDriver {
 
                         OnLog.Info("Challenge response received");
 
-                        challengeResponse = CreateSuccessfulChallengeResponse(driver);
+                        response = CreateSuccessfulChallengeResponse(driver);
 
                     }
 
@@ -102,17 +110,10 @@ namespace Gsemac.Net.Cloudflare.WebDriver {
 
             }
 
-            return challengeResponse;
+            if (response is null)
+                throw new ChallengeHandlerException(Properties.ExceptionMessages.ChallengeSolverFailed);
 
-        }
-
-        // Protected members
-
-        protected WebDriverChallengeSolverBase(IChallengeSolverOptions solverOptions, bool disposeWebDriver = true) :
-            base("Web Driver IUAM Challenge Solver") {
-
-            this.solverOptions = solverOptions;
-            this.disposeWebDriver = disposeWebDriver;
+            return response;
 
         }
 
@@ -121,11 +122,10 @@ namespace Gsemac.Net.Cloudflare.WebDriver {
         // Private members
 
         private readonly bool disposeWebDriver = true;
-        private readonly IChallengeSolverOptions solverOptions;
 
-        private IChallengeResponse CreateSuccessfulChallengeResponse(IWebDriver driver) {
+        private IHttpWebResponse CreateSuccessfulChallengeResponse(IWebDriver driver) {
 
-            return new ChallengeResponse(new Uri(driver.Url), driver.PageSource) {
+            return new ChallengeHttpWebResponse(new Uri(driver.Url), driver.PageSource) {
                 UserAgent = driver.GetUserAgent(),
                 Cookies = driver.GetCookies(),
             };

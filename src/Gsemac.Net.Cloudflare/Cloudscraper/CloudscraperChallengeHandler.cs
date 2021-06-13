@@ -1,4 +1,5 @@
 ﻿using Gsemac.Core;
+using Gsemac.Net.Extensions;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Diagnostics;
@@ -9,28 +10,21 @@ using System.Threading;
 
 namespace Gsemac.Net.Cloudflare.Cloudscraper {
 
-    public class CloudscraperChallengeSolver :
-        ChallengeSolverBase {
+    public class CloudscraperChallengeHandler :
+        ChallengeHandlerBase {
 
         // Public members
 
-        public CloudscraperChallengeSolver(ICloudscraperOptions cloudscraperOptions) :
-            this(cloudscraperOptions, ChallengeSolverOptions.Default) {
-        }
-        public CloudscraperChallengeSolver(ICloudscraperOptions cloudscraperOptions, IChallengeSolverOptions options) :
+        public CloudscraperChallengeHandler(ICloudscraperOptions cloudscraperOptions) :
             base("Cloudscraper IUAM Challenge Solver") {
 
-            if (options is null)
-                throw new ArgumentNullException(nameof(options));
-
             this.cloudscraperOptions = cloudscraperOptions;
-            this.options = options;
 
         }
 
-        public override IChallengeResponse GetResponse(Uri uri) {
+        protected override IHttpWebResponse GetChallengeResponse(IHttpWebRequest request, CancellationToken cancellationToken) {
 
-            string url = uri.AbsoluteUri;
+            string url = request.RequestUri.AbsoluteUri;
 
             if (!System.IO.File.Exists(cloudscraperOptions.CloudscraperExecutablePath)) {
 
@@ -43,11 +37,11 @@ namespace Gsemac.Net.Cloudflare.Cloudscraper {
             CmdArgumentsBuilder argumentsBuilder = new CmdArgumentsBuilder()
                 .WithArgument(url);
 
-            if (!string.IsNullOrWhiteSpace(options.UserAgent))
-                argumentsBuilder.AddArgument("--user-agent", options.UserAgent);
+            if (!string.IsNullOrWhiteSpace(request.UserAgent))
+                argumentsBuilder.AddArgument("--user-agent", request.UserAgent);
 
-            if (options.Proxy is object)
-                argumentsBuilder.AddArgument("--proxy", options.Proxy.GetProxy(new Uri(url)).AbsoluteUri);
+            if (request.Proxy is object)
+                argumentsBuilder.AddArgument("--proxy", request.Proxy.GetProxy(new Uri(url)).AbsoluteUri);
 
             ProcessStartInfo startInfo = new ProcessStartInfo() {
                 FileName = cloudscraperOptions.CloudscraperExecutablePath,
@@ -134,9 +128,9 @@ namespace Gsemac.Net.Cloudflare.Cloudscraper {
 
                 }
 
-                return new ChallengeResponse(uri, string.Empty) {
-                    UserAgent = userAgent,
+                return new ChallengeHttpWebResponse(request.RequestUri, string.Empty) {
                     Cookies = cookies,
+                    UserAgent = userAgent,
                 };
 
             }
@@ -155,7 +149,6 @@ namespace Gsemac.Net.Cloudflare.Cloudscraper {
         private static readonly object cloudscraperMutex = new object();
 
         private readonly ICloudscraperOptions cloudscraperOptions;
-        private readonly IChallengeSolverOptions options;
 
     }
 

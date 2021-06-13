@@ -122,5 +122,32 @@ namespace Gsemac.Net.Cloudflare.Properties {
                 return ResourceManager.GetString("FlareSolverrExecutableNotFound", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to FlareSolverr returned a failure response: {0}.
+        /// </summary>
+        internal static string FlareSolverrReturnedAFailureResponseWithStatus {
+            get {
+                return ResourceManager.GetString("FlareSolverrReturnedAFailureResponseWithStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Method &apos;{0}&apos; is not supported by this challenge solver..
+        /// </summary>
+        internal static string RequestMethodNotSupportedWithMethod {
+            get {
+                return ResourceManager.GetString("RequestMethodNotSupportedWithMethod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The request must be decorated with &apos;{0}&apos; in order to read the request stream..
+        /// </summary>
+        internal static string RequestMustBeDecoratedWithLazyUploadHttpWebRequestDecoratorWithTypeName {
+            get {
+                return ResourceManager.GetString("RequestMustBeDecoratedWithLazyUploadHttpWebRequestDecoratorWithTypeName", resourceCulture);
+            }
+        }
     }
 }

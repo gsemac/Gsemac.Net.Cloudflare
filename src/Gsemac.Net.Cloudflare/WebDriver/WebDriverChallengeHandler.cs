@@ -4,25 +4,21 @@ using System;
 
 namespace Gsemac.Net.Cloudflare.WebDriver {
 
-    public class WebDriverChallengeSolver :
-          WebDriverChallengeSolverBase {
+    public class WebDriverChallengeHandler :
+          WebDriverChallengeHandlerBase {
 
         // Public members
 
-        public WebDriverChallengeSolver(IWebDriverFactory webDriverFactory, IChallengeSolverOptions solverOptions) :
-            base(solverOptions) {
+        public WebDriverChallengeHandler(IWebDriverFactory webDriverFactory) {
 
             if (webDriverFactory is null)
                 throw new ArgumentNullException(nameof(webDriverFactory));
 
-            if (solverOptions is null)
-                throw new ArgumentNullException(nameof(solverOptions));
-
             this.webDriverFactory = webDriverFactory;
 
         }
-        public WebDriverChallengeSolver(IWebDriver webDriver, IChallengeSolverOptions solverOptions) :
-            base(solverOptions, disposeWebDriver: false) {
+        public WebDriverChallengeHandler(IWebDriver webDriver) :
+            base(disposeWebDriver: false) {
 
             if (webDriver is null)
                 throw new ArgumentNullException(nameof(webDriver));

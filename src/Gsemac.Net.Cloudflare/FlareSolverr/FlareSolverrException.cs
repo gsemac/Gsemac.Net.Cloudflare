@@ -3,7 +3,7 @@
 namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
     public sealed class FlareSolverrException :
-        Exception {
+        ChallengeHandlerException {
 
         public FlareSolverrException() {
         }

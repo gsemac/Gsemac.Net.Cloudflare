@@ -5,27 +5,27 @@ using System.IO;
 using System.Net;
 using System.Threading;
 
-namespace Gsemac.Net.Cloudflare.Iuam {
+namespace Gsemac.Net.Cloudflare.Cef {
 
-    public class CefChallengeSolver :
-        ChallengeSolverBase {
+    public class CefChallengeHandler :
+        ChallengeHandlerBase {
 
         // Public members
 
-        public CefChallengeSolver(CefChallengeSolverOptions options) :
+        public CefChallengeHandler(CefChallengeHandlerOptions options) :
             base("CEF IUAM Challenge Solver") {
 
             this.options = options;
 
         }
 
-        public override IChallengeResponse GetResponse(Uri uri) {
+        protected override IHttpWebResponse GetChallengeResponse(IHttpWebRequest request, CancellationToken cancellationToken) {
 
-            IChallengeResponse result = null;
+            IHttpWebResponse result = null;
 
             try {
 
-                string url = uri.AbsoluteUri;
+                string url = request.RequestUri.AbsoluteUri;
 
                 lock (lockObject) {
 
@@ -41,19 +41,19 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
                         OnLog.Info("Waiting for browser initialization");
 
-                        waitHandle.WaitOne(options.Timeout);
+                        waitHandle.WaitOne(request.Timeout);
 
                         OnLog.Info($"Loading webpage");
 
                         browser.Load(url);
 
-                        if (waitHandle.WaitOne(options.Timeout)) {
+                        if (waitHandle.WaitOne(request.Timeout)) {
 
                             // The page was loaded successfully, so extract the cookies.
 
                             OnLog.Info($"Solved challenge successfully");
 
-                            result = new ChallengeResponse(uri, string.Empty) {
+                            result = new ChallengeHttpWebResponse(request.RequestUri, string.Empty) {
                                 UserAgent = GetUserAgent(browser),
                                 Cookies = GetCookies(url, browser),
                             };
@@ -116,11 +116,11 @@ namespace Gsemac.Net.Cloudflare.Iuam {
 
         }
 
-        private readonly CefChallengeSolverOptions options;
+        private readonly CefChallengeHandlerOptions options;
         private readonly object lockObject = new object();
         private readonly AutoResetEvent waitHandle = new AutoResetEvent(false);
 
-        private void InitializeCef(CefChallengeSolverOptions options) {
+        private void InitializeCef(CefChallengeHandlerOptions options) {
 
             if (!CefSharp.Cef.IsInitialized) {
 
