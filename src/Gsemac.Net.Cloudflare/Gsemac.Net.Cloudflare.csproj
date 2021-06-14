@@ -20,7 +20,7 @@
 
   <ItemGroup>
     <PackageReference Include="Gsemac.Core" Version="0.13.2" />
-    <PackageReference Include="Gsemac.IO" Version="0.15.0" />
+    <PackageReference Include="Gsemac.IO" Version="0.16.0" />
     <PackageReference Include="Gsemac.IO.Compression" Version="0.6.0" />
     <PackageReference Include="Gsemac.Net" Version="0.17.4" />
     <PackageReference Include="Gsemac.Net.GitHub" Version="0.4.1" />

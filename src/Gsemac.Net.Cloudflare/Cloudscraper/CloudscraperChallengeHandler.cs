@@ -1,5 +1,6 @@
 ﻿using Gsemac.Core;
-using Gsemac.Net.Extensions;
+using Gsemac.IO.Logging;
+using Gsemac.IO.Logging.Extensions;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Diagnostics;
@@ -16,9 +17,19 @@ namespace Gsemac.Net.Cloudflare.Cloudscraper {
         // Public members
 
         public CloudscraperChallengeHandler(ICloudscraperOptions cloudscraperOptions) :
-            base("Cloudscraper IUAM Challenge Solver") {
+            this(cloudscraperOptions, new NullLogger()) {
+        }
+        public CloudscraperChallengeHandler(ICloudscraperOptions cloudscraperOptions, ILogger logger) :
+             base("Cloudscraper IUAM Challenge Solver") {
+
+            if (cloudscraperOptions is null)
+                throw new ArgumentNullException(nameof(cloudscraperOptions));
+
+            if (logger is null)
+                throw new ArgumentNullException(nameof(logger));
 
             this.cloudscraperOptions = cloudscraperOptions;
+            this.logger = new NamedLogger(logger, Name);
 
         }
 
@@ -28,7 +39,7 @@ namespace Gsemac.Net.Cloudflare.Cloudscraper {
 
             if (!System.IO.File.Exists(cloudscraperOptions.CloudscraperExecutablePath)) {
 
-                OnLog.Error($"cloudscraper was not found at '{cloudscraperOptions.CloudscraperExecutablePath}'");
+                logger.Error($"cloudscraper was not found at '{cloudscraperOptions.CloudscraperExecutablePath}'");
 
                 throw new System.IO.FileNotFoundException(cloudscraperOptions.CloudscraperExecutablePath);
 
@@ -57,7 +68,7 @@ namespace Gsemac.Net.Cloudflare.Cloudscraper {
 
             lock (cloudscraperMutex) {
 
-                OnLog.Info($"Getting Cloudflare clearance cookies for {url}");
+                logger.Info($"Getting Cloudflare clearance cookies for {url}");
 
                 using (Process process = new Process() { StartInfo = startInfo })
                 using (AutoResetEvent outputWaitHandle = new AutoResetEvent(false))
@@ -79,7 +90,7 @@ namespace Gsemac.Net.Cloudflare.Cloudscraper {
                         if (e.Data == null)
                             errorWaitHandle.Set();
                         else
-                            OnLog.Error(e.Data);
+                            logger.Error(e.Data);
 
                     };
 
@@ -90,12 +101,12 @@ namespace Gsemac.Net.Cloudflare.Cloudscraper {
 
                     if (process.WaitForExit(timeout) && outputWaitHandle.WaitOne(timeout) && errorWaitHandle.WaitOne(timeout)) {
 
-                        OnLog.Info($"Process exited with code {process.ExitCode}");
+                        logger.Info($"Process exited with code {process.ExitCode}");
 
                     }
                     else {
 
-                        OnLog.Error("Process timed out");
+                        logger.Error("Process timed out");
 
                     }
 
@@ -103,7 +114,7 @@ namespace Gsemac.Net.Cloudflare.Cloudscraper {
 
             }
 
-            OnLog.Info($"Got response: {output}");
+            logger.Info($"Got response: {output}");
 
             // The output will be a JSON array.
             // e.g.: [{"__cfduid": "XXX", "cf_clearance": "XXX"}, "XXX"]
@@ -136,7 +147,7 @@ namespace Gsemac.Net.Cloudflare.Cloudscraper {
             }
             catch (Exception ex) {
 
-                OnLog.Error(ex.ToString());
+                logger.Error(ex.ToString());
 
                 throw ex;
 
@@ -149,6 +160,7 @@ namespace Gsemac.Net.Cloudflare.Cloudscraper {
         private static readonly object cloudscraperMutex = new object();
 
         private readonly ICloudscraperOptions cloudscraperOptions;
+        private readonly ILogger logger;
 
     }
 

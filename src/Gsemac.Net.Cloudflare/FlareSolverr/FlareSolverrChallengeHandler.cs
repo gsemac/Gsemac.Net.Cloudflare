@@ -1,4 +1,6 @@
 ﻿using Gsemac.IO.Extensions;
+using Gsemac.IO.Logging;
+using Gsemac.IO.Logging.Extensions;
 using Gsemac.Net.Extensions;
 using System;
 using System.Collections.Generic;
@@ -15,12 +17,16 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
         // Public members
 
         public FlareSolverrChallengeHandler(IFlareSolverrService flareSolverrService) :
+            this(flareSolverrService, new NullLogger()) {
+        }
+        public FlareSolverrChallengeHandler(IFlareSolverrService flareSolverrService, ILogger logger) :
             base("FlareSolverr IUAM Challenge Solver") {
 
             if (flareSolverrService is null)
                 throw new ArgumentNullException(nameof(flareSolverrService));
 
             this.flareSolverrService = flareSolverrService;
+            this.logger = new NamedLogger(logger, Name);
 
         }
 
@@ -121,7 +127,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
             }
 
-            OnLog.Info($"Got response with status: {response.Status}");
+            logger.Info($"Got response with status: {response.Status}");
 
             // I used to check that the response code was 200 instead of 503, but sometimes the response code will be 503 even after a successful bypass.
             // Therefore, it is more reliable to check the status code returned by FlareSolverr rather than the webpage.
@@ -154,6 +160,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
         // Private members
 
         private readonly IFlareSolverrService flareSolverrService;
+        private readonly ILogger logger;
 
         private static Stream StreamFromFlareSolverrSolution(FlareSolverrSolution solution, bool isBase64) {
 

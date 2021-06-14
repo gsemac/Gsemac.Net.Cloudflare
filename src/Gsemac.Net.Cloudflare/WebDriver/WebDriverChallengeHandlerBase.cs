@@ -1,4 +1,6 @@
-﻿using Gsemac.Net.WebDrivers.Extensions;
+﻿using Gsemac.IO.Logging;
+using Gsemac.IO.Logging.Extensions;
+using Gsemac.Net.WebDrivers.Extensions;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System;
@@ -11,10 +13,17 @@ namespace Gsemac.Net.Cloudflare.WebDriver {
 
         // Protected members
 
-        protected WebDriverChallengeHandlerBase(bool disposeWebDriver = true) :
+        protected WebDriverChallengeHandlerBase(bool disposeWebDriver) :
+            this(disposeWebDriver, new NullLogger()) {
+        }
+        protected WebDriverChallengeHandlerBase(bool disposeWebDriver, ILogger logger) :
             base("Web Driver IUAM Challenge Solver") {
 
+            if (logger is null)
+                throw new ArgumentNullException(nameof(logger));
+
             this.disposeWebDriver = disposeWebDriver;
+            this.logger = new NamedLogger(logger, Name);
 
         }
 
@@ -28,13 +37,13 @@ namespace Gsemac.Net.Cloudflare.WebDriver {
 
                 driver = CreateWebDriver();
 
-                OnLog.Info($"Navigating to {url}");
+                logger.Info($"Navigating to {url}");
 
                 driver.Navigate().GoToUrl(url);
 
                 WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromMilliseconds(request.Timeout));
 
-                OnLog.Info("Waiting for challenge response");
+                logger.Info("Waiting for challenge response");
 
                 // The challenge page may reload several times as it tries new challenges. 
                 // We don't want the wait condition to think we've solved the challenge while the page is busy reloading, so it's important to also check for the presence of the <html> element.
@@ -50,32 +59,32 @@ namespace Gsemac.Net.Cloudflare.WebDriver {
                         // The captcha page ("Attention Required!") was encountered.
                         // This kind of challenge cannot be solved automatically and requires user interaction. 
 
-                        OnLog.Info("Captcha challenge received");
+                        logger.Info("Captcha challenge received");
 
                         if (wait.Until(d => CloudflareUtilities.GetProtectionType(d.PageSource) != ProtectionType.CaptchaBypass)) {
 
-                            OnLog.Info("Captcha response received");
+                            logger.Info("Captcha response received");
 
                             response = CreateSuccessfulChallengeResponse(driver);
 
                         }
                         else {
 
-                            OnLog.Error("Failed to receive captcha response (timed out)");
+                            logger.Error("Failed to receive captcha response (timed out)");
 
                         }
 
                     }
                     else if (challengeType == ProtectionType.AccessDenied) {
 
-                        OnLog.Error("The owner of this website has blocked your IP address.");
+                        logger.Error("The owner of this website has blocked your IP address.");
 
                     }
                     else {
 
                         // The challenge was solved successfully.
 
-                        OnLog.Info("Challenge response received");
+                        logger.Info("Challenge response received");
 
                         response = CreateSuccessfulChallengeResponse(driver);
 
@@ -84,21 +93,21 @@ namespace Gsemac.Net.Cloudflare.WebDriver {
                 }
                 else {
 
-                    OnLog.Error("Failed to receive challenge response (timed out)");
+                    logger.Error("Failed to receive challenge response (timed out)");
 
                 }
 
             }
             catch (Exception ex) {
 
-                OnLog.Error(ex.ToString());
+                logger.Error(ex.ToString());
 
                 throw ex;
 
             }
             finally {
 
-                OnLog.Info("Closing web driver");
+                logger.Info("Closing web driver");
 
                 if (driver is object && disposeWebDriver) {
 
@@ -122,6 +131,7 @@ namespace Gsemac.Net.Cloudflare.WebDriver {
         // Private members
 
         private readonly bool disposeWebDriver = true;
+        private readonly ILogger logger;
 
         private IHttpWebResponse CreateSuccessfulChallengeResponse(IWebDriver driver) {
 

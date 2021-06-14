@@ -8,18 +8,13 @@ using System.Threading;
 namespace Gsemac.Net.Cloudflare {
 
     public abstract class ChallengeHandlerBase :
-        HttpWebRequestHandler,
-        ILogEventSource {
+        HttpWebRequestHandler {
 
         // Public members
-
-        public event LogEventHandler Log;
 
         public string Name { get; }
 
         // Protected members
-
-        protected LogEventHandlerWrapper OnLog => new LogEventHandlerWrapper(Log, Name);
 
         protected ChallengeHandlerBase() :
             this("Cloudflare IUAM Challenge Solver") {
