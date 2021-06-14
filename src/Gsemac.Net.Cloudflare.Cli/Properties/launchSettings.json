@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "Gsemac.Net.CloudflareUtilities.Cli": {
-      "commandName": "Project",
-      "commandLineArgs": "https://stackoverflow.com/ --solver=flaresolverr --chrome"
-    }
-  }
-}
