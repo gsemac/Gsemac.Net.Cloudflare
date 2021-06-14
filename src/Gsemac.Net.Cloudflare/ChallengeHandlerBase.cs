@@ -1,5 +1,4 @@
-﻿using Gsemac.IO.Logging;
-using Gsemac.Net.Extensions;
+﻿using Gsemac.Net.Extensions;
 using Gsemac.Reflection;
 using System;
 using System.Net;
@@ -37,7 +36,7 @@ namespace Gsemac.Net.Cloudflare {
                 // Even though 1020 "Access Denied" errors can't be "solved", they're sometimes the result of Cloudflare detecting something unusual about the request (e.g. header order).
                 // It's worth letting the solver make an attempt in case it's able to have the request go through successfully.
 
-                bool isCloudflareDetected = true; // webEx.Response is object && CloudflareUtilities.IsProtectionDetected(webEx.Response);
+                bool isCloudflareDetected = webEx.Response is object && CloudflareUtilities.IsProtectionDetected(webEx.Response);
 
                 if (!isCloudflareDetected)
                     throw;
