@@ -18,11 +18,11 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
         string Session { get; }
         [JsonProperty("userAgent")]
         string UserAgent { get; }
-        [JsonProperty("maxTimeout"), JsonConverter(typeof(FlareSolverrDataMillisecondsTimeSpanJsonConverter))]
+        [JsonProperty("maxTimeout"), JsonConverter(typeof(FlareSolverrMillisecondsTimeSpanJsonConverter))]
         TimeSpan MaxTimeout { get; }
         [JsonProperty("headers")]
         IDictionary<string, string> Headers { get; }
-        [JsonProperty("cookies"), JsonConverter(typeof(FlareSolverrDataCookieCollectionJsonConverter))]
+        [JsonProperty("cookies"), JsonConverter(typeof(FlareSolverrCookieCollectionJsonConverter))]
         CookieCollection Cookies { get; }
         [JsonProperty("returnOnlyCookies")]
         bool ReturnOnlyCookies { get; }

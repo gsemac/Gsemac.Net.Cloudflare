@@ -16,7 +16,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
         public IDictionary<string, string> Headers { get; set; } = new Dictionary<string, string>();
         [JsonProperty("response")]
         public string Response { get; set; }
-        [JsonProperty("cookies"), JsonConverter(typeof(FlareSolverrDataCookieCollectionJsonConverter))]
+        [JsonProperty("cookies"), JsonConverter(typeof(FlareSolverrCookieCollectionJsonConverter))]
         public CookieCollection Cookies { get; set; } = new CookieCollection();
         [JsonProperty("userAgent")]
         public string UserAgent { get; set; }

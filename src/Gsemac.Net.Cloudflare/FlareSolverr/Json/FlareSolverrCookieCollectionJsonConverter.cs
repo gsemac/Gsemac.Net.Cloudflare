@@ -4,7 +4,7 @@ using System.Net;
 
 namespace Gsemac.Net.Cloudflare.FlareSolverr.Json {
 
-    internal class FlareSolverrDataCookieCollectionJsonConverter :
+    internal class FlareSolverrCookieCollectionJsonConverter :
         JsonConverter {
 
         // Public members
@@ -17,7 +17,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr.Json {
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer) {
 
             CookieCollection cookies = new CookieCollection();
-            FlareSolverrDataCookieJsonConverter cookieJsonConverter = new FlareSolverrDataCookieJsonConverter();
+            FlareSolverrCookieJsonConverter cookieJsonConverter = new FlareSolverrCookieJsonConverter();
 
             while (reader.TokenType != JsonToken.EndArray && reader.Read()) {
 
@@ -31,7 +31,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr.Json {
         }
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) {
 
-            FlareSolverrDataCookieJsonConverter cookieJsonConverter = new FlareSolverrDataCookieJsonConverter();
+            FlareSolverrCookieJsonConverter cookieJsonConverter = new FlareSolverrCookieJsonConverter();
 
             writer.WriteStartArray();
 

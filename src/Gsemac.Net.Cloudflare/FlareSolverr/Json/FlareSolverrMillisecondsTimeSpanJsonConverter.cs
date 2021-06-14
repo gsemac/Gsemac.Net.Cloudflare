@@ -3,7 +3,7 @@ using System;
 
 namespace Gsemac.Net.Cloudflare.FlareSolverr.Json {
 
-    internal class FlareSolverrDataMillisecondsTimeSpanJsonConverter :
+    internal class FlareSolverrMillisecondsTimeSpanJsonConverter :
         JsonConverter {
 
         public override bool CanConvert(Type objectType) {
