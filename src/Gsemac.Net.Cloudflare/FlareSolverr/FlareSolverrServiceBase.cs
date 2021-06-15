@@ -1,14 +1,10 @@
-﻿using Gsemac.IO.Logging;
-
-namespace Gsemac.Net.Cloudflare.FlareSolverr {
+﻿namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
     public abstract class FlareSolverrServiceBase :
         IFlareSolverrService {
 
         // Public members
 
-        public event LogEventHandler Log;
-        public event LogEventHandler FlareSolverrLog;
         public event DownloadFileProgressChangedEventHandler DownloadFileProgressChanged;
         public event DownloadFileCompletedEventHandler DownloadFileCompleted;
 
@@ -26,9 +22,6 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
         }
 
         // Protected members
-
-        protected LogEventHandlerWrapper OnLog => new LogEventHandlerWrapper(Log, "FlareSolverr Service");
-        protected LogEventHandlerWrapper OnFlareSolverrLog => new LogEventHandlerWrapper(FlareSolverrLog, "FlareSolverr");
 
         protected void OnDownloadFileProgressChanged(object sender, DownloadFileProgressChangedEventArgs e) {
 

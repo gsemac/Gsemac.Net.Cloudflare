@@ -3,6 +3,7 @@ using Gsemac.Core.Extensions;
 using Gsemac.IO;
 using Gsemac.IO.Compression;
 using Gsemac.IO.Logging;
+using Gsemac.IO.Logging.Extensions;
 using Gsemac.Net.Extensions;
 using Gsemac.Net.GitHub;
 using Gsemac.Net.GitHub.Extensions;
@@ -24,7 +25,6 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
         public event DownloadFileProgressChangedEventHandler DownloadFileProgressChanged;
         public event DownloadFileCompletedEventHandler DownloadFileCompleted;
-        public event LogEventHandler Log;
 
         public FlareSolverrUpdater() :
            this(FlareSolverrUpdaterOptions.Default) {
@@ -32,7 +32,13 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
         public FlareSolverrUpdater(IFlareSolverrUpdaterOptions options) :
             this(new HttpWebRequestFactory(), options) {
         }
-        public FlareSolverrUpdater(IHttpWebRequestFactory webRequestFactory, IFlareSolverrUpdaterOptions options) {
+        public FlareSolverrUpdater(IFlareSolverrUpdaterOptions options, ILogger logger) :
+            this(HttpWebRequestFactory.Default, options, logger) {
+        }
+        public FlareSolverrUpdater(IHttpWebRequestFactory webRequestFactory, IFlareSolverrUpdaterOptions options) :
+            this(webRequestFactory, options, new NullLogger()) {
+        }
+        public FlareSolverrUpdater(IHttpWebRequestFactory webRequestFactory, IFlareSolverrUpdaterOptions options, ILogger logger) {
 
             if (webRequestFactory is null)
                 throw new ArgumentNullException(nameof(webRequestFactory));
@@ -40,14 +46,18 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
             if (options is null)
                 throw new ArgumentNullException(nameof(options));
 
+            if (logger is null)
+                throw new ArgumentNullException(nameof(logger));
+
             this.webRequestFactory = webRequestFactory;
             this.options = options;
+            this.logger = new NamedLogger(logger, nameof(FlareSolverrUpdater));
 
         }
 
         public IFlareSolverrInfo Update(CancellationToken cancellationToken) {
 
-            OnLog.Info("Checking for FlareSolverr updates");
+            logger.Info("Checking for FlareSolverr updates");
 
             IFlareSolverrInfo flareSolverrInfo = GetFlareSolverrInfo();
             System.Version latestVersion = GetLatestFlareSolverrVersion();
@@ -57,7 +67,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
             if (updateRequired) {
 
-                OnLog.Info($"Updating FlareSolverr to version {latestVersion}");
+                logger.Info($"Updating FlareSolverr to version {latestVersion}");
 
                 DownloadFlareSolverr(cancellationToken);
 
@@ -70,15 +80,13 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
             }
             else
-                OnLog.Info($"FlareSolverr is up to date ({flareSolverrInfo.Version})");
+                logger.Info($"FlareSolverr is up to date ({flareSolverrInfo.Version})");
 
             return flareSolverrInfo;
 
         }
 
         // Protected members
-
-        protected LogEventHandlerWrapper OnLog => new LogEventHandlerWrapper(Log, "FlareSolverr Updater");
 
         protected void OnDownloadFileProgressChanged(object sender, DownloadFileProgressChangedEventArgs e) {
 
@@ -95,6 +103,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
         private readonly IFlareSolverrUpdaterOptions options;
         private readonly IHttpWebRequestFactory webRequestFactory;
+        private readonly ILogger logger;
 
         private string GetFlareSolverrInfoPath() {
 
@@ -152,7 +161,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
         }
         private System.Version GetLatestFlareSolverrVersion() {
 
-            OnLog.Info("Checking latest FlareSolverr version");
+            logger.Info("Checking latest FlareSolverr version");
 
             System.Version version = new System.Version();
 
@@ -166,14 +175,14 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
             }
 
-            OnLog.Info($"Latest FlareSolverr version is {version}");
+            logger.Info($"Latest FlareSolverr version is {version}");
 
             return version;
 
         }
         private void DownloadFlareSolverr(CancellationToken cancellationToken) {
 
-            OnLog.Info("Getting FlareSolverr download url");
+            logger.Info("Getting FlareSolverr download url");
 
             IGitHubClient gitHubClient = new GitHubWebClient(webRequestFactory);
             IRelease latestRelease = gitHubClient.GetLatestRelease("https://github.com/FlareSolverr/FlareSolverr");
@@ -181,12 +190,12 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
             if (asset is null) {
 
-                OnLog.Warning($"Could not find appropriate release for this platform ({GetPlatformOS()}).");
+                logger.Warning($"Could not find appropriate release for this platform ({GetPlatformOS()}).");
 
             }
             else {
 
-                OnLog.Info($"Downloading {asset.DownloadUrl}");
+                logger.Info($"Downloading {asset.DownloadUrl}");
 
                 string currentDirectory = options.FlareSolverrDirectoryPath;
 
@@ -222,7 +231,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
                     }
 
-                    OnLog.Info($"Extracting {PathUtilities.GetFilename(downloadFilePath)}");
+                    logger.Info($"Extracting {PathUtilities.GetFilename(downloadFilePath)}");
 
                     try {
 
@@ -231,7 +240,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
                     }
                     catch (Exception ex) {
 
-                        OnLog.Info(ex.ToString());
+                        logger.Info(ex.ToString());
 
                         throw ex;
 

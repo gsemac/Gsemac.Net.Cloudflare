@@ -3,8 +3,7 @@ using System.Threading;
 
 namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
-    public interface IFlareSolverrUpdater :
-        ILogEventSource {
+    public interface IFlareSolverrUpdater {
 
         event DownloadFileProgressChangedEventHandler DownloadFileProgressChanged;
         event DownloadFileCompletedEventHandler DownloadFileCompleted;
