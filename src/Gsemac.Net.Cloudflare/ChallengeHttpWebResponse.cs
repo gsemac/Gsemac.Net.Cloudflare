@@ -13,8 +13,8 @@ namespace Gsemac.Net.Cloudflare {
         // Public members
 
         public string UserAgent {
-            get => Headers[HttpRequestHeader.UserAgent];
-            set => Headers[HttpRequestHeader.UserAgent] = value;
+            get => Headers["user-agent"];
+            set => Headers["user-agent"] = value;
         }
         public override CookieCollection Cookies { get; set; } = new CookieCollection();
         public override Uri ResponseUri { get; }
