@@ -77,6 +77,12 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
                     case "transfer-encoding":
                         break;
 
+                    // Avoid setting a user agent header, because it can cause the handler to fail if Cloudflare detects it differs from the browser.
+                    // While GET requests may still go through sometimes, it seems to cause significant problems with POST requests.
+
+                    case "user-agent":
+                        break;
+
                     default:
                         flareSolverrCommand.Headers[header.Name] = header.Value;
                         break;
