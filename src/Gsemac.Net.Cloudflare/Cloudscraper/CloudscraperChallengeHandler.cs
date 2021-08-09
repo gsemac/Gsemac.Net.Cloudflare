@@ -49,10 +49,10 @@ namespace Gsemac.Net.Cloudflare.Cloudscraper {
                 .WithArgument(url);
 
             if (!string.IsNullOrWhiteSpace(request.UserAgent))
-                argumentsBuilder.AddArgument("--user-agent", request.UserAgent);
+                argumentsBuilder.WithArgument("--user-agent", request.UserAgent);
 
             if (request.Proxy is object)
-                argumentsBuilder.AddArgument("--proxy", request.Proxy.GetProxy(new Uri(url)).AbsoluteUri);
+                argumentsBuilder.WithArgument("--proxy", request.Proxy.GetProxy(new Uri(url)).AbsoluteUri);
 
             ProcessStartInfo startInfo = new ProcessStartInfo() {
                 FileName = cloudscraperOptions.CloudscraperExecutablePath,

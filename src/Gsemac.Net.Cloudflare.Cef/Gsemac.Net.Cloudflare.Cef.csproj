@@ -15,8 +15,8 @@
   </PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="CefSharp.OffScreen" Version="90.6.50" />
-		<PackageReference Include="Gsemac.IO" Version="0.16.0" />
+		<PackageReference Include="CefSharp.OffScreen" Version="91.1.230" />
+		<PackageReference Include="Gsemac.IO" Version="0.17.1" />
 		<PackageReference Include="NETStandard.Library" Version="2.0.3" />
 	</ItemGroup>
 
