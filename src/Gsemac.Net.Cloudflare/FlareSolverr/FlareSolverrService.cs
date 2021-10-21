@@ -22,6 +22,9 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
         public FlareSolverrService(IFlareSolverrOptions options) :
             this(HttpWebRequestFactory.Default, options) {
         }
+        public FlareSolverrService(ILogger logger) :
+            this(FlareSolverrOptions.Default, logger) {
+        }
         public FlareSolverrService(IFlareSolverrOptions options, ILogger logger) :
            this(HttpWebRequestFactory.Default, options, logger) {
         }
