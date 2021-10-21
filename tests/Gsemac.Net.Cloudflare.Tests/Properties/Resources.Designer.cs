@@ -62,17 +62,23 @@ namespace Gsemac.Net.Cloudflare.Tests.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
-        ///&lt;!--[if lt IE 7]&gt; &lt;html class=&quot;no-js ie6 oldie&quot; lang=&quot;en-US&quot;&gt; &lt;![endif]--&gt;
-        ///&lt;!--[if IE 7]&gt;    &lt;html class=&quot;no-js ie7 oldie&quot; lang=&quot;en-US&quot;&gt; &lt;![endif]--&gt;
-        ///&lt;!--[if IE 8]&gt;    &lt;html class=&quot;no-js ie8 oldie&quot; lang=&quot;en-US&quot;&gt; &lt;![endif]--&gt;
-        ///&lt;!--[if gt IE 8]&gt;&lt;!--&gt; &lt;html class=&quot;no-js&quot; lang=&quot;en-US&quot;&gt; &lt;!--&lt;![endif]--&gt;
+        ///&lt;!--[if lt IE 7]&gt;
+        ///&lt;html class=&quot;no-js ie6 oldie&quot; lang=&quot;en-US&quot;&gt;
+        ///   &lt;![endif]--&gt;
+        ///&lt;!--[if IE 7]&gt;
+        ///&lt;html class=&quot;no-js ie7 oldie&quot; lang=&quot;en-US&quot;&gt;
+        ///   &lt;![endif]--&gt;
+        ///&lt;!--[if IE 8]&gt;
+        ///&lt;html class=&quot;no-js ie8 oldie&quot; lang=&quot;en-US&quot;&gt;
+        ///   &lt;![endif]--&gt;
+        ///&lt;!--[if gt IE 8]&gt;&lt;!--&gt;
+        ///&lt;html class=&quot;no-js&quot; lang=&quot;en-US&quot;&gt;
+        ///&lt;!--&lt;![endif]--&gt;
         ///&lt;head&gt;
-        ///
-        ///&lt;title&gt;Please Wait... | Cloudflare&lt;/title&gt;
-        ///  
-        ///&lt;meta name=&quot;captcha-bypass&quot; id=&quot;captcha-bypass&quot; /&gt;
-        ///&lt;meta charset=&quot;UTF-8&quot; /&gt;
-        ///&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; char [rest of string was truncated]&quot;;.
+        ///    &lt;title&gt;Please Wait... | Cloudflare&lt;/title&gt;
+        ///    &lt;meta name=&quot;captcha-bypass&quot; id=&quot;captcha-bypass&quot; /&gt;
+        ///    &lt;meta charset=&quot;UTF-8&quot; /&gt;
+        ///    &lt;meta http-equiv=&quot;Content-Type&quot; con [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string captcha_bypass {
             get {
@@ -82,15 +88,22 @@ namespace Gsemac.Net.Cloudflare.Tests.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
-        ///&lt;!--[if lt IE 7]&gt; &lt;html class=&quot;no-js ie6 oldie&quot; lang=&quot;en-US&quot;&gt; &lt;![endif]--&gt;
-        ///&lt;!--[if IE 7]&gt;    &lt;html class=&quot;no-js ie7 oldie&quot; lang=&quot;en-US&quot;&gt; &lt;![endif]--&gt;
-        ///&lt;!--[if IE 8]&gt;    &lt;html class=&quot;no-js ie8 oldie&quot; lang=&quot;en-US&quot;&gt; &lt;![endif]--&gt;
-        ///&lt;!--[if gt IE 8]&gt;&lt;!--&gt; &lt;html class=&quot;no-js&quot; lang=&quot;en-US&quot;&gt; &lt;!--&lt;![endif]--&gt;
+        ///&lt;!--[if lt IE 7]&gt;
+        ///&lt;html class=&quot;no-js ie6 oldie&quot; lang=&quot;en-US&quot;&gt;
+        ///   &lt;![endif]--&gt;
+        ///&lt;!--[if IE 7]&gt;
+        ///&lt;html class=&quot;no-js ie7 oldie&quot; lang=&quot;en-US&quot;&gt;
+        ///   &lt;![endif]--&gt;
+        ///&lt;!--[if IE 8]&gt;
+        ///&lt;html class=&quot;no-js ie8 oldie&quot; lang=&quot;en-US&quot;&gt;
+        ///   &lt;![endif]--&gt;
+        ///&lt;!--[if gt IE 8]&gt;&lt;!--&gt;
+        ///&lt;html class=&quot;no-js&quot; lang=&quot;en-US&quot;&gt;
+        ///&lt;!--&lt;![endif]--&gt;
         ///&lt;head&gt;
-        ///&lt;title&gt;Access denied | example.com used Cloudflare to restrict access&lt;/title&gt;
-        ///&lt;meta charset=&quot;UTF-8&quot; /&gt;
-        ///&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot; /&gt;
-        ///&lt;meta ht [rest of string was truncated]&quot;;.
+        ///    &lt;title&gt;Access denied | example.com used Cloudflare to restrict access&lt;/title&gt;
+        ///    &lt;meta charset=&quot;UTF-8&quot; /&gt;
+        ///    &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; char [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string cf_cookie_error {
             get {
@@ -99,14 +112,20 @@ namespace Gsemac.Net.Cloudflare.Tests.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 
-        ///&lt;!DOCTYPE html&gt;
-        ///&lt;html lang=&quot;en-US&quot;&gt;&lt;head&gt;&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot; /&gt;
-        ///&lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=Edge,chrome=1&quot; /&gt;
-        ///&lt;meta name=&quot;robots&quot; content=&quot;noindex, nofollow&quot; /&gt;
-        ///&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1, maximum-scale=1&quot; /&gt;
-        ///&lt;title&gt;Just a moment...&lt;/title&gt;
-        ///&lt;style type=&quot;text/css&quot; &gt;body,html{width:100%;height:100%;margin:0;padding:0}body{background-color:#343434;color:#999;font-family:Helvetica,Arial,sans-serif}&lt; [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
+        ///&lt;html lang=&quot;en-US&quot;&gt;
+        ///&lt;head&gt;
+        ///    &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot; /&gt;
+        ///    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=Edge,chrome=1&quot; /&gt;
+        ///    &lt;meta name=&quot;robots&quot; content=&quot;noindex, nofollow&quot; /&gt;
+        ///    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1, maximum-scale=1&quot; /&gt;
+        ///    &lt;title&gt;Just a moment...&lt;/title&gt;
+        ///    &lt;style type=&quot;text/css&quot;&gt;
+        ///        body, html {
+        ///            width: 100%;
+        ///            height: 100%;
+        ///            margin: 0;
+        ///        [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string im_under_attack {
             get {
