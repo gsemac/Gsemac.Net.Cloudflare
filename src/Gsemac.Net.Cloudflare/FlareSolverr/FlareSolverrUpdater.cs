@@ -32,6 +32,9 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
         public FlareSolverrUpdater(IFlareSolverrUpdaterOptions options) :
             this(new HttpWebRequestFactory(), options) {
         }
+        public FlareSolverrUpdater(ILogger logger) :
+            this(FlareSolverrUpdaterOptions.Default, logger) {
+        }
         public FlareSolverrUpdater(IFlareSolverrUpdaterOptions options, ILogger logger) :
             this(HttpWebRequestFactory.Default, options, logger) {
         }
@@ -166,7 +169,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
             System.Version version = new System.Version();
 
             IGitHubClient gitHubClient = new GitHubWebClient(webRequestFactory);
-            IRelease latestRelease = gitHubClient.GetLatestRelease("https://github.com/FlareSolverr/FlareSolverr");
+            IRelease latestRelease = gitHubClient.GetLatestRelease(Properties.Urls.FlareSolverrRepository);
 
             if (latestRelease is object) {
 
@@ -185,12 +188,12 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
             logger.Info("Getting FlareSolverr download url");
 
             IGitHubClient gitHubClient = new GitHubWebClient(webRequestFactory);
-            IRelease latestRelease = gitHubClient.GetLatestRelease("https://github.com/FlareSolverr/FlareSolverr");
-            IReleaseAsset asset = latestRelease.Assets.Where(a => a.Name.Contains(GetPlatformOS())).FirstOrDefault();
+            IRelease latestRelease = gitHubClient.GetLatestRelease(Properties.Urls.FlareSolverrRepository);
+            IReleaseAsset asset = latestRelease.Assets.Where(a => a.Name.Contains(GetOSPlatform())).FirstOrDefault();
 
             if (asset is null) {
 
-                logger.Warning($"Could not find appropriate release for this platform ({GetPlatformOS()}).");
+                logger.Warning($"Could not find appropriate release for this platform ({GetOSPlatform()}).");
 
             }
             else {
@@ -209,31 +212,11 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
                     client.DownloadProgressChanged += (sender, e) => OnDownloadFileProgressChanged(this, new DownloadFileProgressChangedEventArgs(new Uri(asset.DownloadUrl), downloadFilePath, e));
                     client.DownloadFileCompleted += (sender, e) => OnDownloadFileCompleted(this, new DownloadFileCompletedEventArgs(new Uri(asset.DownloadUrl), downloadFilePath, e.Error is null));
 
-                    // This is terrible! But I'm tired of working on this, and CancelAsync doesn't actually work.
-                    // https://github.com/dotnet/runtime/issues/31479
-
-                    Thread downloadThread = new Thread(() => client.DownloadFileSync(new Uri(asset.DownloadUrl), downloadFilePath, cancellationToken));
-
-                    using (cancellationToken.Register(() => downloadThread.Abort())) {
-
-                        downloadThread.Start();
-                        downloadThread.Join();
-
-                    }
-
-                    // Delete the partially downloaded file.
-
-                    if (downloadThread.ThreadState == ThreadState.Aborted && File.Exists(downloadFilePath)) {
-
-                        File.Delete(downloadFilePath);
-
-                        throw new WebException("The request was aborted: The request was canceled.", WebExceptionStatus.RequestCanceled);
-
-                    }
-
-                    logger.Info($"Extracting {PathUtilities.GetFilename(downloadFilePath)}");
-
                     try {
+
+                        client.DownloadFileSync(new Uri(asset.DownloadUrl), downloadFilePath, cancellationToken);
+
+                        logger.Info($"Extracting {PathUtilities.GetFilename(downloadFilePath)}");
 
                         ArchiveUtilities.Extract(downloadFilePath, extractToNewFolder: true);
 
@@ -247,7 +230,8 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
                     }
                     finally {
 
-                        File.Delete(downloadFilePath);
+                        if (File.Exists(downloadFilePath))
+                            File.Delete(downloadFilePath);
 
                     }
 
@@ -257,7 +241,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
         }
 
-        private string GetPlatformOS() {
+        private string GetOSPlatform() {
 
 #if !NETFRAMEWORK
             string operatingSystemStr = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "windows" : "linux";

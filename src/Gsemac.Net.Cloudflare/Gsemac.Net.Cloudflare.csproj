@@ -38,6 +38,9 @@
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Update="Properties\Urls.Designer.cs">
+      <DesignTime>True</DesignTime>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
