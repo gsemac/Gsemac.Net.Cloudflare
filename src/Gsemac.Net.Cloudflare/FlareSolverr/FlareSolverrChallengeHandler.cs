@@ -141,11 +141,16 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
             if (response.Status?.Equals("ok", StringComparison.OrdinalIgnoreCase) ?? false) {
 
                 // We successfully received a solution.
-                // "Success" is set manually because we may not meet success conditions (sometimes we get a 503 on a successful response or don't get any cookies).
 
-                ChallengeHttpWebResponse challengeResponse = new ChallengeHttpWebResponse(response.Solution.Url, () => StreamFromFlareSolverrSolution(response.Solution, isBase64: flareSolverrCommand.Download)) {
+                // The "download" parameter allows us to receive the response as a base64-encoded string. However, this feature was deprecated in FlareSolverr v2.0.0.
+                // The parameter is allowed, but the response will not be base64-encoded.
+
+                bool isResponseBase64Encoded = flareSolverrCommand.Download &&
+                    response.Version < new Version(2, 0);
+
+                ChallengeHttpWebResponse challengeResponse = new ChallengeHttpWebResponse(response.Solution.Url, () => StreamFromFlareSolverrSolution(response.Solution, isResponseBase64Encoded: isResponseBase64Encoded)) {
                     Cookies = response.Solution.Cookies,
-                    Success = true,
+                    Success = true, // "Success" is set manually because we may not meet success conditions (sometimes we get a 503 on a successful response or don't get any cookies).
                 };
 
                 challengeResponse.SetHeaders(DictionaryToWebHeaderCollection(response.Solution.Headers));
@@ -168,11 +173,11 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
         private readonly IFlareSolverrService flareSolverrService;
         private readonly ILogger logger;
 
-        private static Stream StreamFromFlareSolverrSolution(FlareSolverrSolution solution, bool isBase64) {
+        private static Stream StreamFromFlareSolverrSolution(FlareSolverrSolution solution, bool isResponseBase64Encoded) {
 
             string responseStr = solution.Response;
 
-            if (isBase64)
+            if (isResponseBase64Encoded)
                 return StreamFromBase64(responseStr);
             else
                 return new MemoryStream(Encoding.UTF8.GetBytes(responseStr));
