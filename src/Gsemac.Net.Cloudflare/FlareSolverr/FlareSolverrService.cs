@@ -357,10 +357,22 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
                 StartInfo = processStartInfo
             };
 
-            process.OutputDataReceived += (sender, e) => logger.Debug(e.Data);
-            process.ErrorDataReceived += (sender, e) => logger.Error(e.Data);
+            process.OutputDataReceived += OutputDataReceivedHandler;
+            process.ErrorDataReceived += ErrorDataReceivedHandler;
 
             return process;
+
+        }
+        private void OutputDataReceivedHandler(object sender, DataReceivedEventArgs e) {
+
+            if (!string.IsNullOrWhiteSpace(e.Data))
+                logger.Debug(e.Data);
+
+        }
+        private void ErrorDataReceivedHandler(object sender, DataReceivedEventArgs e) {
+
+            if (!string.IsNullOrWhiteSpace(e.Data))
+                logger.Error(e.Data);
 
         }
 
