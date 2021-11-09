@@ -358,7 +358,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
                 StartInfo = processStartInfo
             };
 
-            process.OutputDataReceived += (sender, e) => OutputDataReceivedHandler(e, LogLevel.Debug);
+            process.OutputDataReceived += (sender, e) => OutputDataReceivedHandler(e, LogLevel.Info);
             process.ErrorDataReceived += (sender, e) => OutputDataReceivedHandler(e, LogLevel.Error);
 
             return process;
@@ -372,11 +372,15 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
             LogLevel logLevel = suggestedLogLevel;
             string logMessage = e.Data;
 
-            Match m = Regex.Match(logMessage, @"^(?<timestamp>\d+-\d+-\d+T\d+:\d+:\d+-\d+:\d+)\s(?<level>INFO|WARN|ERROR)", RegexOptions.IgnoreCase);
+            Match m = Regex.Match(logMessage, @"^(?<timestamp>\d+-\d+-\d+T\d+:\d+:\d+-\d+:\d+)\s(?<level>DEBUG|INFO|WARN|ERROR)", RegexOptions.IgnoreCase);
 
             if (m.Success) {
 
                 switch (m.Groups["level"].Value.ToLowerInvariant()) {
+
+                    case "debug":
+                        logLevel = LogLevel.Debug;
+                        break;
 
                     case "info":
                         logLevel = LogLevel.Info;
