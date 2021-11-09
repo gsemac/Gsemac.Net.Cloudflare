@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 
 namespace Gsemac.Net.Cloudflare.FlareSolverr {
@@ -357,22 +358,45 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
                 StartInfo = processStartInfo
             };
 
-            process.OutputDataReceived += OutputDataReceivedHandler;
-            process.ErrorDataReceived += ErrorDataReceivedHandler;
+            process.OutputDataReceived += (sender, e) => OutputDataReceivedHandler(e, LogLevel.Debug);
+            process.ErrorDataReceived += (sender, e) => OutputDataReceivedHandler(e, LogLevel.Error);
 
             return process;
 
         }
-        private void OutputDataReceivedHandler(object sender, DataReceivedEventArgs e) {
+        private void OutputDataReceivedHandler(DataReceivedEventArgs e, LogLevel suggestedLogLevel) {
 
-            if (!string.IsNullOrWhiteSpace(e.Data))
-                logger.Debug(e.Data);
+            if (string.IsNullOrWhiteSpace(e.Data))
+                return;
 
-        }
-        private void ErrorDataReceivedHandler(object sender, DataReceivedEventArgs e) {
+            LogLevel logLevel = suggestedLogLevel;
+            string logMessage = e.Data;
 
-            if (!string.IsNullOrWhiteSpace(e.Data))
-                logger.Error(e.Data);
+            Match m = Regex.Match(logMessage, @"^(?<timestamp>\d+-\d+-\d+T\d+:\d+:\d+-\d+:\d+)\s(?<level>INFO|WARN|ERROR)", RegexOptions.IgnoreCase);
+
+            if (m.Success) {
+
+                switch (m.Groups["level"].Value.ToLowerInvariant()) {
+
+                    case "info":
+                        logLevel = LogLevel.Info;
+                        break;
+
+                    case "warn":
+                        logLevel = LogLevel.Warning;
+                        break;
+
+                    case "error":
+                        logLevel = LogLevel.Error;
+                        break;
+
+                }
+
+                logMessage = logMessage.Substring(m.Length).TrimStart();
+
+            }
+
+            logger.Log(logLevel, logger.Name, logMessage);
 
         }
 
