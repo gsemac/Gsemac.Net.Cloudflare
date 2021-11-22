@@ -16,7 +16,7 @@ static ServiceProvider CreateServiceProvider() {
         .AddSingleton<ILogger, ConsoleLogger>()
         .AddSingleton<IWebClientFactory, WebClientFactory>()
         .AddSingleton<IFlareSolverrService, FlareSolverrService>()
-        .AddTransient<WebRequestHandler, FlareSolverrChallengeHandler>()
+        .AddSingleton<WebRequestHandler, FlareSolverrChallengeHandler>()
         .BuildServiceProvider();
 
 }
