@@ -20,12 +20,12 @@
 
   <ItemGroup>
     <PackageReference Include="Gsemac.Core" Version="0.16.0" />
-    <PackageReference Include="Gsemac.IO" Version="0.20.1" />
+    <PackageReference Include="Gsemac.IO" Version="0.20.2" />
     <PackageReference Include="Gsemac.IO.Compression" Version="0.9.0" />
-    <PackageReference Include="Gsemac.Net" Version="0.23.1" />
+    <PackageReference Include="Gsemac.Net" Version="0.23.2" />
     <PackageReference Include="Gsemac.Net.GitHub" Version="0.4.3" />
     <PackageReference Include="Gsemac.Net.WebBrowsers" Version="0.4.2" />
-    <PackageReference Include="Gsemac.Net.WebDrivers" Version="0.13.4" />
+    <PackageReference Include="Gsemac.Net.WebDrivers" Version="0.13.5" />
     <PackageReference Include="Gsemac.Reflection" Version="0.8.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
