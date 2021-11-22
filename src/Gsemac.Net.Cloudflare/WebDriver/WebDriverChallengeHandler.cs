@@ -13,20 +13,33 @@ namespace Gsemac.Net.Cloudflare.WebDriver {
         public WebDriverChallengeHandler(IWebDriverFactory webDriverFactory) :
             this(webDriverFactory, new NullLogger()) {
         }
+        public WebDriverChallengeHandler(IWebDriverFactory webDriverFactory, IChallengeHandlerOptions options) :
+            this(webDriverFactory, options, new NullLogger()) {
+        }
         public WebDriverChallengeHandler(IWebDriverFactory webDriverFactory, ILogger logger) :
-            base(disposeWebDriver: true, logger) {
+            this(webDriverFactory, ChallengeHandlerOptions.Default, logger) {
+        }
+        public WebDriverChallengeHandler(IWebDriverFactory webDriverFactory, IChallengeHandlerOptions options, ILogger logger) :
+            base(disposeWebDriver: true, options, logger) {
 
             if (webDriverFactory is null)
                 throw new ArgumentNullException(nameof(webDriverFactory));
 
             this.webDriverFactory = webDriverFactory;
 
+
         }
         public WebDriverChallengeHandler(IWebDriver webDriver) :
             this(webDriver, new NullLogger()) {
         }
+        public WebDriverChallengeHandler(IWebDriver webDriver, IChallengeHandlerOptions options) :
+            this(webDriver, options, new NullLogger()) {
+        }
         public WebDriverChallengeHandler(IWebDriver webDriver, ILogger logger) :
-            base(disposeWebDriver: false, logger) {
+            this(webDriver, ChallengeHandlerOptions.Default, logger) {
+        }
+        public WebDriverChallengeHandler(IWebDriver webDriver, IChallengeHandlerOptions options, ILogger logger) :
+            base(disposeWebDriver: false, options, logger) {
 
             if (webDriver is null)
                 throw new ArgumentNullException(nameof(webDriver));

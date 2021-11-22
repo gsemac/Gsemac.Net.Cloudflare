@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Gsemac.Net.Cloudflare {
 
-    internal class ChallengeHttpWebResponse :
+    internal class ChallengeHandlerHttpWebResponse :
         HttpWebResponseBase {
 
         // Public members
@@ -20,13 +20,15 @@ namespace Gsemac.Net.Cloudflare {
         public override Uri ResponseUri { get; }
         public override WebHeaderCollection Headers => headers;
 
+        public IChallengeSolution Solution => new ChallengeSolution(UserAgent, Cookies);
+
         public bool Success {
             get => success ?? GetDefaultSuccess();
             set => success = value;
         }
         public bool HasResponseStream => streamFactory is object;
 
-        public ChallengeHttpWebResponse(Uri responseUri, string responseBody) :
+        public ChallengeHandlerHttpWebResponse(Uri responseUri, string responseBody) :
             this(responseUri) {
 
             if (responseUri is null)
@@ -50,7 +52,7 @@ namespace Gsemac.Net.Cloudflare {
             }
 
         }
-        public ChallengeHttpWebResponse(Uri responseUri, Func<Stream> streamFactory) :
+        public ChallengeHandlerHttpWebResponse(Uri responseUri, Func<Stream> streamFactory) :
             this(responseUri) {
 
             if (responseUri is null)
@@ -90,7 +92,7 @@ namespace Gsemac.Net.Cloudflare {
         private WebHeaderCollection headers = new WebHeaderCollection();
         private bool? success;
 
-        private ChallengeHttpWebResponse(Uri responseUri) :
+        private ChallengeHandlerHttpWebResponse(Uri responseUri) :
             base(responseUri) {
 
             StatusCode = HttpStatusCode.OK;

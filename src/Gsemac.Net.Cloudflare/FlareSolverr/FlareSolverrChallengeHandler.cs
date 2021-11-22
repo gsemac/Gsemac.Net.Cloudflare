@@ -19,8 +19,14 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
         public FlareSolverrChallengeHandler(IFlareSolverrService flareSolverrService) :
             this(flareSolverrService, new NullLogger()) {
         }
+        public FlareSolverrChallengeHandler(IFlareSolverrService flareSolverrService, IChallengeHandlerOptions options) :
+          this(flareSolverrService, options, new NullLogger()) {
+        }
         public FlareSolverrChallengeHandler(IFlareSolverrService flareSolverrService, ILogger logger) :
-            base("FlareSolverr IUAM Challenge Solver") {
+            this(flareSolverrService, ChallengeHandlerOptions.Default, logger) {
+        }
+        public FlareSolverrChallengeHandler(IFlareSolverrService flareSolverrService, IChallengeHandlerOptions options, ILogger logger) :
+            base(nameof(FlareSolverrChallengeHandler), options) {
 
             if (flareSolverrService is null)
                 throw new ArgumentNullException(nameof(flareSolverrService));
@@ -148,7 +154,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
                 bool isResponseBase64Encoded = flareSolverrCommand.Download &&
                     response.Version < new Version(2, 0);
 
-                ChallengeHttpWebResponse challengeResponse = new ChallengeHttpWebResponse(response.Solution.Url, () => StreamFromFlareSolverrSolution(response.Solution, isResponseBase64Encoded: isResponseBase64Encoded)) {
+                ChallengeHandlerHttpWebResponse challengeResponse = new ChallengeHandlerHttpWebResponse(response.Solution.Url, () => StreamFromFlareSolverrSolution(response.Solution, isResponseBase64Encoded: isResponseBase64Encoded)) {
                     Cookies = response.Solution.Cookies,
                     Success = true, // "Success" is set manually because we may not meet success conditions (sometimes we get a 503 on a successful response or don't get any cookies).
                 };

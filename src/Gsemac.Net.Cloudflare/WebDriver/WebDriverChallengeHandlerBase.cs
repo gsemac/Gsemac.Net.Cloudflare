@@ -16,8 +16,14 @@ namespace Gsemac.Net.Cloudflare.WebDriver {
         protected WebDriverChallengeHandlerBase(bool disposeWebDriver) :
             this(disposeWebDriver, new NullLogger()) {
         }
+        protected WebDriverChallengeHandlerBase(bool disposeWebDriver, IChallengeHandlerOptions options) :
+            this(disposeWebDriver, options, new NullLogger()) {
+        }
         protected WebDriverChallengeHandlerBase(bool disposeWebDriver, ILogger logger) :
-            base("Web Driver IUAM Challenge Solver") {
+            this(disposeWebDriver, ChallengeHandlerOptions.Default, logger) {
+        }
+        protected WebDriverChallengeHandlerBase(bool disposeWebDriver, IChallengeHandlerOptions options, ILogger logger) :
+            base(nameof(WebDriverChallengeHandlerBase)) {
 
             if (logger is null)
                 throw new ArgumentNullException(nameof(logger));
@@ -135,7 +141,7 @@ namespace Gsemac.Net.Cloudflare.WebDriver {
 
         private IHttpWebResponse CreateSuccessfulChallengeResponse(IWebDriver driver) {
 
-            return new ChallengeHttpWebResponse(new Uri(driver.Url), driver.PageSource) {
+            return new ChallengeHandlerHttpWebResponse(new Uri(driver.Url), driver.PageSource) {
                 UserAgent = driver.GetUserAgent(),
                 Cookies = driver.GetCookies(),
             };

@@ -19,8 +19,14 @@ namespace Gsemac.Net.Cloudflare.Cloudscraper {
         public CloudscraperChallengeHandler(ICloudscraperOptions cloudscraperOptions) :
             this(cloudscraperOptions, new NullLogger()) {
         }
+        public CloudscraperChallengeHandler(ICloudscraperOptions cloudscraperOptions, IChallengeHandlerOptions challengeHandlerOptions) :
+            this(cloudscraperOptions, challengeHandlerOptions, new NullLogger()) {
+        }
         public CloudscraperChallengeHandler(ICloudscraperOptions cloudscraperOptions, ILogger logger) :
-             base("Cloudscraper IUAM Challenge Solver") {
+             this(cloudscraperOptions, ChallengeHandlerOptions.Default, logger) {
+        }
+        public CloudscraperChallengeHandler(ICloudscraperOptions cloudscraperOptions, IChallengeHandlerOptions challengeHandlerOptions, ILogger logger) :
+             base(nameof(CloudscraperChallengeHandler), challengeHandlerOptions) {
 
             if (cloudscraperOptions is null)
                 throw new ArgumentNullException(nameof(cloudscraperOptions));
@@ -139,7 +145,7 @@ namespace Gsemac.Net.Cloudflare.Cloudscraper {
 
                 }
 
-                return new ChallengeHttpWebResponse(request.RequestUri, string.Empty) {
+                return new ChallengeHandlerHttpWebResponse(request.RequestUri, string.Empty) {
                     Cookies = cookies,
                     UserAgent = userAgent,
                 };

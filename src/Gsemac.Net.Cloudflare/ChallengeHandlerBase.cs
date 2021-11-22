@@ -1,6 +1,6 @@
-﻿using Gsemac.Net.Extensions;
-using Gsemac.Reflection;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading;
 
@@ -16,17 +16,29 @@ namespace Gsemac.Net.Cloudflare {
         // Protected members
 
         protected ChallengeHandlerBase() :
-            this("Cloudflare IUAM Challenge Solver") {
+            this(nameof(ChallengeHandlerBase)) {
         }
-        protected ChallengeHandlerBase(string name) {
+        protected ChallengeHandlerBase(string name) :
+            this(name, ChallengeHandlerOptions.Default) {
+        }
+        protected ChallengeHandlerBase(IChallengeHandlerOptions options) :
+         this(nameof(ChallengeHandlerBase), options) {
+        }
+        protected ChallengeHandlerBase(string name, IChallengeHandlerOptions options) {
 
             Name = name;
+            this.options = options;
 
         }
 
         protected sealed override IHttpWebResponse Send(IHttpWebRequest request, CancellationToken cancellationToken) {
 
             try {
+
+                // Set the cookies and user agent on the request to the ones we've cached.
+
+                if (options.RememberCookies)
+                    ApplySolutionToRequest(request, GetCachedSolution(request.RequestUri));
 
                 return base.Send(request, cancellationToken);
 
@@ -44,7 +56,7 @@ namespace Gsemac.Net.Cloudflare {
                 // We've encountered a challenge, so we need to pass resposibility off to the derived class.
                 // We still want delegating handlers nested further down to be able to see the request before we get a response, so we'll create a new request that returns the solver's response.
 
-                IHttpWebRequest solverRequest = new HandlerHttpWebRequest(request, r => GetChallengeResponse(r, cancellationToken));
+                IHttpWebRequest solverRequest = new ChallengeHandlerHttpWebRequest(request, r => GetChallengeResponse(r, cancellationToken));
 
                 bool solverThrewAnException = false;
 
@@ -52,22 +64,41 @@ namespace Gsemac.Net.Cloudflare {
 
                     IHttpWebResponse response = base.Send(solverRequest, cancellationToken);
 
-                    if (response is ChallengeHttpWebResponse challengeResponse && !challengeResponse.HasResponseStream) {
+                    // The resulting HttpWebResponse should be a ChallengeHttpWebResponse unless the derived class decided to return something else.
+                    // #todo This should really be its own interface accessed through the HandlerHttpWebRequest object to avoid having to downcast.
 
-                        // Some solvers may not return a response body, so we want to be able to retry the request using the cookies/user agent provided by the solver.
+                    if (response is ChallengeHandlerHttpWebResponse challengeResponse) {
 
-                        // The resulting HttpWebResponse should be a ChallengeHttpWebResponse unless the derived class decided to return something else.
-                        // #todo This should really be its own interface accessed through the HandlerHttpWebRequest object to avoid having to downcast.
+                        // Cache the solution if applicable so that it can be sent with future requests.
 
-                        request.CookieContainer.Add(challengeResponse.Cookies);
-                        request.UserAgent = challengeResponse.UserAgent;
+                        IChallengeSolution solution = challengeResponse.Solution;
 
-                        return base.Send(request, cancellationToken);
+                        if (options.RememberCookies)
+                            SetCachedSolution(response.ResponseUri, solution);
+
+                        if (!challengeResponse.HasResponseStream) {
+
+                            // Some solvers may not return a response body, so we want to be able to retry the request using the cookies/user agent provided by the solver.
+
+                            response.Close();
+
+                            ApplySolutionToRequest(request, solution);
+
+                            return base.Send(request, cancellationToken);
+
+                        }
+                        else {
+
+                            // Simply return the response, because it already has a response body.
+
+                            return response;
+
+                        }
 
                     }
                     else {
 
-                        // Simply return the response, because it already has a response body.
+                        // The response is not a ChallengeHandlerHttpWebResponse instance, so we can't cache the solution.
 
                         return response;
 
@@ -100,51 +131,56 @@ namespace Gsemac.Net.Cloudflare {
 
         // Private members
 
-        private class HandlerHttpWebRequest :
-            HttpWebRequestBase {
+        private readonly IChallengeHandlerOptions options = new ChallengeHandlerOptions();
+        private readonly IDictionary<string, IChallengeSolution> cachedSolutions = new Dictionary<string, IChallengeSolution>();
 
-            // Public members
+        private IChallengeSolution GetCachedSolution(Uri requestUri) {
 
-            public override WebHeaderCollection Headers {
-                get => base.Headers;
-                set => SetHeaders(value);
-            }
+            if (requestUri is null)
+                throw new ArgumentNullException(nameof(requestUri));
 
-            public HandlerHttpWebRequest(IHttpWebRequest baseRequest, Func<IHttpWebRequest, IHttpWebResponse> webResponseFactory) :
-                base(baseRequest.RequestUri) {
+            lock (cachedSolutions) {
 
-                ReflectionUtilities.CopyProperties(baseRequest, this, new CopyPropertiesOptions() {
-                    IgnoreExceptions = true,
-                });
+                // We want subdomains to be able to use the same cookies as the primary domains, as would occur in a web browser.
 
-                this.baseRequest = baseRequest;
-                this.webResponseFactory = webResponseFactory;
+                foreach (string key in cachedSolutions.Keys) {
 
-            }
+                    if (new CookieDomainPattern(key).IsMatch(requestUri))
+                        return cachedSolutions[key];
 
-            public override WebResponse GetResponse() {
+                }
 
-                IHttpWebRequest request = this;
-
-                // By wrapping the new request in LazyUploadHttpWebRequestDecorator, challenge solvers can still detect their ability to read the request stream.
-
-                if (baseRequest is LazyUploadHttpWebRequestDecorator)
-                    request = new LazyUploadHttpWebRequestDecorator(this, () => baseRequest.GetRequestStream());
-
-                return (WebResponse)webResponseFactory(request);
+                return null;
 
             }
 
-            // Private members
+        }
+        private void SetCachedSolution(Uri requestUri, IChallengeSolution solution) {
 
-            private readonly IHttpWebRequest baseRequest;
-            private readonly Func<IHttpWebRequest, IHttpWebResponse> webResponseFactory;
+            if (requestUri is null)
+                throw new ArgumentNullException(nameof(requestUri));
 
-            private void SetHeaders(WebHeaderCollection headers) {
+            if (solution is null)
+                throw new ArgumentNullException(nameof(solution));
 
-                Headers.Clear();
+            string key = $".{Url.GetHostname(requestUri.AbsoluteUri)}";
 
-                headers.CopyTo(Headers);
+            lock (cachedSolutions)
+                cachedSolutions[key] = solution;
+
+        }
+
+        private static void ApplySolutionToRequest(IHttpWebRequest request, IChallengeSolution solution) {
+
+            if (request is null)
+                throw new ArgumentNullException(nameof(request));
+
+            if (solution is object) {
+
+                if (!string.IsNullOrWhiteSpace(solution.UserAgent))
+                    request.UserAgent = solution.UserAgent;
+
+                request.CookieContainer.Add(solution.Cookies);
 
             }
 
