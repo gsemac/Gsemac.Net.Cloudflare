@@ -180,7 +180,15 @@ namespace Gsemac.Net.Cloudflare {
                 if (!string.IsNullOrWhiteSpace(solution.UserAgent))
                     request.UserAgent = solution.UserAgent;
 
-                request.CookieContainer.Add(solution.Cookies);
+                foreach (Cookie cookie in solution.Cookies) {
+
+                    // FlareSolverr has occassionally returned cookies with invalid characters (such as commas).
+                    // Avoid adding any of these cookies to the cookie container, because it will throw an exception.
+
+                    if (!cookie.Value.Any(c => HttpUtilities.GetInvalidCookieChars().Contains(c)))
+                        request.CookieContainer.Add(cookie);
+
+                }
 
             }
 
