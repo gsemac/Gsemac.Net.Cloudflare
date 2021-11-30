@@ -39,7 +39,7 @@ namespace Gsemac.Net.Cloudflare.Cloudscraper {
 
         }
 
-        protected override IHttpWebResponse GetChallengeResponse(IHttpWebRequest request, CancellationToken cancellationToken) {
+        protected override IHttpWebResponse GetChallengeResponse(IHttpWebRequest request, Exception exception, CancellationToken cancellationToken) {
 
             string url = request.RequestUri.AbsoluteUri;
 

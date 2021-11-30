@@ -33,7 +33,7 @@ namespace Gsemac.Net.Cloudflare.WebDriver {
 
         }
 
-        protected override IHttpWebResponse GetChallengeResponse(IHttpWebRequest request, CancellationToken cancellationToken) {
+        protected override IHttpWebResponse GetChallengeResponse(IHttpWebRequest request, Exception exception, CancellationToken cancellationToken) {
 
             string url = request.RequestUri.AbsoluteUri;
             IWebDriver driver = null;

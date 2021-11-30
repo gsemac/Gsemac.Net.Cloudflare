@@ -56,7 +56,7 @@ namespace Gsemac.Net.Cloudflare {
                 // We've encountered a challenge, so we need to pass resposibility off to the derived class.
                 // We still want delegating handlers nested further down to be able to see the request before we get a response, so we'll create a new request that returns the solver's response.
 
-                IHttpWebRequest solverRequest = new ChallengeHandlerHttpWebRequest(request, r => GetChallengeResponse(r, cancellationToken));
+                IHttpWebRequest solverRequest = new ChallengeHandlerHttpWebRequest(request, r => GetChallengeResponse(r, webEx, cancellationToken));
 
                 bool solverThrewAnException = false;
 
@@ -127,7 +127,7 @@ namespace Gsemac.Net.Cloudflare {
             }
 
         }
-        protected abstract IHttpWebResponse GetChallengeResponse(IHttpWebRequest request, CancellationToken cancellationToken);
+        protected abstract IHttpWebResponse GetChallengeResponse(IHttpWebRequest request, Exception exception, CancellationToken cancellationToken);
 
         // Private members
 

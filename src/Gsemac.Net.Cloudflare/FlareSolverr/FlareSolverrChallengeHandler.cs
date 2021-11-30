@@ -38,7 +38,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
         // Protected members
 
-        protected override IHttpWebResponse GetChallengeResponse(IHttpWebRequest request, CancellationToken cancellationToken) {
+        protected override IHttpWebResponse GetChallengeResponse(IHttpWebRequest request, Exception exception, CancellationToken cancellationToken) {
 
             // Assume that the FlareSolverr proxy server is already running (on port 8191).
 
