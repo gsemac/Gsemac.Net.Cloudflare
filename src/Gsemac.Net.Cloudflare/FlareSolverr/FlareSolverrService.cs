@@ -209,7 +209,11 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
                 logger.Info("Stopping FlareSolverr process");
 
-                flareSolverrProcess.Kill();
+                // Attempt to stop the process gracefully so that it can close running browser instances.
+
+                if (!flareSolverrProcess.CloseMainWindow())
+                    flareSolverrProcess.Kill();
+
                 flareSolverrProcess.Dispose();
 
                 flareSolverrProcess = null;
