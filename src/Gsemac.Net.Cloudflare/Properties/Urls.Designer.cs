@@ -61,6 +61,15 @@ namespace Gsemac.Net.Cloudflare.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to https://github.com/FlareSolverr/FlareSolverr/releases/latest.
+        /// </summary>
+        internal static string FlareSolverrLatestRelease {
+            get {
+                return ResourceManager.GetString("FlareSolverrLatestRelease", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to https://github.com/FlareSolverr/FlareSolverr.
         /// </summary>
         internal static string FlareSolverrRepository {

@@ -126,7 +126,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
             if (!File.Exists(flareSolverrExecutablePath.Value)) {
 
-                logger.Error($"FlareSolverr was not found at '{flareSolverrExecutablePath.Value}'");
+                logger.Error($"Unable to locate FlareSolverr executable. Download FlareSolverr at {Properties.Urls.FlareSolverrLatestRelease}");
 
                 throw new FileNotFoundException(string.IsNullOrWhiteSpace(flareSolverrExecutablePath.Value) ?
                     Properties.ExceptionMessages.FlareSolverrExecutableNotFound :
