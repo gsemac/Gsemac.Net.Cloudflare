@@ -163,6 +163,13 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
                 challengeResponse.SetStatusCode((HttpStatusCode)response.Solution.Status);
                 challengeResponse.UserAgent = response.Solution.UserAgent;
 
+                // If the content is actually HTML (which will be the case for images when the "download" parameter isn't passed, for example) change the content-type header accordingly.
+
+                challengeResponse.Headers.TryGetHeader(HttpResponseHeader.ContentType, out string contentType);
+
+                if (!isResponseBase64Encoded && IsHtmlResponse(response.Solution.Response) && (string.IsNullOrWhiteSpace(contentType) || !contentType.StartsWith(HtmlContentType)))
+                    challengeResponse.Headers.TrySetHeader(HttpResponseHeader.ContentType, HtmlContentType);
+
                 return challengeResponse;
 
             }
@@ -175,6 +182,8 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
         }
 
         // Private members
+
+        const string HtmlContentType = "text/html";
 
         private readonly IFlareSolverrService flareSolverrService;
         private readonly ILogger logger;
@@ -209,6 +218,15 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
             }
 
             return webHeaderCollection;
+
+        }
+        private static bool IsHtmlResponse(string response) {
+
+            if (string.IsNullOrWhiteSpace(response))
+                return false;
+
+            return response.StartsWith("<html ", StringComparison.OrdinalIgnoreCase) ||
+                response.StartsWith("<!doctype html>", StringComparison.OrdinalIgnoreCase);
 
         }
 
