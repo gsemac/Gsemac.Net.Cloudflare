@@ -225,7 +225,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
             if (string.IsNullOrWhiteSpace(response))
                 return false;
 
-            return response.StartsWith("<html ", StringComparison.OrdinalIgnoreCase) ||
+            return response.StartsWith("<html", StringComparison.OrdinalIgnoreCase) ||
                 response.StartsWith("<!doctype html>", StringComparison.OrdinalIgnoreCase);
 
         }
