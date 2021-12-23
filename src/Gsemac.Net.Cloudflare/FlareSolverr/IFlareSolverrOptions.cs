@@ -5,6 +5,7 @@
         bool AutoUpdateEnabled { get; }
         bool IgnoreUpdateErrors { get; }
         string FlareSolverrDirectoryPath { get; }
+        string FlareSolverrFileName { get; }
         string UserAgent { get; }
         bool UseSession { get; }
 

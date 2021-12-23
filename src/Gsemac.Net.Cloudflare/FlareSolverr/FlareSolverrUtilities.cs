@@ -1,4 +1,5 @@
 ﻿using Gsemac.Collections;
+using Gsemac.Net.Cloudflare.Properties;
 using System.IO;
 using System.Linq;
 
@@ -6,18 +7,26 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
     internal static class FlareSolverrUtilities {
 
-        public const string FlareSolverrExecutablePath = "flaresolverr.exe";
+        // Public members
+
         public const int DefaultPort = 8191;
 
-        internal static string FindFlareSolverrExecutablePath(string inDirectoryPath) {
+        // Internal members
 
-            if (string.IsNullOrWhiteSpace(inDirectoryPath))
-                inDirectoryPath = Directory.GetCurrentDirectory();
+        internal static string GetExecutablePath(IFlareSolverrOptions options) {
+
+            string inDirectoryPath = string.IsNullOrWhiteSpace(options.FlareSolverrDirectoryPath) ?
+                Directory.GetCurrentDirectory() :
+                options.FlareSolverrDirectoryPath;
+
+            string flareSolverrFileName = string.IsNullOrWhiteSpace(options.FlareSolverrFileName) ?
+                GetExecutableFilename() :
+                options.FlareSolverrFileName;
 
             // ./flaresolverr.exe
 
-            if (File.Exists(Path.Combine(inDirectoryPath, FlareSolverrExecutablePath)))
-                return Path.Combine(inDirectoryPath, FlareSolverrExecutablePath);
+            if (File.Exists(Path.Combine(inDirectoryPath, flareSolverrFileName)))
+                return Path.Combine(inDirectoryPath, flareSolverrFileName);
 
             // ./flaresolverr/flaresolverr.exe
             // ./flaresolverr-vx.x.x-windows-xxx/flaresolverr/flaresolverr.exe
@@ -27,8 +36,8 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
             foreach (string directoryPath in Directory.EnumerateDirectories(inDirectoryPath, "flaresolverr*", SearchOption.TopDirectoryOnly).OrderByDescending(path => path, new NaturalSortComparer())) {
 
                 foreach (string candidateExecutablePath in new[] {
-                    Path.Combine(directoryPath, FlareSolverrExecutablePath),
-                    Path.Combine(directoryPath, "flaresolverr", FlareSolverrExecutablePath),
+                    Path.Combine(directoryPath, flareSolverrFileName),
+                    Path.Combine(directoryPath, "flaresolverr", flareSolverrFileName),
                 }) {
 
                     if (File.Exists(candidateExecutablePath))
@@ -41,6 +50,31 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
             // The FlareSolverr executable could not be found.
 
             return string.Empty;
+
+        }
+
+        // Private members
+
+        private static string GetExecutableFilename() {
+
+#if NET471_OR_GREATER || NETSTANDARD1_1_OR_GREATER || NETCOREAPP1_0_OR_GREATER 
+
+            if (System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.Windows)) {
+
+                return Paths.FlareSolverrFileNameWindows;
+
+            }
+            else {
+
+                return Paths.FlareSolverrFileNameLinux;
+
+            }
+
+#else
+
+            return Paths.FlareSolverrFileNameWindows;
+
+#endif
 
         }
 

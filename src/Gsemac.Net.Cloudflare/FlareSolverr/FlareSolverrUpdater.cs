@@ -11,8 +11,6 @@ using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Threading;
 
@@ -27,21 +25,21 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
         public event DownloadFileCompletedEventHandler DownloadFileCompleted;
 
         public FlareSolverrUpdater() :
-           this(FlareSolverrUpdaterOptions.Default) {
+           this(FlareSolverrOptions.Default) {
         }
-        public FlareSolverrUpdater(IFlareSolverrUpdaterOptions options) :
+        public FlareSolverrUpdater(IFlareSolverrOptions options) :
             this(new HttpWebRequestFactory(), options) {
         }
         public FlareSolverrUpdater(ILogger logger) :
-            this(FlareSolverrUpdaterOptions.Default, logger) {
+            this(FlareSolverrOptions.Default, logger) {
         }
-        public FlareSolverrUpdater(IFlareSolverrUpdaterOptions options, ILogger logger) :
+        public FlareSolverrUpdater(IFlareSolverrOptions options, ILogger logger) :
             this(HttpWebRequestFactory.Default, options, logger) {
         }
-        public FlareSolverrUpdater(IHttpWebRequestFactory webRequestFactory, IFlareSolverrUpdaterOptions options) :
+        public FlareSolverrUpdater(IHttpWebRequestFactory webRequestFactory, IFlareSolverrOptions options) :
             this(webRequestFactory, options, new NullLogger()) {
         }
-        public FlareSolverrUpdater(IHttpWebRequestFactory webRequestFactory, IFlareSolverrUpdaterOptions options, ILogger logger) {
+        public FlareSolverrUpdater(IHttpWebRequestFactory webRequestFactory, IFlareSolverrOptions options, ILogger logger) {
 
             if (webRequestFactory is null)
                 throw new ArgumentNullException(nameof(webRequestFactory));
@@ -75,7 +73,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
                 DownloadFlareSolverr(cancellationToken);
 
                 flareSolverrInfo = new FlareSolverrInfo() {
-                    ExecutablePath = FlareSolverrUtilities.FindFlareSolverrExecutablePath(options.FlareSolverrDirectoryPath),
+                    ExecutablePath = FlareSolverrUtilities.GetExecutablePath(options),
                     Version = latestVersion,
                 };
 
@@ -104,7 +102,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
         // Private members
 
-        private readonly IFlareSolverrUpdaterOptions options;
+        private readonly IFlareSolverrOptions options;
         private readonly IHttpWebRequestFactory webRequestFactory;
         private readonly ILogger logger;
 
@@ -133,7 +131,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
                 // If no metadata file exists, we can attempt to extract version information from the executable path.
 
-                string flareSolverrExecutablePath = FlareSolverrUtilities.FindFlareSolverrExecutablePath(options.FlareSolverrDirectoryPath);
+                string flareSolverrExecutablePath = FlareSolverrUtilities.GetExecutablePath(options);
 
                 if (!string.IsNullOrWhiteSpace(flareSolverrExecutablePath)) {
 
@@ -243,8 +241,8 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
         private string GetOSPlatform() {
 
-#if !NETFRAMEWORK
-            string operatingSystemStr = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "windows" : "linux";
+#if NET471_OR_GREATER || NETSTANDARD1_1_OR_GREATER || NETCOREAPP1_0_OR_GREATER 
+            string operatingSystemStr = System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.Windows) ? "windows" : "linux";
 #else
             string operatingSystemStr = "windows";
 #endif

@@ -1,4 +1,4 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras/2.0.54">
+﻿<Project Sdk="MSBuild.Sdk.Extras/3.0.44">
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net40-client</TargetFrameworks>
@@ -36,18 +36,15 @@
     <Compile Update="Properties\ExceptionMessages.Designer.cs">
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Update="Properties\Paths.Designer.cs">
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Update="Properties\Urls.Designer.cs">
       <DesignTime>True</DesignTime>
     </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Update="Properties\ExceptionMessages.resx">
-      <LastGenOutput>ExceptionMessages.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>

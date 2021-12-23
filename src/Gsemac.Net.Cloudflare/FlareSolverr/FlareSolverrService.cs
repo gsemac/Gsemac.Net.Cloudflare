@@ -225,9 +225,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
             try {
 
-                IFlareSolverrUpdater updater = new FlareSolverrUpdater(webRequestFactory, new FlareSolverrUpdaterOptions() {
-                    FlareSolverrDirectoryPath = options.FlareSolverrDirectoryPath,
-                }, logger);
+                IFlareSolverrUpdater updater = new FlareSolverrUpdater(webRequestFactory, options, logger);
 
                 updater.DownloadFileProgressChanged += OnDownloadFileProgressChanged;
                 updater.DownloadFileCompleted += OnDownloadFileCompleted;
@@ -338,7 +336,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
         private string GetFlareSolverrExecutablePath() {
 
-            return FlareSolverrUtilities.FindFlareSolverrExecutablePath(options.FlareSolverrDirectoryPath);
+            return FlareSolverrUtilities.GetExecutablePath(options);
 
         }
         private Uri GetFlareSolverrUri() {

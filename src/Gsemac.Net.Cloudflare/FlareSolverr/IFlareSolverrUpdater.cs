@@ -1,5 +1,4 @@
-﻿using Gsemac.IO.Logging;
-using System.Threading;
+﻿using System.Threading;
 
 namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
