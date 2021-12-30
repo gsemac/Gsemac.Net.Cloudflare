@@ -127,7 +127,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
             try {
 
-                response = flareSolverrService.ExecuteCommand(flareSolverrCommand);
+                response = flareSolverrService.SendCommand(flareSolverrCommand);
 
             }
             catch (WebException ex) {

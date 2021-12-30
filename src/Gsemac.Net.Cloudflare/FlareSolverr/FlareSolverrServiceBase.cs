@@ -11,7 +11,7 @@
         public abstract bool Start();
         public abstract bool Stop();
 
-        public abstract IFlareSolverrResponse ExecuteCommand(IFlareSolverrCommand command);
+        public abstract IFlareSolverrResponse SendCommand(IFlareSolverrCommand command);
 
         public void Dispose() {
 

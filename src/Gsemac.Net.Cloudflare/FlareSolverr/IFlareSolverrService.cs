@@ -12,7 +12,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
         bool Start();
         bool Stop();
 
-        IFlareSolverrResponse ExecuteCommand(IFlareSolverrCommand command);
+        IFlareSolverrResponse SendCommand(IFlareSolverrCommand command);
 
     }
 
