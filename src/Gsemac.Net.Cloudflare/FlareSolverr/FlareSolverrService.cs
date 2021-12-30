@@ -4,6 +4,7 @@ using Gsemac.Net.Extensions;
 using Newtonsoft.Json;
 using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Text;
@@ -137,7 +138,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
         }
         private Uri GetFlareSolverrUri() {
 
-            return new Uri($"http://localhost:{FlareSolverrUtilities.DefaultPort}/v1");
+            return new Uri($"http://localhost:{options.Port}/v1");
 
         }
 
@@ -166,6 +167,29 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
             };
+
+            switch (options.LogLevel) {
+
+                case LogLevel.Info:
+                    processStartInfo.EnvironmentVariables["LOG_LEVEL"] = "info";
+                    break;
+
+                case LogLevel.Debug:
+                    processStartInfo.EnvironmentVariables["LOG_LEVEL"] = "debug";
+                    break;
+
+            }
+
+            processStartInfo.EnvironmentVariables["LOG_HTML"] = options.LogHtml ? "true" : "false";
+            processStartInfo.EnvironmentVariables["HEADLESS"] = options.Headless ? "true" : "false";
+
+            if (options.BrowserTimeout > TimeSpan.Zero)
+                processStartInfo.EnvironmentVariables["BROWSER_TIMEOUT"] = options.BrowserTimeout.TotalMilliseconds.ToString(CultureInfo.InvariantCulture);
+
+            if (!string.IsNullOrWhiteSpace(options.TestUrl))
+                processStartInfo.EnvironmentVariables["TEST_URL"] = options.TestUrl;
+
+            processStartInfo.EnvironmentVariables["PORT"] = options.Port.ToString(CultureInfo.InvariantCulture);
 
             Process process = new Process {
                 StartInfo = processStartInfo
@@ -208,11 +232,11 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
                 if (processState != FlareSolverrProcessState.Started) {
 
-                    if (!SocketUtilities.IsPortAvailable(FlareSolverrUtilities.DefaultPort)) {
+                    if (!SocketUtilities.IsPortAvailable(options.Port)) {
 
                         // If FlareSolverr already appears to be running (port 8191 in use), don't attempt to start it.
 
-                        logger.Warning($"Port {FlareSolverrUtilities.DefaultPort} is already in use; assuming FlareSolverr is already running");
+                        logger.Warning($"Port {options.Port} is already in use; assuming FlareSolverr is already running");
 
                         success = true;
 
@@ -272,7 +296,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
             }
 
             if (success)
-                logger.Info($"FlareSolverr is now listening on port {FlareSolverrUtilities.DefaultPort}");
+                logger.Info($"FlareSolverr is now listening on port {options.Port}");
 
             return success;
 
@@ -293,9 +317,9 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
                     break;
 
             }
-            while (SocketUtilities.IsPortAvailable(FlareSolverrUtilities.DefaultPort) && (DateTimeOffset.Now - startTime) < timeout);
+            while (SocketUtilities.IsPortAvailable(options.Port) && (DateTimeOffset.Now - startTime) < timeout);
 
-            return !SocketUtilities.IsPortAvailable(FlareSolverrUtilities.DefaultPort);
+            return !SocketUtilities.IsPortAvailable(options.Port);
 
         }
         private void StopFlareSolverr() {

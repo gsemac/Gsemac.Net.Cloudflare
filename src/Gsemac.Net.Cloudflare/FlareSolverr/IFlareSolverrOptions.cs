@@ -1,4 +1,7 @@
-﻿namespace Gsemac.Net.Cloudflare.FlareSolverr {
+﻿using Gsemac.IO.Logging;
+using System;
+
+namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
     public interface IFlareSolverrOptions {
 
@@ -8,6 +11,12 @@
         string FlareSolverrFileName { get; }
         string UserAgent { get; }
         bool UseSession { get; }
+        LogLevel LogLevel { get; }
+        bool LogHtml { get; }
+        bool Headless { get; }
+        TimeSpan BrowserTimeout { get; }
+        string TestUrl { get; }
+        int Port { get; }
 
     }
 
