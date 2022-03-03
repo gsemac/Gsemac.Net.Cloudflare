@@ -1,0 +1,28 @@
+<Project>
+
+	<!-- 
+		Some of these constants may already be defined depending on the SDK in use.
+		https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/preprocessor-directives
+	-->
+
+	<PropertyGroup Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('$(TargetFramework)', '^net\d'))">
+		<DefineConstants>$(DefineConstants);NETFRAMEWORK</DefineConstants>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('$(TargetFramework)', '^netstandard\d'))">
+		<DefineConstants>$(DefineConstants);NETSTANDARD</DefineConstants>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('$(TargetFramework)', '^netcoreapp\d'))">
+		<DefineConstants>$(DefineConstFants);NETCOREAPP</DefineConstants>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="$(DefineConstants.Contains('NETCOREAPP')) Or $(DefineConstants.Contains('NETSTANDARD')) Or $([System.Text.RegularExpressions.Regex]::IsMatch('$(TargetFramework)', '^net4[5-8]'))">
+		<DefineConstants>$(DefineConstants);NET45_OR_GREATER</DefineConstants>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="!$(DefineConstants.Contains('NET45_OR_GREATER'))">
+		<DefineConstants>$(DefineConstants);NET40_OR_LESSER</DefineConstants>
+	</PropertyGroup>
+
+</Project>

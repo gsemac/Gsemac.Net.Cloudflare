@@ -1,56 +1,68 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras/3.0.44">
 
-  <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net40-client</TargetFrameworks>
-    <Company />
-    <Authors>gsemac</Authors>
-    <Version>0.25.2</Version>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <PackageProjectUrl>https://github.com/gsemac/Gsemac.Net.Cloudflare</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/gsemac/Gsemac.Net.Cloudflare</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Copyright></Copyright>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>netstandard2.0;net40-client</TargetFrameworks>
+		<Company />
+		<Authors>gsemac</Authors>
+		<Version>0.25.2</Version>
+		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+		<PackageProjectUrl>https://github.com/gsemac/Gsemac.Net.Cloudflare</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/gsemac/Gsemac.Net.Cloudflare</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<Copyright></Copyright>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
-    <DebugType>none</DebugType>
-    <DebugSymbols>false</DebugSymbols>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)' == 'Release'">
+		<DebugType>none</DebugType>
+		<DebugSymbols>false</DebugSymbols>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Gsemac.Core" Version="0.19.0" />
-    <PackageReference Include="Gsemac.IO" Version="0.21.2" />
-    <PackageReference Include="Gsemac.IO.Compression" Version="0.10.1" />
-    <PackageReference Include="Gsemac.Net" Version="0.27.0" />
-    <PackageReference Include="Gsemac.Net.GitHub" Version="0.4.5" />
-    <PackageReference Include="Gsemac.Net.JavaScript" Version="0.2.0" />
-    <PackageReference Include="Gsemac.Net.WebBrowsers" Version="0.5.0" />
-    <PackageReference Include="Gsemac.Net.WebDrivers" Version="0.13.7" />
-    <PackageReference Include="Gsemac.Reflection" Version="0.9.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Gsemac.Core" Version="0.19.0" />
+		<PackageReference Include="Gsemac.IO" Version="0.21.2" />
+		<PackageReference Include="Gsemac.IO.Compression" Version="0.10.1" />
+		<PackageReference Include="Gsemac.Net" Version="0.27.0" />
+		<PackageReference Include="Gsemac.Net.GitHub" Version="0.4.6" />
+		<PackageReference Include="Gsemac.Net.JavaScript" Version="0.2.0" />
+		<PackageReference Include="Gsemac.Net.WebBrowsers" Version="0.5.0" />
+		<PackageReference Include="Gsemac.Net.WebDrivers" Version="0.13.7" />
+		<PackageReference Include="Gsemac.Reflection" Version="0.9.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="Properties\ExceptionMessages.Designer.cs">
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Update="Properties\Paths.Designer.cs">
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Update="Properties\Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Update="Properties\Urls.Designer.cs">
-      <DesignTime>True</DesignTime>
-    </Compile>
-  </ItemGroup>
+	<Choose>
+		<When Condition="$(DefineConstants.Contains('NET45_OR_GREATER'))">
+			<ItemGroup>
+				<PackageReference Include="Selenium.WebDriver" Version="4.1.0" />
+			</ItemGroup>
+		</When>
+		<Otherwise>
+			<ItemGroup>
+				<PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
+			</ItemGroup>
+		</Otherwise>
+	</Choose>
 
-  <ItemGroup>
-    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
-      <_Parameter1>Gsemac.Net.Cloudflare.Cef</_Parameter1>
-    </AssemblyAttribute>
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Update="Properties\ExceptionMessages.Designer.cs">
+			<DesignTime>True</DesignTime>
+		</Compile>
+		<Compile Update="Properties\Paths.Designer.cs">
+			<DesignTime>True</DesignTime>
+		</Compile>
+		<Compile Update="Properties\Resources.Designer.cs">
+			<DesignTime>True</DesignTime>
+		</Compile>
+		<Compile Update="Properties\Urls.Designer.cs">
+			<DesignTime>True</DesignTime>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+			<_Parameter1>Gsemac.Net.Cloudflare.Cef</_Parameter1>
+		</AssemblyAttribute>
+	</ItemGroup>
 
 </Project>
