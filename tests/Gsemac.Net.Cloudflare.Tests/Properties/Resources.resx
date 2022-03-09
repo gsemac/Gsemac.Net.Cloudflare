@@ -119,12 +119,15 @@
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="captcha_bypass" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\samples\captcha-bypass.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>..\samples\html\captcha-bypass.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="cf_cookie_error" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\samples\cf-cookie-error.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>..\samples\html\cf-cookie-error.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="im_under_attack" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\samples\im-under-attack.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>..\samples\html\im-under-attack.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="ResponseWithCookiesWithEmptyStringForName" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\samples\flaresolverr\responsewithcookieswithemptystringforname.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
 </root>

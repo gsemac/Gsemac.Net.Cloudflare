@@ -19,7 +19,7 @@ namespace Gsemac.Net.Cloudflare.Tests.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -130,6 +130,36 @@ namespace Gsemac.Net.Cloudflare.Tests.Properties {
         internal static string im_under_attack {
             get {
                 return ResourceManager.GetString("im_under_attack", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {
+        ///  &quot;status&quot;: &quot;ok&quot;,
+        ///  &quot;message&quot;: &quot;&quot;,
+        ///  &quot;startTimestamp&quot;: 1646868923535,
+        ///  &quot;endTimestamp&quot;: 1646868926209,
+        ///  &quot;version&quot;: &quot;v2.1.0&quot;,
+        ///  &quot;solution&quot;: {
+        ///    &quot;url&quot;: &quot;https://example.com/&quot;,
+        ///    &quot;status&quot;: 200,
+        ///    &quot;headers&quot;: {},
+        ///    &quot;response&quot;: &quot;&quot;,
+        ///    &quot;cookies&quot;: [
+        ///      {
+        ///        &quot;name&quot;: &quot;valid_cookie&quot;,
+        ///        &quot;value&quot;: &quot;value&quot;,
+        ///        &quot;domain&quot;: &quot;.example.com&quot;,
+        ///        &quot;path&quot;: &quot;/&quot;,
+        ///        &quot;expires&quot;: 1709940925,
+        ///        &quot;size&quot;: 47,
+        ///        &quot;httpOnly&quot;: false,
+        ///        &quot;secure&quot;: false,
+        ///        &quot;sess [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ResponseWithCookiesWithEmptyStringForName {
+            get {
+                return ResourceManager.GetString("ResponseWithCookiesWithEmptyStringForName", resourceCulture);
             }
         }
     }

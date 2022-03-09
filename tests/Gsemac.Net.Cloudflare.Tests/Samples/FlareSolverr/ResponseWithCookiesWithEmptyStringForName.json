@@ -1,0 +1,40 @@
+﻿{
+  "status": "ok",
+  "message": "",
+  "startTimestamp": 1646868923535,
+  "endTimestamp": 1646868926209,
+  "version": "v2.1.0",
+  "solution": {
+    "url": "https://example.com/",
+    "status": 200,
+    "headers": {},
+    "response": "",
+    "cookies": [
+      {
+        "name": "valid_cookie",
+        "value": "value",
+        "domain": ".example.com",
+        "path": "/",
+        "expires": 1709940925,
+        "size": 47,
+        "httpOnly": false,
+        "secure": false,
+        "session": false,
+        "sameSite": "Lax"
+      },
+      {
+        "name": "",
+        "value": "value",
+        "domain": "example.com",
+        "path": "/",
+        "expires": 1646870726,
+        "size": 20,
+        "httpOnly": false,
+        "secure": false,
+        "session": false,
+        "sameSite": "Lax"
+      }
+    ],
+    "userAgent": "Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:97.0) Gecko/20100101 Firefox/97.0"
+  }
+}

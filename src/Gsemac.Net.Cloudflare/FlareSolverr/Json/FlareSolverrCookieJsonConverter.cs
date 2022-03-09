@@ -22,8 +22,16 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr.Json {
             Cookie cookie = new Cookie();
             JToken token = JToken.Load(reader);
 
-            if (token["name"] != null)
-                cookie.Name = (string)token["name"];
+            // I've come across some websites sending cookies where the name is an empty string.
+            // Some web browsers will tolerate this (e.g. Google Chrome), but System.Net.Cookie will reject the name and throw an exception.
+            // What is considered valid behavior according to the RFC is apparently contradictory: https://stackoverflow.com/a/61695783/5383169 (Buffoonism)
+
+            string cookieName = (string)token["name"];
+
+            if (string.IsNullOrEmpty(cookieName))
+                return null;
+
+            cookie.Name = (string)token["name"];
 
             if (token["value"] != null)
                 cookie.Value = (string)token["value"];

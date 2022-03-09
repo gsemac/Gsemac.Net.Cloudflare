@@ -21,8 +21,16 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr.Json {
 
             while (reader.TokenType != JsonToken.EndArray && reader.Read()) {
 
-                if (reader.TokenType == JsonToken.StartObject)
-                    cookies.Add(cookieJsonConverter.ReadJson(reader, objectType, existingValue, serializer) as Cookie);
+                if (reader.TokenType == JsonToken.StartObject) {
+
+                    Cookie cookie = (Cookie)cookieJsonConverter.ReadJson(reader, objectType, existingValue, serializer);
+
+                    // FlareSolverrCookieJsonConverter will return null for invalid cookies (e.g. cookies with the empty string for a name). 
+
+                    if (cookie is object)
+                        cookies.Add(cookie);
+
+                }
 
             }
 
