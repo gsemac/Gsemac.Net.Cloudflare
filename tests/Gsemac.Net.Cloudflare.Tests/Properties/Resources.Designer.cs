@@ -75,14 +75,13 @@ namespace Gsemac.Net.Cloudflare.Tests.Properties {
         ///&lt;html class=&quot;no-js&quot; lang=&quot;en-US&quot;&gt;
         ///&lt;!--&lt;![endif]--&gt;
         ///&lt;head&gt;
-        ///    &lt;title&gt;Please Wait... | Cloudflare&lt;/title&gt;
-        ///    &lt;meta name=&quot;captcha-bypass&quot; id=&quot;captcha-bypass&quot; /&gt;
+        ///    &lt;title&gt;Access denied | example.com used Cloudflare to restrict access&lt;/title&gt;
         ///    &lt;meta charset=&quot;UTF-8&quot; /&gt;
-        ///    &lt;meta http-equiv=&quot;Content-Type&quot; con [rest of string was truncated]&quot;;.
+        ///    &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; char [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string captcha_bypass {
+        internal static string CloudflareAccessDenied {
             get {
-                return ResourceManager.GetString("captcha_bypass", resourceCulture);
+                return ResourceManager.GetString("CloudflareAccessDenied", resourceCulture);
             }
         }
         
@@ -101,13 +100,38 @@ namespace Gsemac.Net.Cloudflare.Tests.Properties {
         ///&lt;html class=&quot;no-js&quot; lang=&quot;en-US&quot;&gt;
         ///&lt;!--&lt;![endif]--&gt;
         ///&lt;head&gt;
-        ///    &lt;title&gt;Access denied | example.com used Cloudflare to restrict access&lt;/title&gt;
+        ///    &lt;title&gt;Please Wait... | Cloudflare&lt;/title&gt;
+        ///    &lt;meta name=&quot;captcha-bypass&quot; id=&quot;captcha-bypass&quot; /&gt;
         ///    &lt;meta charset=&quot;UTF-8&quot; /&gt;
-        ///    &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; char [rest of string was truncated]&quot;;.
+        ///    &lt;meta http-equiv=&quot;Content-Type&quot; con [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string cf_cookie_error {
+        internal static string CloudflareCaptcha {
             get {
-                return ResourceManager.GetString("cf_cookie_error", resourceCulture);
+                return ResourceManager.GetString("CloudflareCaptcha", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
+        ///&lt;!--[if lt IE 7]&gt; 
+        ///&lt;html class=&quot;no-js ie6 oldie&quot; lang=&quot;en-US&quot;&gt;
+        ///   &lt;![endif]--&gt;
+        ///   &lt;!--[if IE 7]&gt;    
+        ///   &lt;html class=&quot;no-js ie7 oldie&quot; lang=&quot;en-US&quot;&gt;
+        ///      &lt;![endif]--&gt;
+        ///      &lt;!--[if IE 8]&gt;    
+        ///      &lt;html class=&quot;no-js ie8 oldie&quot; lang=&quot;en-US&quot;&gt;
+        ///         &lt;![endif]--&gt;
+        ///         &lt;!--[if gt IE 8]&gt;&lt;!--&gt; 
+        ///         &lt;html class=&quot;no-js&quot; lang=&quot;en-US&quot;&gt;
+        ///            &lt;!--&lt;![endif]--&gt;
+        ///            &lt;head&gt;
+        ///               &lt;title&gt;Please Wait... | Cloudflare&lt;/title&gt;
+        ///               &lt;meta charset=&quot;UTF-8 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string CloudflareCaptchaWithoutMetaTag {
+            get {
+                return ResourceManager.GetString("CloudflareCaptchaWithoutMetaTag", resourceCulture);
             }
         }
         
@@ -127,9 +151,9 @@ namespace Gsemac.Net.Cloudflare.Tests.Properties {
         ///            margin: 0;
         ///        [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string im_under_attack {
+        internal static string CloudflareIuam {
             get {
-                return ResourceManager.GetString("im_under_attack", resourceCulture);
+                return ResourceManager.GetString("CloudflareIuam", resourceCulture);
             }
         }
         
