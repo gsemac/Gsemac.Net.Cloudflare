@@ -3,7 +3,7 @@ using Gsemac.Net.WebDrivers;
 using OpenQA.Selenium;
 using System;
 
-namespace Gsemac.Net.Cloudflare.WebDriver {
+namespace Gsemac.Net.Cloudflare.Selenium {
 
     public class WebDriverChallengeHandler :
           WebDriverChallengeHandlerBase {

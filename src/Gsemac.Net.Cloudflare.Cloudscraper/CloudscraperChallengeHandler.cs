@@ -15,7 +15,7 @@ namespace Gsemac.Net.Cloudflare.Cloudscraper {
         ChallengeHandlerBase {
 
         // Public members
-
+        
         public CloudscraperChallengeHandler(ICloudscraperOptions cloudscraperOptions) :
             this(cloudscraperOptions, new NullLogger()) {
         }

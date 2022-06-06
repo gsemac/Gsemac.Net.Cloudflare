@@ -156,35 +156,5 @@ namespace Gsemac.Net.Cloudflare.Tests.Properties {
                 return ResourceManager.GetString("CloudflareIuam", resourceCulture);
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {
-        ///  &quot;status&quot;: &quot;ok&quot;,
-        ///  &quot;message&quot;: &quot;&quot;,
-        ///  &quot;startTimestamp&quot;: 1646868923535,
-        ///  &quot;endTimestamp&quot;: 1646868926209,
-        ///  &quot;version&quot;: &quot;v2.1.0&quot;,
-        ///  &quot;solution&quot;: {
-        ///    &quot;url&quot;: &quot;https://example.com/&quot;,
-        ///    &quot;status&quot;: 200,
-        ///    &quot;headers&quot;: {},
-        ///    &quot;response&quot;: &quot;&quot;,
-        ///    &quot;cookies&quot;: [
-        ///      {
-        ///        &quot;name&quot;: &quot;valid_cookie&quot;,
-        ///        &quot;value&quot;: &quot;value&quot;,
-        ///        &quot;domain&quot;: &quot;.example.com&quot;,
-        ///        &quot;path&quot;: &quot;/&quot;,
-        ///        &quot;expires&quot;: 1709940925,
-        ///        &quot;size&quot;: 47,
-        ///        &quot;httpOnly&quot;: false,
-        ///        &quot;secure&quot;: false,
-        ///        &quot;sess [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string ResponseWithCookiesWithEmptyStringForName {
-            get {
-                return ResourceManager.GetString("ResponseWithCookiesWithEmptyStringForName", resourceCulture);
-            }
-        }
     }
 }

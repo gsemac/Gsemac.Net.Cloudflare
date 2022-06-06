@@ -1,12 +1,13 @@
 ﻿using Gsemac.IO.Logging;
 using Gsemac.IO.Logging.Extensions;
+using Gsemac.Net.Cloudflare.Properties;
 using Gsemac.Net.WebDrivers.Extensions;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System;
 using System.Threading;
 
-namespace Gsemac.Net.Cloudflare.WebDriver {
+namespace Gsemac.Net.Cloudflare.Selenium {
 
     public abstract class WebDriverChallengeHandlerBase :
         ChallengeHandlerBase {
@@ -126,7 +127,7 @@ namespace Gsemac.Net.Cloudflare.WebDriver {
             }
 
             if (response is null)
-                throw new ChallengeHandlerException(Properties.ExceptionMessages.ChallengeSolverFailed);
+                throw new ChallengeHandlerException(ExceptionMessages.ChallengeSolverFailed);
 
             return response;
 

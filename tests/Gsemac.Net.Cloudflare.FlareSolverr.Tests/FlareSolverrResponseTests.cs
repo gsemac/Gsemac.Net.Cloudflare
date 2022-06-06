@@ -1,4 +1,4 @@
-﻿using Gsemac.Net.Cloudflare.Tests.Properties;
+﻿using Gsemac.Net.Cloudflare.FlareSolverr.Tests.Properties;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 

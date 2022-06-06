@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Gsemac.Net.Cloudflare.Properties {
+namespace Gsemac.Net.Cloudflare.FlareSolverr.Tests.Properties {
     using System;
     
     
@@ -19,17 +19,17 @@ namespace Gsemac.Net.Cloudflare.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Paths {
+    internal class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Paths() {
+        internal Resources() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Gsemac.Net.Cloudflare.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Gsemac.Net.Cloudflare.Properties.Paths", typeof(Paths).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Gsemac.Net.Cloudflare.FlareSolverr.Tests.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,20 +61,32 @@ namespace Gsemac.Net.Cloudflare.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to flaresolverr.
+        ///   Looks up a localized string similar to {
+        ///  &quot;status&quot;: &quot;ok&quot;,
+        ///  &quot;message&quot;: &quot;&quot;,
+        ///  &quot;startTimestamp&quot;: 1646868923535,
+        ///  &quot;endTimestamp&quot;: 1646868926209,
+        ///  &quot;version&quot;: &quot;v2.1.0&quot;,
+        ///  &quot;solution&quot;: {
+        ///    &quot;url&quot;: &quot;https://example.com/&quot;,
+        ///    &quot;status&quot;: 200,
+        ///    &quot;headers&quot;: {},
+        ///    &quot;response&quot;: &quot;&quot;,
+        ///    &quot;cookies&quot;: [
+        ///      {
+        ///        &quot;name&quot;: &quot;valid_cookie&quot;,
+        ///        &quot;value&quot;: &quot;value&quot;,
+        ///        &quot;domain&quot;: &quot;.example.com&quot;,
+        ///        &quot;path&quot;: &quot;/&quot;,
+        ///        &quot;expires&quot;: 1709940925,
+        ///        &quot;size&quot;: 47,
+        ///        &quot;httpOnly&quot;: false,
+        ///        &quot;secure&quot;: false,
+        ///        &quot;sess [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string FlareSolverrFileNameLinux {
+        internal static string ResponseWithCookiesWithEmptyStringForName {
             get {
-                return ResourceManager.GetString("FlareSolverrFileNameLinux", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to flaresolverr.exe.
-        /// </summary>
-        internal static string FlareSolverrFileNameWindows {
-            get {
-                return ResourceManager.GetString("FlareSolverrFileNameWindows", resourceCulture);
+                return ResourceManager.GetString("ResponseWithCookiesWithEmptyStringForName", resourceCulture);
             }
         }
     }

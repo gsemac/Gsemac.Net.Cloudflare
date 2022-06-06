@@ -1,5 +1,6 @@
 ﻿using Gsemac.IO.Logging;
 using Gsemac.IO.Logging.Extensions;
+using Gsemac.Net.Cloudflare.Properties;
 using Gsemac.Net.Extensions;
 using Newtonsoft.Json;
 using System;
@@ -275,8 +276,8 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
                 logger.Error($"Unable to locate FlareSolverr executable. Download FlareSolverr at {Properties.Urls.FlareSolverrLatestRelease}");
 
                 throw new FileNotFoundException(string.IsNullOrWhiteSpace(flareSolverrExecutablePath.Value) ?
-                    Properties.ExceptionMessages.FlareSolverrExecutableNotFound :
-                    string.Format(Properties.ExceptionMessages.FileNotFoundWithFilePath, flareSolverrExecutablePath.Value));
+                    ExceptionMessages.FlareSolverrExecutableNotFound :
+                    string.Format(ExceptionMessages.FileNotFoundWithFilePath, flareSolverrExecutablePath.Value));
 
             }
 

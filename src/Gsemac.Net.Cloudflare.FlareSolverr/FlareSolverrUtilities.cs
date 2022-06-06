@@ -1,5 +1,5 @@
 ﻿using Gsemac.Collections;
-using Gsemac.Net.Cloudflare.Properties;
+using Gsemac.Net.Cloudflare.FlareSolverr.Properties;
 using System.IO;
 using System.Linq;
 

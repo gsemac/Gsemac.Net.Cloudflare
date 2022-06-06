@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Gsemac.Net.Cloudflare.Properties {
+namespace Gsemac.Net.Cloudflare.FlareSolverr.Properties {
     using System;
     
     
@@ -19,17 +19,17 @@ namespace Gsemac.Net.Cloudflare.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Urls {
+    internal class Paths {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Urls() {
+        internal Paths() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Gsemac.Net.Cloudflare.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Gsemac.Net.Cloudflare.Properties.Urls", typeof(Urls).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Gsemac.Net.Cloudflare.FlareSolverr.Properties.Paths", typeof(Paths).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,20 +61,20 @@ namespace Gsemac.Net.Cloudflare.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to https://github.com/FlareSolverr/FlareSolverr/releases/latest.
+        ///   Looks up a localized string similar to flaresolverr.
         /// </summary>
-        internal static string FlareSolverrLatestRelease {
+        internal static string FlareSolverrFileNameLinux {
             get {
-                return ResourceManager.GetString("FlareSolverrLatestRelease", resourceCulture);
+                return ResourceManager.GetString("FlareSolverrFileNameLinux", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to https://github.com/FlareSolverr/FlareSolverr.
+        ///   Looks up a localized string similar to flaresolverr.exe.
         /// </summary>
-        internal static string FlareSolverrRepository {
+        internal static string FlareSolverrFileNameWindows {
             get {
-                return ResourceManager.GetString("FlareSolverrRepository", resourceCulture);
+                return ResourceManager.GetString("FlareSolverrFileNameWindows", resourceCulture);
             }
         }
     }

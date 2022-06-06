@@ -1,6 +1,7 @@
 ﻿using Gsemac.IO.Extensions;
 using Gsemac.IO.Logging;
 using Gsemac.IO.Logging.Extensions;
+using Gsemac.Net.Cloudflare.Properties;
 using Gsemac.Net.Extensions;
 using System;
 using System.Collections.Generic;
@@ -55,7 +56,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
                     break;
 
                 default:
-                    throw new NotSupportedException(string.Format(Properties.ExceptionMessages.RequestMethodNotSupportedWithMethod, request.Method));
+                    throw new NotSupportedException(string.Format(ExceptionMessages.RequestMethodNotSupportedWithMethod, request.Method));
 
             }
 
@@ -117,7 +118,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
                 }
                 else {
 
-                    throw new ArgumentException(string.Format(Properties.ExceptionMessages.RequestMustBeDecoratedWithLazyUploadHttpWebRequestDecoratorWithTypeName, nameof(LazyUploadHttpWebRequestDecorator)), nameof(request));
+                    throw new ArgumentException(string.Format(ExceptionMessages.RequestMustBeDecoratedWithLazyUploadHttpWebRequestDecoratorWithTypeName, nameof(LazyUploadHttpWebRequestDecorator)), nameof(request));
 
                 }
 
@@ -133,9 +134,9 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
             catch (WebException ex) {
 
                 if (ex.Status == WebExceptionStatus.ConnectFailure)
-                    throw new FlareSolverrException(string.Format(Properties.ExceptionMessages.FailedToConnectToFlareSolverrWithPort, FlareSolverrUtilities.DefaultPort), ex);
+                    throw new FlareSolverrException(string.Format(ExceptionMessages.FailedToConnectToFlareSolverrWithPort, FlareSolverrUtilities.DefaultPort), ex);
 
-                throw new FlareSolverrException(Properties.ExceptionMessages.FailedToExecuteFlareSolverrCommand, ex);
+                throw new FlareSolverrException(ExceptionMessages.FailedToExecuteFlareSolverrCommand, ex);
 
             }
 
@@ -175,7 +176,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
             }
             else {
 
-                throw new FlareSolverrException(string.Format(Properties.ExceptionMessages.FlareSolverrReturnedAFailureResponseWithStatus, response.Status));
+                throw new FlareSolverrException(string.Format(ExceptionMessages.FlareSolverrReturnedAFailureResponseWithStatus, response.Status));
 
             }
 

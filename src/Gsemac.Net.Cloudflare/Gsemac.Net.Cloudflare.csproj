@@ -21,40 +21,15 @@
 	<ItemGroup>
 		<PackageReference Include="Gsemac.Core" Version="0.19.1" />
 		<PackageReference Include="Gsemac.IO" Version="0.21.3" />
-		<PackageReference Include="Gsemac.IO.Compression" Version="0.10.2" />
 		<PackageReference Include="Gsemac.Net" Version="0.28.1" />
-		<PackageReference Include="Gsemac.Net.GitHub" Version="0.4.7" />
 		<PackageReference Include="Gsemac.Net.JavaScript" Version="0.2.1" />
-		<PackageReference Include="Gsemac.Net.WebBrowsers" Version="0.5.1" />
-		<PackageReference Include="Gsemac.Net.WebDrivers" Version="0.13.8" />
-		<PackageReference Include="Gsemac.Reflection" Version="0.9.1" />
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 	</ItemGroup>
-
-	<Choose>
-		<When Condition="$(DefineConstants.Contains('NET45_OR_GREATER'))">
-			<ItemGroup>
-				<PackageReference Include="Selenium.WebDriver" Version="4.1.0" />
-			</ItemGroup>
-		</When>
-		<Otherwise>
-			<ItemGroup>
-				<PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
-			</ItemGroup>
-		</Otherwise>
-	</Choose>
 
 	<ItemGroup>
 		<Compile Update="Properties\ExceptionMessages.Designer.cs">
 			<DesignTime>True</DesignTime>
 		</Compile>
-		<Compile Update="Properties\Paths.Designer.cs">
-			<DesignTime>True</DesignTime>
-		</Compile>
 		<Compile Update="Properties\Resources.Designer.cs">
-			<DesignTime>True</DesignTime>
-		</Compile>
-		<Compile Update="Properties\Urls.Designer.cs">
 			<DesignTime>True</DesignTime>
 		</Compile>
 	</ItemGroup>
@@ -62,6 +37,15 @@
 	<ItemGroup>
 		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
 			<_Parameter1>Gsemac.Net.Cloudflare.Cef</_Parameter1>
+		</AssemblyAttribute>
+		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+			<_Parameter1>Gsemac.Net.Cloudflare.Cloudscraper</_Parameter1>
+		</AssemblyAttribute>
+		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+			<_Parameter1>Gsemac.Net.Cloudflare.FlareSolverr</_Parameter1>
+		</AssemblyAttribute>
+		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+			<_Parameter1>Gsemac.Net.Cloudflare.Selenium</_Parameter1>
 		</AssemblyAttribute>
 	</ItemGroup>
 
