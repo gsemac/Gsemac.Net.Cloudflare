@@ -339,4 +339,6 @@ ASALocalRun/
 # BeatPulse healthcheck temp database
 healthchecksdb
 
+# Test projects
 ConsoleApp1/
+ConsoleApp2/

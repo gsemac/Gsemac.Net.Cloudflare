@@ -31,4 +31,10 @@
 	  <ProjectReference Include="..\Gsemac.Net.Cloudflare\Gsemac.Net.Cloudflare.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Compile Update="Properties\EnvironmentalVariables.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	  </Compile>
+	</ItemGroup>
+
 </Project>

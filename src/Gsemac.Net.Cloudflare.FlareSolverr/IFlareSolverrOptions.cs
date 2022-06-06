@@ -17,6 +17,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
         TimeSpan BrowserTimeout { get; }
         string TestUrl { get; }
         int Port { get; }
+        bool SkipPlatformCheck { get; }
 
     }
 

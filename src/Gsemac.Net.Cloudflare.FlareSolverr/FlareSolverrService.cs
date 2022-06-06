@@ -1,5 +1,6 @@
 ﻿using Gsemac.IO.Logging;
 using Gsemac.IO.Logging.Extensions;
+using Gsemac.Net.Cloudflare.FlareSolverr.Properties;
 using Gsemac.Net.Cloudflare.Properties;
 using Gsemac.Net.Extensions;
 using Newtonsoft.Json;
@@ -172,25 +173,28 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
             switch (options.LogLevel) {
 
                 case LogLevel.Info:
-                    processStartInfo.EnvironmentVariables["LOG_LEVEL"] = "info";
+                    processStartInfo.EnvironmentVariables[EnvironmentalVariables.LogLevel] = "info";
                     break;
 
                 case LogLevel.Debug:
-                    processStartInfo.EnvironmentVariables["LOG_LEVEL"] = "debug";
+                    processStartInfo.EnvironmentVariables[EnvironmentalVariables.LogLevel] = "debug";
                     break;
 
             }
 
-            processStartInfo.EnvironmentVariables["LOG_HTML"] = options.LogHtml ? "true" : "false";
-            processStartInfo.EnvironmentVariables["HEADLESS"] = options.Headless ? "true" : "false";
+            processStartInfo.EnvironmentVariables[EnvironmentalVariables.LogHtml] = options.LogHtml ? "true" : "false";
+            processStartInfo.EnvironmentVariables[EnvironmentalVariables.Headless] = options.Headless ? "true" : "false";
 
             if (options.BrowserTimeout > TimeSpan.Zero)
-                processStartInfo.EnvironmentVariables["BROWSER_TIMEOUT"] = options.BrowserTimeout.TotalMilliseconds.ToString(CultureInfo.InvariantCulture);
+                processStartInfo.EnvironmentVariables[EnvironmentalVariables.BrowserTimeout] = options.BrowserTimeout.TotalMilliseconds.ToString(CultureInfo.InvariantCulture);
 
             if (!string.IsNullOrWhiteSpace(options.TestUrl))
-                processStartInfo.EnvironmentVariables["TEST_URL"] = options.TestUrl;
+                processStartInfo.EnvironmentVariables[EnvironmentalVariables.TestUrl] = options.TestUrl;
 
-            processStartInfo.EnvironmentVariables["PORT"] = options.Port.ToString(CultureInfo.InvariantCulture);
+            processStartInfo.EnvironmentVariables[EnvironmentalVariables.Port] = options.Port.ToString(CultureInfo.InvariantCulture);
+
+            if (options.SkipPlatformCheck)
+                processStartInfo.EnvironmentVariables[EnvironmentalVariables.SkipPlatformCheck] = "1";
 
             Process process = new Process {
                 StartInfo = processStartInfo

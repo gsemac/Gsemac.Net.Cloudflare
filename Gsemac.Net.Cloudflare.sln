@@ -11,13 +11,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gsemac.Net.Cloudflare.Tests
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{9ED8A665-393E-4C05-883C-56C9B8B83EAD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gsemac.Net.Cloudflare.Selenium", "src\Gsemac.Net.Cloudflare.Selenium\Gsemac.Net.Cloudflare.Selenium.csproj", "{6FE2942A-A9B7-48DF-8607-BD157B9B7750}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gsemac.Net.Cloudflare.Selenium", "src\Gsemac.Net.Cloudflare.Selenium\Gsemac.Net.Cloudflare.Selenium.csproj", "{6FE2942A-A9B7-48DF-8607-BD157B9B7750}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gsemac.Net.Cloudflare.Cloudscraper", "src\Gsemac.Net.Cloudflare.Cloudscraper\Gsemac.Net.Cloudflare.Cloudscraper.csproj", "{1C933BAF-452B-483E-8AE2-2D052E8A62EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gsemac.Net.Cloudflare.Cloudscraper", "src\Gsemac.Net.Cloudflare.Cloudscraper\Gsemac.Net.Cloudflare.Cloudscraper.csproj", "{1C933BAF-452B-483E-8AE2-2D052E8A62EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gsemac.Net.Cloudflare.FlareSolverr", "src\Gsemac.Net.Cloudflare.FlareSolverr\Gsemac.Net.Cloudflare.FlareSolverr.csproj", "{8BA87E28-8C16-4BD1-ACB9-98EE42D656A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gsemac.Net.Cloudflare.FlareSolverr", "src\Gsemac.Net.Cloudflare.FlareSolverr\Gsemac.Net.Cloudflare.FlareSolverr.csproj", "{8BA87E28-8C16-4BD1-ACB9-98EE42D656A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gsemac.Net.Cloudflare.FlareSolverr.Tests", "tests\Gsemac.Net.Cloudflare.FlareSolverr.Tests\Gsemac.Net.Cloudflare.FlareSolverr.Tests.csproj", "{D222C7C2-1006-457C-8433-3D2B5BF08968}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gsemac.Net.Cloudflare.FlareSolverr.Tests", "tests\Gsemac.Net.Cloudflare.FlareSolverr.Tests\Gsemac.Net.Cloudflare.FlareSolverr.Tests.csproj", "{D222C7C2-1006-457C-8433-3D2B5BF08968}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
