@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading;
@@ -38,7 +37,7 @@ namespace Gsemac.Net.Cloudflare {
                 // Set the cookies and user agent on the request to the ones we've cached.
 
                 if (options.RememberCookies)
-                    ApplySolutionToRequest(request, GetCachedSolution(request.RequestUri));
+                    ApplySolutionToRequest(request, solutionCache.Get(request.RequestUri));
 
                 return base.Send(request, cancellationToken);
 
@@ -74,7 +73,7 @@ namespace Gsemac.Net.Cloudflare {
                         IChallengeSolution solution = challengeResponse.Solution;
 
                         if (options.RememberCookies)
-                            SetCachedSolution(response.ResponseUri, solution);
+                            solutionCache.Add(response.ResponseUri, solution);
 
                         if (!challengeResponse.HasResponseStream) {
 
@@ -131,44 +130,8 @@ namespace Gsemac.Net.Cloudflare {
 
         // Private members
 
-        private readonly IChallengeHandlerOptions options = new ChallengeHandlerOptions();
-        private readonly IDictionary<string, IChallengeSolution> cachedSolutions = new Dictionary<string, IChallengeSolution>();
-
-        private IChallengeSolution GetCachedSolution(Uri requestUri) {
-
-            if (requestUri is null)
-                throw new ArgumentNullException(nameof(requestUri));
-
-            lock (cachedSolutions) {
-
-                // We want subdomains to be able to use the same cookies as the primary domains, as would occur in a web browser.
-
-                foreach (string key in cachedSolutions.Keys) {
-
-                    if (new CookieDomainPattern(key).IsMatch(requestUri))
-                        return cachedSolutions[key];
-
-                }
-
-                return null;
-
-            }
-
-        }
-        private void SetCachedSolution(Uri requestUri, IChallengeSolution solution) {
-
-            if (requestUri is null)
-                throw new ArgumentNullException(nameof(requestUri));
-
-            if (solution is null)
-                throw new ArgumentNullException(nameof(solution));
-
-            string key = $".{Url.GetHostname(requestUri.AbsoluteUri)}";
-
-            lock (cachedSolutions)
-                cachedSolutions[key] = solution;
-
-        }
+        private readonly IChallengeHandlerOptions options = ChallengeHandlerOptions.Default;
+        private readonly IChallengeSolutionCache solutionCache = new ChallengeSolutionCache();
 
         private static void ApplySolutionToRequest(IHttpWebRequest request, IChallengeSolution solution) {
 
