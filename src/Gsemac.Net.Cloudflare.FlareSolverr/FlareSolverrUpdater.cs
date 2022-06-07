@@ -241,12 +241,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
         private string GetOSPlatform() {
 
-#if NET471_OR_GREATER || NETSTANDARD1_1_OR_GREATER || NETCOREAPP1_0_OR_GREATER 
-            string operatingSystemStr = System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.Windows) ? "windows" : "linux";
-#else
-            string operatingSystemStr = "windows";
-#endif
-
+            string operatingSystemStr = EnvironmentUtilities.GetPlatformInfo().Id != PlatformId.Windows ? "linux" : "windows";
             string architectureStr = Environment.Is64BitOperatingSystem ? "x64" : "x86";
 
             return $"{operatingSystemStr}-{architectureStr}";

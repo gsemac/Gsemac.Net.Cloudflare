@@ -1,4 +1,5 @@
 ﻿using Gsemac.Collections;
+using Gsemac.Core;
 using Gsemac.Net.Cloudflare.FlareSolverr.Properties;
 using System.IO;
 using System.Linq;
@@ -57,24 +58,16 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
         private static string GetExecutableFilename() {
 
-#if NET471_OR_GREATER || NETSTANDARD1_1_OR_GREATER || NETCOREAPP1_0_OR_GREATER 
+            switch (EnvironmentUtilities.GetPlatformInfo().Id) {
 
-            if (System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.Windows)) {
+                case PlatformId.Linux:
+                case PlatformId.MacOS:
+                    return Paths.FlareSolverrFileNameLinux;
 
-                return Paths.FlareSolverrFileNameWindows;
-
-            }
-            else {
-
-                return Paths.FlareSolverrFileNameLinux;
+                default:
+                    return Paths.FlareSolverrFileNameWindows;
 
             }
-
-#else
-
-            return Paths.FlareSolverrFileNameWindows;
-
-#endif
 
         }
 
