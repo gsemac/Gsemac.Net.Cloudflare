@@ -1,4 +1,5 @@
 ﻿using Gsemac.Net.Extensions;
+using Gsemac.Net.Http;
 using System;
 using System.Globalization;
 using System.IO;

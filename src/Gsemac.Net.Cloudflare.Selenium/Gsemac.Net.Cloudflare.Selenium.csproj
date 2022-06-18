@@ -28,14 +28,14 @@
 		</When>
 		<Otherwise>
 			<ItemGroup>
-				<PackageReference Include="Selenium.WebDriver" Version="4.1.0" />
+				<PackageReference Include="Selenium.WebDriver" Version="4.2.0" />
 			</ItemGroup>
 		</Otherwise>
 	</Choose>
 
 	<ItemGroup>
 		<PackageReference Include="Gsemac.IO.Logging" Version="0.1.1" />
-		<PackageReference Include="Gsemac.Net.WebDrivers" Version="0.13.8" />
+		<PackageReference Include="Gsemac.Net.WebDrivers" Version="0.13.9" />
 	</ItemGroup>
 
 	<ItemGroup>

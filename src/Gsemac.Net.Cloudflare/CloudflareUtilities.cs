@@ -1,4 +1,5 @@
-﻿using Gsemac.Net.JavaScript.Extensions;
+﻿using Gsemac.Net.Http;
+using Gsemac.Net.JavaScript.Extensions;
 using System;
 using System.IO;
 using System.Net;

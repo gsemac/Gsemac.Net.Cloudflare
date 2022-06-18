@@ -7,6 +7,8 @@ using Gsemac.IO.Logging.Extensions;
 using Gsemac.Net.Extensions;
 using Gsemac.Net.GitHub;
 using Gsemac.Net.GitHub.Extensions;
+using Gsemac.Net.Http;
+using Gsemac.Net.Http.Extensions;
 using Newtonsoft.Json;
 using System;
 using System.IO;

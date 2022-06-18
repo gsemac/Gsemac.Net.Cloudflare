@@ -1,6 +1,7 @@
 ﻿using Gsemac.IO.Logging;
 using Gsemac.IO.Logging.Extensions;
 using Gsemac.Net.Cloudflare.Properties;
+using Gsemac.Net.Http;
 using Gsemac.Net.WebDrivers.Extensions;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;

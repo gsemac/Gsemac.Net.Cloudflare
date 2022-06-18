@@ -1,6 +1,7 @@
 ﻿using Gsemac.Core;
 using Gsemac.IO.Logging;
 using Gsemac.IO.Logging.Extensions;
+using Gsemac.Net.Http;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Diagnostics;

@@ -1,4 +1,5 @@
 ﻿using Gsemac.Net.Extensions;
+using Gsemac.Net.Http;
 using Gsemac.Reflection;
 using System;
 using System.Net;

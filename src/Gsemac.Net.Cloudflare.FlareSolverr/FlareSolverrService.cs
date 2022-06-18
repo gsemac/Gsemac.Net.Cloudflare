@@ -2,7 +2,9 @@
 using Gsemac.IO.Logging.Extensions;
 using Gsemac.Net.Cloudflare.FlareSolverr.Properties;
 using Gsemac.Net.Cloudflare.Properties;
-using Gsemac.Net.Extensions;
+using Gsemac.Net.Http;
+using Gsemac.Net.Http.Extensions;
+using Gsemac.Net.Sockets;
 using Newtonsoft.Json;
 using System;
 using System.Diagnostics;

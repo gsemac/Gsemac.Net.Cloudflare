@@ -3,6 +3,7 @@ using Gsemac.IO.Logging;
 using Gsemac.IO.Logging.Extensions;
 using Gsemac.Net.Cloudflare.Properties;
 using Gsemac.Net.Extensions;
+using Gsemac.Net.Http;
 using System;
 using System.Collections.Generic;
 using System.IO;
