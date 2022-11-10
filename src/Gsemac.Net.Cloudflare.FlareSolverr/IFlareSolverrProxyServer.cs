@@ -3,7 +3,7 @@ using System;
 
 namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
-    public interface IFlareSolverrService :
+    public interface IFlareSolverrProxyServer :
         IDisposable {
 
         event DownloadFileProgressChangedEventHandler DownloadFileProgressChanged;
@@ -12,7 +12,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
         bool Start();
         bool Stop();
 
-        IFlareSolverrResponse SendCommand(IFlareSolverrCommand command);
+        IFlareSolverrResponse GetResponse(IFlareSolverrCommand command);
 
     }
 

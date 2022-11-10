@@ -4,13 +4,13 @@ using System.Linq;
 
 namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
-    public class FlareSolverrResponse :
+    internal class FlareSolverrResponse :
         IFlareSolverrResponse {
 
         public FlareSolverrSolution Solution { get; set; } = new FlareSolverrSolution();
         public string Session { get; set; }
         public IEnumerable<string> Sessions { get; set; } = Enumerable.Empty<string>();
-        public string Status { get; set; }
+        public FlareSolverrResponseStatus Status { get; set; }
         public string Message { get; set; }
         public DateTimeOffset StartTimestamp { get; set; }
         public DateTimeOffset EndTimestamp { get; set; }

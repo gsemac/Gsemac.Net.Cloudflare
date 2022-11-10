@@ -13,13 +13,13 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
         string Session { get; }
         [JsonProperty("sessions")]
         IEnumerable<string> Sessions { get; }
-        [JsonProperty("status")]
-        string Status { get; }
+        [JsonProperty("status"), JsonConverter(typeof(FlareSolverrResponseStatusJsonConverter))]
+        FlareSolverrResponseStatus Status { get; }
         [JsonProperty("message")]
         string Message { get; }
-        [JsonProperty("startTimestamp"), JsonConverter(typeof(FlareSolverrMillisecondsUnixEpochConverter))]
+        [JsonProperty("startTimestamp"), JsonConverter(typeof(FlareSolverrMillisecondsUnixEpochJsonConverter))]
         DateTimeOffset StartTimestamp { get; }
-        [JsonProperty("endTimestamp"), JsonConverter(typeof(FlareSolverrMillisecondsUnixEpochConverter))]
+        [JsonProperty("endTimestamp"), JsonConverter(typeof(FlareSolverrMillisecondsUnixEpochJsonConverter))]
         DateTimeOffset EndTimestamp { get; }
         // Version strings are of the form "v1.2.3", which the built-in version converter can't parse
         [JsonProperty("version"), JsonConverter(typeof(FlareSolverrVersionConverter))]

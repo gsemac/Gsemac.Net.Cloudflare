@@ -9,25 +9,25 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
     public interface IFlareSolverrCommand {
 
         [JsonProperty("cmd")]
-        string Cmd { get; }
+        string Command { get; set; }
         [JsonProperty("download")]
-        bool Download { get; }
+        bool Download { get; set; }
         [JsonProperty("url")]
-        Uri Url { get; }
+        Uri Url { get; set; }
         [JsonProperty("session")]
-        string Session { get; }
+        string Session { get; set; }
         [JsonProperty("userAgent")]
-        string UserAgent { get; }
+        string UserAgent { get; set; }
         [JsonProperty("maxTimeout"), JsonConverter(typeof(FlareSolverrMillisecondsTimeSpanJsonConverter))]
-        TimeSpan MaxTimeout { get; }
+        TimeSpan MaxTimeout { get; set; }
         [JsonProperty("headers")]
         IDictionary<string, string> Headers { get; }
         [JsonProperty("cookies"), JsonConverter(typeof(FlareSolverrCookieCollectionJsonConverter))]
         CookieCollection Cookies { get; }
         [JsonProperty("returnOnlyCookies")]
-        bool ReturnOnlyCookies { get; }
+        bool ReturnOnlyCookies { get; set; }
         [JsonProperty("postData")]
-        string PostData { get; }
+        string PostData { get; set; }
 
     }
 

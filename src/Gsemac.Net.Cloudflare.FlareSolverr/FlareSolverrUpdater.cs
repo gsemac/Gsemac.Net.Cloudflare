@@ -58,7 +58,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
         }
 
-        public IFlareSolverrInfo Update(CancellationToken cancellationToken) {
+        public IFlareSolverrInfo UpgradeToLatestVersion(CancellationToken cancellationToken) {
 
             logger.Info("Checking for FlareSolverr updates");
 
@@ -72,14 +72,16 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
                 logger.Info($"Updating FlareSolverr to version {latestVersion}");
 
-                DownloadFlareSolverr(cancellationToken);
+                if (DownloadFlareSolverr(cancellationToken)) {
 
-                flareSolverrInfo = new FlareSolverrInfo() {
-                    ExecutablePath = FlareSolverrUtilities.GetExecutablePath(options),
-                    Version = latestVersion,
-                };
+                    flareSolverrInfo = new FlareSolverrInfo() {
+                        ExecutablePath = FlareSolverrUtilities.GetExecutablePath(options),
+                        Version = latestVersion,
+                    };
 
-                SaveFlareSolverrInfo(flareSolverrInfo);
+                    SaveFlareSolverrInfo(flareSolverrInfo);
+
+                }
 
             }
             else
@@ -183,17 +185,17 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
             return version;
 
         }
-        private void DownloadFlareSolverr(CancellationToken cancellationToken) {
+        private bool DownloadFlareSolverr(CancellationToken cancellationToken) {
 
             logger.Info("Getting FlareSolverr download url");
 
             IGitHubClient gitHubClient = new GitHubWebClient(webRequestFactory);
             IRelease latestRelease = gitHubClient.GetLatestRelease(Properties.Urls.FlareSolverrRepository);
-            IReleaseAsset asset = latestRelease.Assets.Where(a => a.Name.Contains(GetOSPlatform())).FirstOrDefault();
+            IReleaseAsset asset = latestRelease.Assets.Where(a => a.Name.Contains(GetPlatformString())).FirstOrDefault();
 
             if (asset is null) {
 
-                logger.Warning($"Could not find appropriate release for this platform ({GetOSPlatform()}).");
+                logger.Warning($"Could not find an appropriate release for this platform ({GetPlatformString()}).");
 
             }
             else {
@@ -239,9 +241,13 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
             }
 
+            // If we found and downloaded the appropriate release asset, the process was successful.
+
+            return asset is object;
+
         }
 
-        private string GetOSPlatform() {
+        private string GetPlatformString() {
 
             string operatingSystemStr = EnvironmentUtilities.GetPlatformInfo().Id != PlatformId.Windows ? "linux" : "windows";
             string architectureStr = Environment.Is64BitOperatingSystem ? "x64" : "x86";

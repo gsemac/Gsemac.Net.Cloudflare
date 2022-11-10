@@ -18,22 +18,22 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
         // Public members
 
-        public FlareSolverrChallengeHandler(IFlareSolverrService flareSolverrService) :
-            this(flareSolverrService, new NullLogger()) {
+        public FlareSolverrChallengeHandler(IFlareSolverrProxyServer flareSolverrProxyServer) :
+            this(flareSolverrProxyServer, new NullLogger()) {
         }
-        public FlareSolverrChallengeHandler(IFlareSolverrService flareSolverrService, IChallengeHandlerOptions options) :
-          this(flareSolverrService, options, new NullLogger()) {
+        public FlareSolverrChallengeHandler(IFlareSolverrProxyServer flareSolverrProxyServer, IChallengeHandlerOptions options) :
+          this(flareSolverrProxyServer, options, new NullLogger()) {
         }
-        public FlareSolverrChallengeHandler(IFlareSolverrService flareSolverrService, ILogger logger) :
-            this(flareSolverrService, ChallengeHandlerOptions.Default, logger) {
+        public FlareSolverrChallengeHandler(IFlareSolverrProxyServer flareSolverrProxyServer, ILogger logger) :
+            this(flareSolverrProxyServer, ChallengeHandlerOptions.Default, logger) {
         }
-        public FlareSolverrChallengeHandler(IFlareSolverrService flareSolverrService, IChallengeHandlerOptions options, ILogger logger) :
+        public FlareSolverrChallengeHandler(IFlareSolverrProxyServer flareSolverrProxyServer, IChallengeHandlerOptions options, ILogger logger) :
             base(nameof(FlareSolverrChallengeHandler), options) {
 
-            if (flareSolverrService is null)
-                throw new ArgumentNullException(nameof(flareSolverrService));
+            if (flareSolverrProxyServer is null)
+                throw new ArgumentNullException(nameof(flareSolverrProxyServer));
 
-            this.flareSolverrService = flareSolverrService;
+            this.flareSolverrProxyServer = flareSolverrProxyServer;
             this.logger = new NamedLogger(logger, Name);
 
         }
@@ -49,11 +49,11 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
             switch (request.Method.ToLowerInvariant()) {
 
                 case "get":
-                    commandName = "request.get";
+                    commandName = FlareSolverrCommand.GetRequest;
                     break;
 
                 case "post":
-                    commandName = "request.post";
+                    commandName = FlareSolverrCommand.PostRequest;
                     break;
 
                 default:
@@ -61,41 +61,19 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
             }
 
+            // Build the FlareSolverr command.
+            // Avoid setting the user agent, because Cloudflare is able to detect discrepancies.
+
             FlareSolverrCommand flareSolverrCommand = new FlareSolverrCommand(commandName) {
                 Url = request.RequestUri,
                 Download = true,
-                //UserAgent = request.UserAgent, // Avoid setting the user agent, because Cloudflare can detect discrepancies
                 MaxTimeout = TimeSpan.FromMilliseconds(request.Timeout),
             };
 
             foreach (IHttpHeader header in request.Headers.GetHeaders()) {
 
-                switch (header.Name.ToLowerInvariant()) {
-
-                    // Avoid attempting to set "unsafe" headers.
-                    // https://source.chromium.org/chromium/chromium/src/+/master:services/network/public/cpp/header_util.cc;l=25;drc=9e64a1a40f598b893da3b47cfc88cc2cd1a9289d;bpv=1;bpt=1
-
-                    case "content-length":
-                    case "host":
-                    case "trailer":
-                    case "te":
-                    case "upgrade":
-                    case "cookie2":
-                    case "keep-alive":
-                    case "transfer-encoding":
-                        break;
-
-                    // Avoid setting a user agent header, because it can cause the handler to fail if Cloudflare detects it differs from the browser.
-                    // While GET requests may still go through sometimes, it seems to cause significant problems with POST requests.
-
-                    case "user-agent":
-                        break;
-
-                    default:
-                        flareSolverrCommand.Headers[header.Name] = header.Value;
-                        break;
-
-                }
+                if (IsHeaderAllowed(header.Name))
+                    flareSolverrCommand.Headers[header.Name] = header.Value;
 
             }
 
@@ -129,7 +107,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
             try {
 
-                response = flareSolverrService.SendCommand(flareSolverrCommand);
+                response = flareSolverrProxyServer.GetResponse(flareSolverrCommand);
 
             }
             catch (WebException ex) {
@@ -146,7 +124,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
             // I used to check that the response code was 200 instead of 503, but sometimes the response code will be 503 even after a successful bypass.
             // Therefore, it is more reliable to check the status code returned by FlareSolverr rather than the webpage.
 
-            if (response.Status?.Equals("ok", StringComparison.OrdinalIgnoreCase) ?? false) {
+            if (response.Status == FlareSolverrResponseStatus.Ok) {
 
                 // We successfully received a solution.
 
@@ -187,7 +165,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
         const string HtmlContentType = "text/html";
 
-        private readonly IFlareSolverrService flareSolverrService;
+        private readonly IFlareSolverrProxyServer flareSolverrProxyServer;
         private readonly ILogger logger;
 
         private static Stream StreamFromFlareSolverrSolution(FlareSolverrSolution solution, bool isResponseBase64Encoded) {
@@ -229,6 +207,35 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
             return response.StartsWith("<html", StringComparison.OrdinalIgnoreCase) ||
                 response.StartsWith("<!doctype html>", StringComparison.OrdinalIgnoreCase);
+
+        }
+        private static bool IsHeaderAllowed(string headerName) {
+
+            switch (headerName.ToLowerInvariant()) {
+
+                // Avoid attempting to set "unsafe" headers.
+                // https://source.chromium.org/chromium/chromium/src/+/master:services/network/public/cpp/header_util.cc;l=25;drc=9e64a1a40f598b893da3b47cfc88cc2cd1a9289d;bpv=1;bpt=1
+
+                case "content-length":
+                case "host":
+                case "trailer":
+                case "te":
+                case "upgrade":
+                case "cookie2":
+                case "keep-alive":
+                case "transfer-encoding":
+                    return false;
+
+                // Avoid setting a user agent header, because it can cause the handler to fail if Cloudflare detects it differs from the browser.
+                // While GET requests may still go through sometimes, it seems to cause significant problems with POST requests.
+
+                case "user-agent":
+                    return false;
+
+                default:
+                    return true;
+
+            }
 
         }
 

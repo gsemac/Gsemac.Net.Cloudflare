@@ -7,7 +7,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
         event DownloadFileProgressChangedEventHandler DownloadFileProgressChanged;
         event DownloadFileCompletedEventHandler DownloadFileCompleted;
 
-        IFlareSolverrInfo Update(CancellationToken cancellationToken);
+        IFlareSolverrInfo UpgradeToLatestVersion(CancellationToken cancellationToken);
 
     }
 

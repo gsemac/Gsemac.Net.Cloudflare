@@ -1,7 +1,7 @@
 ﻿namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
-    public abstract class FlareSolverrServiceBase :
-        IFlareSolverrService {
+    public abstract class FlareSolverrProxyServerBase :
+        IFlareSolverrProxyServer {
 
         // Public members
 
@@ -11,7 +11,7 @@
         public abstract bool Start();
         public abstract bool Stop();
 
-        public abstract IFlareSolverrResponse SendCommand(IFlareSolverrCommand command);
+        public abstract IFlareSolverrResponse GetResponse(IFlareSolverrCommand command);
 
         public void Dispose() {
 
