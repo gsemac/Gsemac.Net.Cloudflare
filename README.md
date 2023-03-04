@@ -1,5 +1,6 @@
 # Gsemac.Net.Cloudflare
 [![NuGet](https://img.shields.io/nuget/v/Gsemac.Net.Cloudflare.svg)](https://www.nuget.org/packages/Gsemac.Net.Cloudflare/) 
+[![NuGet](https://img.shields.io/nuget/dt/Gsemac.Net.Cloudflare)](https://www.nuget.org/packages/Gsemac.Net.Cloudflare/)
 
 Gsemac.Net.Cloudflare is a library for interacting with Cloudflare-protected websites designed to be compatible with .NET Framework 4.0 and later.
 
