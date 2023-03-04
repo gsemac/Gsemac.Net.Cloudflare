@@ -1,7 +1,7 @@
 ﻿namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
-    public abstract class FlareSolverrProxyServerBase :
-        IFlareSolverrProxyServer {
+    public abstract class FlareSolverrServiceBase :
+        IFlareSolverrService {
 
         // Public members
 

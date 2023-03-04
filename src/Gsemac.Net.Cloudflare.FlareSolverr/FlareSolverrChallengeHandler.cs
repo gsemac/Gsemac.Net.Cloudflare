@@ -18,22 +18,22 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
         // Public members
 
-        public FlareSolverrChallengeHandler(IFlareSolverrProxyServer flareSolverrProxyServer) :
+        public FlareSolverrChallengeHandler(IFlareSolverrService flareSolverrProxyServer) :
             this(flareSolverrProxyServer, new NullLogger()) {
         }
-        public FlareSolverrChallengeHandler(IFlareSolverrProxyServer flareSolverrProxyServer, IChallengeHandlerOptions options) :
+        public FlareSolverrChallengeHandler(IFlareSolverrService flareSolverrProxyServer, IChallengeHandlerOptions options) :
           this(flareSolverrProxyServer, options, new NullLogger()) {
         }
-        public FlareSolverrChallengeHandler(IFlareSolverrProxyServer flareSolverrProxyServer, ILogger logger) :
+        public FlareSolverrChallengeHandler(IFlareSolverrService flareSolverrProxyServer, ILogger logger) :
             this(flareSolverrProxyServer, ChallengeHandlerOptions.Default, logger) {
         }
-        public FlareSolverrChallengeHandler(IFlareSolverrProxyServer flareSolverrProxyServer, IChallengeHandlerOptions options, ILogger logger) :
+        public FlareSolverrChallengeHandler(IFlareSolverrService flareSolverrProxyServer, IChallengeHandlerOptions options, ILogger logger) :
             base(nameof(FlareSolverrChallengeHandler), options) {
 
             if (flareSolverrProxyServer is null)
                 throw new ArgumentNullException(nameof(flareSolverrProxyServer));
 
-            this.flareSolverrProxyServer = flareSolverrProxyServer;
+            this.flareSolverrService = flareSolverrProxyServer;
             this.logger = new NamedLogger(logger, Name);
 
         }
@@ -107,7 +107,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
             try {
 
-                response = flareSolverrProxyServer.GetResponse(flareSolverrCommand);
+                response = flareSolverrService.GetResponse(flareSolverrCommand);
 
             }
             catch (WebException ex) {
@@ -165,7 +165,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
         const string HtmlContentType = "text/html";
 
-        private readonly IFlareSolverrProxyServer flareSolverrProxyServer;
+        private readonly IFlareSolverrService flareSolverrService;
         private readonly ILogger logger;
 
         private static Stream StreamFromFlareSolverrSolution(FlareSolverrSolution solution, bool isResponseBase64Encoded) {

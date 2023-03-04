@@ -17,27 +17,27 @@ using System.Threading;
 
 namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
-    public class FlareSolverrProxyServer :
-        FlareSolverrProxyServerBase {
+    public class FlareSolverrService :
+        FlareSolverrServiceBase {
 
         // Public members
 
-        public FlareSolverrProxyServer() :
+        public FlareSolverrService() :
             this(FlareSolverrOptions.Default) {
         }
-        public FlareSolverrProxyServer(IFlareSolverrOptions options) :
+        public FlareSolverrService(IFlareSolverrOptions options) :
             this(HttpWebRequestFactory.Default, options) {
         }
-        public FlareSolverrProxyServer(ILogger logger) :
+        public FlareSolverrService(ILogger logger) :
             this(FlareSolverrOptions.Default, logger) {
         }
-        public FlareSolverrProxyServer(IFlareSolverrOptions options, ILogger logger) :
+        public FlareSolverrService(IFlareSolverrOptions options, ILogger logger) :
            this(HttpWebRequestFactory.Default, options, logger) {
         }
-        public FlareSolverrProxyServer(IHttpWebRequestFactory webRequestFactory, IFlareSolverrOptions options) :
+        public FlareSolverrService(IHttpWebRequestFactory webRequestFactory, IFlareSolverrOptions options) :
             this(webRequestFactory, options, new NullLogger()) {
         }
-        public FlareSolverrProxyServer(IHttpWebRequestFactory webRequestFactory, IFlareSolverrOptions options, ILogger logger) {
+        public FlareSolverrService(IHttpWebRequestFactory webRequestFactory, IFlareSolverrOptions options, ILogger logger) {
 
             if (webRequestFactory is null)
                 throw new ArgumentNullException(nameof(webRequestFactory));
@@ -50,7 +50,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
             this.webRequestFactory = webRequestFactory;
             this.options = options;
-            this.logger = new NamedLogger(logger, nameof(FlareSolverrProxyServer));
+            this.logger = new NamedLogger(logger, nameof(FlareSolverrService));
 
             flareSolverrExecutablePath = new Lazy<string>(GetFlareSolverrExecutablePath);
 
