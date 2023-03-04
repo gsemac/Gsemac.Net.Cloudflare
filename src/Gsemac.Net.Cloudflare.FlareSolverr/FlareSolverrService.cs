@@ -130,6 +130,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
         private readonly CancellationTokenSource updaterCancellationTokenSource = new CancellationTokenSource();
         private ProcessState processState = ProcessState.Stopped;
         private string sessionId;
+        private bool sessionsSupported = true;
         private Process flareSolverrProcess;
 
         private string GetFlareSolverrExecutablePath() {
@@ -391,6 +392,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
             return webClient;
 
         }
+
         private IFlareSolverrResponse GetResponse(IFlareSolverrCommand command, bool ensureFlareSolverrIsRunning, bool ensureSessionIsCreated) {
 
             if (command is null)
@@ -404,7 +406,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
             lock (mutex) {
 
-                if (isFlareSolverrRunning && ensureSessionIsCreated && options.UseSession && string.IsNullOrWhiteSpace(sessionId))
+                if (isFlareSolverrRunning && ensureSessionIsCreated && options.UseSession && string.IsNullOrWhiteSpace(sessionId) && sessionsSupported)
                     CreateSession();
 
                 if (options.UseSession && !string.IsNullOrWhiteSpace(sessionId))
@@ -418,67 +420,105 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
                 Uri flareSolverrUri = GetFlareSolverrProxyAddress();
 
-                string responseJson;
                 IFlareSolverrResponse response;
 
                 try {
 
-                    responseJson = webClient.UploadString(flareSolverrUri, command.ToString());
+                    response = DeserializeResponse(webClient.UploadString(flareSolverrUri, command.ToString()));
 
                 }
                 catch (WebException ex) {
 
-                    // FlareSolverr will return a "500 Internal Server Error" for malformed requests.
-                    // If the error was because we tried to use a session that doesn't exist, attempt to create a new session and issue the command again.
+                    // FlareSolverr will return a "500 Internal Server Error" for invalid requests, but some of these errors can be handled.
 
                     if (ex.Response is object) {
 
                         using (Stream responseSteam = ex.Response.GetResponseStream())
-                        using (StreamReader sr = new StreamReader(responseSteam, Encoding.UTF8))
-                            responseJson = sr.ReadToEnd();
+                            response = DeserializeResponse(responseSteam);
 
-                        response = JsonConvert.DeserializeObject<FlareSolverrResponse>(responseJson);
+                        if (IsSessionDoesNotExistError(response)) {
 
-                        bool isSessionDoesNotExistError = response.Status == FlareSolverrResponseStatus.Error &&
-                            response.Message.StartsWith("Error: This session does not exist.", StringComparison.OrdinalIgnoreCase);
+                            // If the error was because we tried to use a session that doesn't exist, we will attempt to create a new session and issue the command again.
 
-                        logger.Warning($"No session with ID {command.Session} exists. The session may have been destroyed.");
+                            logger.Warning($"No session with ID {command.Session} exists. The session may have been destroyed.");
 
-                        if (isSessionDoesNotExistError && isFlareSolverrRunning && ensureSessionIsCreated && options.UseSession) {
+                            if (isFlareSolverrRunning && ensureSessionIsCreated && options.UseSession && sessionsSupported) {
 
-                            lock (mutex) {
+                                lock (mutex) {
 
-                                // Clear the existing session, and create a new one.
+                                    // Clear the existing session, and create a new one.
 
-                                sessionId = string.Empty;
+                                    sessionId = string.Empty;
 
-                                CreateSession();
+                                    CreateSession();
+
+                                }
+
+                                // Attempt to issue the command again with the new session.
+
+                                return GetResponse(command, ensureFlareSolverrIsRunning, ensureSessionIsCreated: false);
 
                             }
 
-                            // Attempt to issue the command again with the new session.
+                        }
+                        else {
 
-                            return GetResponse(command, ensureFlareSolverrIsRunning, ensureSessionIsCreated: false);
+                            // For all other error responses, just return the error response so it can be handled elsewhere.
+
+                            return response;
 
                         }
 
                     }
 
-                    throw ex;
+                    throw;
 
                 }
-
-                response = JsonConvert.DeserializeObject<FlareSolverrResponse>(responseJson);
 
                 return response;
 
             }
 
         }
+        private IFlareSolverrResponse DeserializeResponse(string responseJson) {
+
+            if (responseJson is null)
+                throw new ArgumentNullException(nameof(responseJson));
+
+            return JsonConvert.DeserializeObject<FlareSolverrResponse>(responseJson);
+
+        }
+        private IFlareSolverrResponse DeserializeResponse(Stream stream) {
+
+            if (stream is null)
+                throw new ArgumentNullException(nameof(stream));
+
+            using (StreamReader sr = new StreamReader(stream, Encoding.UTF8))
+                return DeserializeResponse(sr.ReadToEnd());
+
+        }
+        private bool IsSessionDoesNotExistError(IFlareSolverrResponse response) {
+
+            if (response is null)
+                throw new ArgumentNullException(nameof(response));
+
+            return response.Status == FlareSolverrResponseStatus.Error &&
+                response.Message.StartsWith("Error: This session does not exist.", StringComparison.OrdinalIgnoreCase);
+
+        }
+        private bool IsNotImplementedYetError(IFlareSolverrResponse response) {
+
+            if (response is null)
+                throw new ArgumentNullException(nameof(response));
+
+            return response.Status == FlareSolverrResponseStatus.Error &&
+                response.Message.StartsWith("Error: Not implemented yet.", StringComparison.OrdinalIgnoreCase);
+
+        }
 
         private void CreateSession() {
 
-            if (string.IsNullOrWhiteSpace(sessionId)) {
+            if (string.IsNullOrWhiteSpace(sessionId) && sessionsSupported) {
 
                 logger.Info($"Starting a new session");
 
@@ -486,9 +526,27 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
                     UserAgent = options.UserAgent,
                 }, ensureFlareSolverrIsRunning: false, ensureSessionIsCreated: false);
 
-                logger.Info($"Started session with ID {response.Session}");
+                if (response.Status == FlareSolverrResponseStatus.Ok) {
 
-                sessionId = response.Session;
+                    logger.Info($"Started session with ID {response.Session}");
+
+                    sessionId = response.Session;
+
+                }
+                else if (IsNotImplementedYetError(response)) {
+
+                    logger.Warning($"Sessions are not supported in FlareSolverr v{response.Version}. Proceeding without creating a session.");
+
+                    sessionsSupported = false;
+
+                }
+                else {
+
+                    // An unknown error occurred while creating the session.
+
+                    throw new FlareSolverrException(string.Format(ExceptionMessages.FlareSolverrReturnedAFailureResponseWithStatus, response.Status));
+
+                }
 
             }
 
