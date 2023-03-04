@@ -22,7 +22,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Gsemac.IO.Logging" Version="0.1.1" />
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
 	</ItemGroup>
 
 	<ItemGroup>
