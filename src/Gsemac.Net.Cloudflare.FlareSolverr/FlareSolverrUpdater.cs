@@ -218,7 +218,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
                         client.DownloadFileSync(new Uri(asset.DownloadUrl), downloadFilePath, cancellationToken);
 
-                        logger.Info($"Extracting {PathUtilities.GetFilename(downloadFilePath)}");
+                        logger.Info($"Extracting {PathUtilities.GetFileName(downloadFilePath)}");
 
                         ArchiveUtilities.Extract(downloadFilePath, extractToNewFolder: true);
 
