@@ -1,6 +1,5 @@
 ﻿using Gsemac.Core;
 using Gsemac.IO.Logging;
-using Gsemac.IO.Logging.Extensions;
 using Gsemac.Net.Cloudflare.FlareSolverr.Properties;
 using Gsemac.Net.Cloudflare.Properties;
 using Gsemac.Net.Http;
@@ -299,7 +298,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
                 if (processState == ProcessState.Started && flareSolverrProcess is object && !flareSolverrProcess.HasExited) {
 
-                    logger.Info("Stopping FlareSolverr process");
+                    logger.Info($"Closing {flareSolverrProcess.ProcessName} process ({flareSolverrProcess.Id})");
 
                     // Attempt to stop the process gracefully so that it can close running browser instances.
 
@@ -310,8 +309,13 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
                     // FlareSolverr 3.0.0+ leaves an extra process behind when closed, so attempt to close any residual processes.
 
-                    foreach (Process process in ProcessUtilities.GetProcessesByFilePath(flareSolverrExecutablePath.Value))
+                    foreach (Process process in ProcessUtilities.GetProcessesByFilePath(flareSolverrExecutablePath.Value)) {
+
+                        logger.Info($"Killing {process.ProcessName} process ({process.Id})");
+
                         process.Kill();
+
+                    }
 
                     flareSolverrProcess = null;
 
