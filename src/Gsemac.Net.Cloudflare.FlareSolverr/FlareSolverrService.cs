@@ -1,4 +1,5 @@
-﻿using Gsemac.IO.Logging;
+﻿using Gsemac.Core;
+using Gsemac.IO.Logging;
 using Gsemac.IO.Logging.Extensions;
 using Gsemac.Net.Cloudflare.FlareSolverr.Properties;
 using Gsemac.Net.Cloudflare.Properties;
@@ -306,6 +307,11 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
                         flareSolverrProcess.Kill();
 
                     flareSolverrProcess.Dispose();
+
+                    // FlareSolverr 3.0.0+ leaves an extra process behind when closed, so attempt to close any residual processes.
+
+                    foreach (Process process in ProcessUtilities.GetProcessesByFilePath(flareSolverrExecutablePath.Value))
+                        process.Kill();
 
                     flareSolverrProcess = null;
 
