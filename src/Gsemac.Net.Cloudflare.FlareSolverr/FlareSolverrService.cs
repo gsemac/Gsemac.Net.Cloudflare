@@ -355,7 +355,12 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
             LogLevel logLevel = suggestedLogLevel;
             string logMessage = e.Data;
 
-            Match m = Regex.Match(logMessage, @"^(?<timestamp>\d+-\d+-\d+T\d+:\d+:\d+-\d+:\d+)\s(?<level>DEBUG|INFO|WARN|ERROR)", RegexOptions.IgnoreCase);
+            // The log message format can vary depending on the version.
+
+            // 2023-03-12T17:48:45-06:00 INFO FlareSolverr v2.2.10
+            // 2023-03-12 17:49:50 INFO FlareSolverr 3.0.4
+
+            Match m = Regex.Match(logMessage, @"^(?<timestamp>.+?)\s+(?<level>DEBUG|INFO|WARN|ERROR)", RegexOptions.IgnoreCase);
 
             if (m.Success) {
 
