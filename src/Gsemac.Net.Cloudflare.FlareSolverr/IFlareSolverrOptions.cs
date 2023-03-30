@@ -10,7 +10,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
         string FlareSolverrDirectoryPath { get; }
         string FlareSolverrFileName { get; }
         string UserAgent { get; }
-        bool UseSession { get; }
+        bool CreateSession { get; }
         LogLevel LogLevel { get; }
         bool LogHtml { get; }
         bool Headless { get; }

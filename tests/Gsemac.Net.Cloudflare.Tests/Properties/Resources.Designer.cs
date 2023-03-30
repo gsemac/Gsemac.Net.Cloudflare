@@ -156,5 +156,28 @@ namespace Gsemac.Net.Cloudflare.Tests.Properties {
                 return ResourceManager.GetString("CloudflareIuam", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
+        ///&lt;html&gt;
+        ///&lt;head&gt;
+        ///    &lt;title&gt;DDoS-Guard&lt;/title&gt;
+        ///    &lt;meta charset=&quot;utf-8&quot;&gt;
+        ///    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1&quot;&gt;
+        ///    &lt;script&gt;
+        ///    var DOMReady = function (t) {
+        ///            var e = document
+        ///                , d = &quot;addEventListener&quot;;
+        ///            e[d] ? e[d](&quot;DOMContentLoaded&quot;, t) : window.attachEvent(&quot;onload&quot;, t)
+        ///        }
+        ///            , loadScript = function (t, e) {
+        ///                var d = document.createElement(&quot;script&quot;);
+        ///                d.type = &quot;text/javascript [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string DDoSGuard {
+            get {
+                return ResourceManager.GetString("DDoSGuard", resourceCulture);
+            }
+        }
     }
 }

@@ -43,6 +43,18 @@ namespace Gsemac.Net.Cloudflare.Tests {
             Assert.AreEqual(ProtectionType.ImUnderAttack, CloudflareUtilities.GetProtectionType(Properties.Resources.CloudflareIuam));
 
         }
+        [TestMethod]
+        public void TestGetProtectionTypeWithDDoSGuard() {
+
+            Assert.AreEqual(ProtectionType.DDosGuard, CloudflareUtilities.GetProtectionType(Properties.Resources.DDoSGuard));
+
+        }
+        [TestMethod]
+        public void TestGetProtectionTypeWithNullString() {
+
+            Assert.AreEqual(ProtectionType.None, CloudflareUtilities.GetProtectionType((string)null));
+
+        }
 
     }
 

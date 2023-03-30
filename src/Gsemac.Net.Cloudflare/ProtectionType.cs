@@ -4,7 +4,8 @@
         None,
         ImUnderAttack,
         CaptchaBypass,
-        AccessDenied
+        AccessDenied,
+        DDosGuard,
     }
 
 }

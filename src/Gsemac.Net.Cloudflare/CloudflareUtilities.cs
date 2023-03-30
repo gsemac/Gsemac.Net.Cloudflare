@@ -40,9 +40,14 @@ namespace Gsemac.Net.Cloudflare {
             bool isServiceUnavailable = webResponse.StatusCode == HttpStatusCode.ServiceUnavailable ||
                 webResponse.StatusCode == HttpStatusCode.Forbidden;
 
-            bool isCloudflareServer = webResponse.Headers["Server"]?.Equals("cloudflare", StringComparison.OrdinalIgnoreCase) ?? false;
+            // Check the server header, which will indicate the protection service being used. 
 
-            return isServiceUnavailable && isCloudflareServer;
+            string serverHeader = webResponse.Headers["Server"] ?? string.Empty;
+
+            bool hasProtectionServerHeader = serverHeader.Equals("cloudflare", StringComparison.OrdinalIgnoreCase) ||
+                serverHeader.Equals("ddos-guard", StringComparison.OrdinalIgnoreCase);
+
+            return isServiceUnavailable && hasProtectionServerHeader;
 
         }
         public static bool IsProtectionDetected(string htmlDocument) {
@@ -83,8 +88,12 @@ namespace Gsemac.Net.Cloudflare {
         }
         public static ProtectionType GetProtectionType(string htmlDocument) {
 
+            if (string.IsNullOrWhiteSpace(htmlDocument))
+                return ProtectionType.None;
+
             Match protectionMatch = Regex.Match(htmlDocument,
-                @"\bcf-(?:im-under-attack|captcha-container)|captcha-bypass|<title>Access denied|has banned your IP address\b");
+                @"\bcf-(?:im-under-attack|captcha-container)|captcha-bypass|<title>Access denied|has banned your IP address|<title>DDoS-Guard\b",
+                RegexOptions.IgnoreCase);
 
             if (protectionMatch.Success) {
 
@@ -100,6 +109,9 @@ namespace Gsemac.Net.Cloudflare {
                     case "<title>Access denied":
                     case "has banned your IP address":
                         return ProtectionType.AccessDenied;
+
+                    case "<title>DDoS-Guard":
+                        return ProtectionType.DDosGuard;
 
                 }
 

@@ -416,10 +416,10 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
             lock (mutex) {
 
-                if (isFlareSolverrRunning && ensureSessionIsCreated && options.UseSession && string.IsNullOrWhiteSpace(sessionId) && sessionsSupported)
+                if (isFlareSolverrRunning && ensureSessionIsCreated && options.CreateSession && string.IsNullOrWhiteSpace(sessionId) && sessionsSupported)
                     CreateSession();
 
-                if (options.UseSession && !string.IsNullOrWhiteSpace(sessionId))
+                if (options.CreateSession && !string.IsNullOrWhiteSpace(sessionId))
                     command.Session = sessionId;
 
             }
@@ -452,7 +452,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
                             logger.Warning($"No session with ID {command.Session} exists. The session may have been destroyed.");
 
-                            if (isFlareSolverrRunning && ensureSessionIsCreated && options.UseSession && sessionsSupported) {
+                            if (isFlareSolverrRunning && ensureSessionIsCreated && options.CreateSession && sessionsSupported) {
 
                                 lock (mutex) {
 
@@ -530,7 +530,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
             if (string.IsNullOrWhiteSpace(sessionId) && sessionsSupported) {
 
-                logger.Info($"Starting a new session");
+                logger.Info($"Creating a new session");
 
                 IFlareSolverrResponse response = GetResponse(new FlareSolverrCommand(FlareSolverrCommand.CreateSession) {
                     UserAgent = options.UserAgent,
@@ -538,7 +538,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
                 if (response.Status == FlareSolverrResponseStatus.Ok) {
 
-                    logger.Info($"Started session with ID {response.Session}");
+                    logger.Info($"Created session with ID {response.Session}");
 
                     sessionId = response.Session;
 

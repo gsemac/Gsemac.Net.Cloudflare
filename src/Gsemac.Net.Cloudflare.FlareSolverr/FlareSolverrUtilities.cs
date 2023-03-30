@@ -31,6 +31,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
             // ./flaresolverr/flaresolverr.exe
             // ./flaresolverr-vx.x.x-windows-xxx/flaresolverr/flaresolverr.exe
+            // ./flaresolverr_windows_x64/flaresolverr/flaresolverr.exe
 
             // Use natural sorting so that newer versions are listed before older versions.
 

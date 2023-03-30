@@ -11,7 +11,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
         public string FlareSolverrDirectoryPath { get; set; }
         public string FlareSolverrFileName { get; set; }
         public string UserAgent { get; set; }
-        public bool UseSession { get; set; } = true;
+        public bool CreateSession { get; set; } = true;
         public LogLevel LogLevel { get; set; } = LogLevel.Info;
         public bool LogHtml { get; set; } = false;
         public bool Headless { get; set; } = true;

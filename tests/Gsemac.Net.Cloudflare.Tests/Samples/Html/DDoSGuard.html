@@ -1,0 +1,233 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>DDoS-Guard</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <script>
+    var DOMReady = function (t) {
+            var e = document
+                , d = "addEventListener";
+            e[d] ? e[d]("DOMContentLoaded", t) : window.attachEvent("onload", t)
+        }
+            , loadScript = function (t, e) {
+                var d = document.createElement("script");
+                d.type = "text/javascript",
+                    d.src = t,
+                    "string" == typeof e && "" !== e && (d.id = e),
+                    (document.getElementsByTagName("head")[0] || document.body).appendChild(d)
+            };
+        DOMReady(function () {
+            loadScript("/.well-known/ddos-guard/check?context=free_splash", "ddg_script_f"),
+                loadScript("https://check.ddos-guard.net/check.js")
+        });</script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0
+        }
+
+        body, html {
+            font-family: Open Sans,Arial,Helvetica,sans-serif;
+            height: 100%;
+            color: #333
+        }
+
+        #wrap-main {
+            -webkit-box-flex: 1;
+            -ms-flex: 1 0 auto;
+            flex: 1 0 auto;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            margin: 0 auto;
+            max-width: 1000px;
+            padding: 0 10px 70px
+        }
+
+        #link-ddg {
+            -webkit-box-flex: 0;
+            -ms-flex: 0 0 auto;
+            flex: 0 0 auto;
+            margin: 0 auto 30px;
+            color: #636363
+        }
+
+            #link-ddg a {
+                text-decoration: none
+            }
+
+                #link-ddg a:link {
+                    color: #3399e0
+                }
+
+                #link-ddg a:focus {
+                    color: #3399e0
+                }
+
+        .container {
+            background: #fff;
+            margin: 0 auto
+        }
+
+        #dg-load {
+            margin-top: 25px
+        }
+
+        .logo-foot {
+            margin-bottom: 10px
+        }
+
+        @media screen and (max-width: 1200px) {
+            .main {
+                width: 500px
+            }
+
+            #link-ddg {
+                font-size: 12px
+            }
+        }
+
+        @media screen and (max-width: 767px) {
+            #description {
+                font-size: 13px
+            }
+
+            #link-ddg {
+                margin-bottom: 10px;
+                font-size: 9px
+            }
+        }
+
+        .logo {
+            width: 120px;
+            margin-bottom: 35px
+        }
+
+        #title {
+            font-size: 32px;
+            font-weight: 900;
+            margin-bottom: 40px
+        }
+
+        #description {
+            color: #8f9390;
+            margin-bottom: 30px
+        }
+
+        #link-ddg {
+            white-space: nowrap;
+            margin-bottom: 30px;
+            font-size: 18px
+        }
+
+            #link-ddg a:focus:active:hover:visited {
+                color: #00adee
+            }
+
+            #link-ddg a:active, #link-ddg a:hover, #link-ddg a:visited {
+                color: #00adee
+            }
+
+        .container {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            display: -webkit-flex;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            height: 100%;
+            text-align: center;
+            background: url(data:image/svg+xml;base64,PHN2ZyBpZD0i0KHQu9C+0LlfMSIgZGF0YS1uYW1lPSLQodC70L7QuSAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNjYuNzUgNDcuOTciPjxkZWZzPjxzdHlsZT4uY2xzLTF7ZmlsbDojZmZmO308L3N0eWxlPjwvZGVmcz48dGl0bGU+0JzQvtC90YLQsNC20L3QsNGPINC+0LHQu9Cw0YHRgtGMIDE8L3RpdGxlPjxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTEzNS41NSwzOS44MmMtLjM4LDAtLjc1LDAtMS4xMywwYTE4LjkxLDE4LjkxLDAsMCwwLTM1LjMzLTQuNTNBMjUuMjYsMjUuMjYsMCwwLDAsNzcuMjEsMjIuN2MtLjgyLDAtMS42MywwLTIuNDMuMTJBMjkuMjYsMjkuMjYsMCwwLDAsMTcsMjkuMjZhMjkuNTksMjkuNTksMCwwLDAsLjE2LDNBMTguNTIsMTguNTIsMCwwLDAsMCw0OEgxNTAuNDNBMTcuNjQsMTcuNjQsMCwwLDAsMTM1LjU1LDM5LjgyWiIvPjxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTE1OS40OSw0NS40NUE5LjU4LDkuNTgsMCwwLDAsMTUzLDQ4aDEzQTkuNTgsOS41OCwwLDAsMCwxNTkuNDksNDUuNDVaIi8+PC9zdmc+) center bottom no-repeat
+        }
+
+        .lds-spin {
+            width: 80px;
+            height: 80px
+        }
+
+        @media screen and (max-width: 1200px) {
+            .logo {
+                width: 100px
+            }
+
+            #title {
+                font-size: 29px
+            }
+
+            #link-ddg {
+                font-size: 20px
+            }
+        }
+
+        @media screen and (max-width: 770px) {
+            #title, .logo {
+                margin-bottom: 10px
+            }
+
+            .logo {
+                width: 70px
+            }
+
+            #title {
+                font-size: 15px
+            }
+
+            #description, #link-ddg {
+                margin-bottom: 10px;
+                font-size: 13px
+            }
+
+            .lds-spin {
+                width: 40px;
+                height: 40px
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <img src="data:image/svg+xml;base64,PHN2ZyBpZD0iZGwiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmlld0JveD0iMCAwIDYuNjIgNy42OSI+Cgk8ZGVmcz4KCQk8c3R5bGU+CgkJCS5jbHMtMSB7CgkJCWlzb2xhdGlvbjogaXNvbGF0ZTsKCQkJfQoJCQkuY2xzLTIgewoJCQlmaWxsOiAjMDBhZGVlOwoJCQl9CgkJCS5jbHMtMyB7CgkJCWZpbGw6ICNmZmY7CgkJCX0KCQk8L3N0eWxlPgoJPC9kZWZzPgoJPHRpdGxlPgoJCWRkb3NfMwoJPC90aXRsZT4KCTxnIGlkPSJfMjU2MCIgZGF0YS1uYW1lPSIyNTYwIiBjbGFzcz0iY2xzLTEiPgoJCTxnIGlkPSJHMiIgZGF0YS1uYW1lPSJHcjIiPgoJCQk8cGF0aCBjbGFzcz0iY2xzLTIiIGQ9Ik0zLjMsMEE2LDYsMCwwLDEsMCwxLjkxQy4xMyw0LjQ2LDEuNiw3LjQ5LDMuMyw3LjY1LDUsNy40OSw2LjQ3LDQuNDYsNi42LDEuOTFBNiw2LDAsMCwxLDMuMywwWiIgLz4KCQkJPHBvbHlnb24gY2xhc3M9ImNscy0zIiBwb2ludHM9IjQuNTUgNC43MyA0LjU1IDIuNzQgMy4yOSAxLjc5IDIuMDMgMi43MSAyLjAzIDIuOTEgMy4yNSAyLjIgMy4yNSAyLjU5IDIuMDMgMy4xNiAyLjAzIDMuNCAzLjI1IDIuOTUgMy4yNSAzLjI2IDIuMDMgMy42NiAyLjAzIDMuOTEgMy4yNSAzLjY2IDMuMjUgNC4wMSAyLjAzIDQuMTggMi4wMyA0LjQzIDMuMjUgNC4zNiAzLjI1IDQuNzMgMS44OSA0LjczIDEuODkgNS4wOSA0LjcxIDUuMDkgNC43MSA0LjczIDQuNTUgNC43MyIgLz4KCQk8L2c+Cgk8L2c+Cjwvc3ZnPgo=" alt>
+        </div>
+        <div id="title"></div>
+        <div id="description"></div>
+        <div id="link-ddg">
+            <a href target="_blank" id="link"></a>
+        </div>
+        <div class="lds">
+            <img src="data:image/svg+xml;base64,PHN2ZyBjbGFzcz0ibGRzLXNwaW4iIHdpZHRoPSIxMDBweCIgaGVpZ2h0PSIxMDBweCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmlld0JveD0iMCAwIDEwMCAxMDAiIHByZXNlcnZlQXNwZWN0UmF0aW89InhNaWRZTWlkIiBzdHlsZT0iYmFja2dyb3VuZDogbm9uZSI+Cgk8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg4MCw1MCkiPgoJCTxnIHRyYW5zZm9ybT0icm90YXRlKDApIj4KCQkJPGNpcmNsZSBjeD0iMCIgY3k9IjAiIHI9IjEwIiBmaWxsPSIjMDBhZGVlIiBmaWxsLW9wYWNpdHk9IjEiIHRyYW5zZm9ybT0ic2NhbGUoMC43NTI1IDAuNzUyNSkiPgoJCQkJPGFuaW1hdGVUcmFuc2Zvcm0gYXR0cmlidXRlTmFtZT0idHJhbnNmb3JtIiB0eXBlPSJzY2FsZSIgYmVnaW49Ii0wLjg3NXMiIHZhbHVlcz0iMC43IDAuNzsxIDEiIGtleVRpbWVzPSIwOzEiIGR1cj0iMXMiIHJlcGVhdENvdW50PSJpbmRlZmluaXRlIj4KCQkJCTwvYW5pbWF0ZVRyYW5zZm9ybT4KCQkJCTxhbmltYXRlIGF0dHJpYnV0ZU5hbWU9ImZpbGwtb3BhY2l0eSIga2V5VGltZXM9IjA7MSIgZHVyPSIxcyIgcmVwZWF0Q291bnQ9ImluZGVmaW5pdGUiIHZhbHVlcz0iMTswIiBiZWdpbj0iLTAuODc1cyI+CgkJCQk8L2FuaW1hdGU+CgkJCTwvY2lyY2xlPgoJCTwvZz4KCTwvZz4KCTxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDcxLjIxMzIwMzQzNTU5NjQzLDcxLjIxMzIwMzQzNTU5NjQzKSI+CgkJPGcgdHJhbnNmb3JtPSJyb3RhdGUoNDUpIj4KCQkJPGNpcmNsZSBjeD0iMCIgY3k9IjAiIHI9IjEwIiBmaWxsPSIjMDBhZGVlIiBmaWxsLW9wYWNpdHk9IjAuODc1IiB0cmFuc2Zvcm09InNjYWxlKDAuNzE1IDAuNzE1KSI+CgkJCQk8YW5pbWF0ZVRyYW5zZm9ybSBhdHRyaWJ1dGVOYW1lPSJ0cmFuc2Zvcm0iIHR5cGU9InNjYWxlIiBiZWdpbj0iLTAuNzVzIiB2YWx1ZXM9IjAuNyAwLjc7MSAxIiBrZXlUaW1lcz0iMDsxIiBkdXI9IjFzIiByZXBlYXRDb3VudD0iaW5kZWZpbml0ZSI+CgkJCQk8L2FuaW1hdGVUcmFuc2Zvcm0+CgkJCQk8YW5pbWF0ZSBhdHRyaWJ1dGVOYW1lPSJmaWxsLW9wYWNpdHkiIGtleVRpbWVzPSIwOzEiIGR1cj0iMXMiIHJlcGVhdENvdW50PSJpbmRlZmluaXRlIiB2YWx1ZXM9IjE7MCIgYmVnaW49Ii0wLjc1cyI+CgkJCQk8L2FuaW1hdGU+CgkJCTwvY2lyY2xlPgoJCTwvZz4KCTwvZz4KCTxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDUwLDgwKSI+CgkJPGcgdHJhbnNmb3JtPSJyb3RhdGUoOTApIj4KCQkJPGNpcmNsZSBjeD0iMCIgY3k9IjAiIHI9IjEwIiBmaWxsPSIjMDBhZGVlIiBmaWxsLW9wYWNpdHk9IjAuNzUiIHRyYW5zZm9ybT0ic2NhbGUoMC45Nzc1IDAuOTc3NSkiPgoJCQkJPGFuaW1hdGVUcmFuc2Zvcm0gYXR0cmlidXRlTmFtZT0idHJhbnNmb3JtIiB0eXBlPSJzY2FsZSIgYmVnaW49Ii0wLjYyNXMiIHZhbHVlcz0iMC43IDAuNzsxIDEiIGtleVRpbWVzPSIwOzEiIGR1cj0iMXMiIHJlcGVhdENvdW50PSJpbmRlZmluaXRlIj4KCQkJCTwvYW5pbWF0ZVRyYW5zZm9ybT4KCQkJCTxhbmltYXRlIGF0dHJpYnV0ZU5hbWU9ImZpbGwtb3BhY2l0eSIga2V5VGltZXM9IjA7MSIgZHVyPSIxcyIgcmVwZWF0Q291bnQ9ImluZGVmaW5pdGUiIHZhbHVlcz0iMTswIiBiZWdpbj0iLTAuNjI1cyI+CgkJCQk8L2FuaW1hdGU+CgkJCTwvY2lyY2xlPgoJCTwvZz4KCTwvZz4KCTxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDI4Ljc4Njc5NjU2NDQwMzU3Nyw3MS4yMTMyMDM0MzU1OTY0MykiPgoJCTxnIHRyYW5zZm9ybT0icm90YXRlKDEzNSkiPgoJCQk8Y2lyY2xlIGN4PSIwIiBjeT0iMCIgcj0iMTAiIGZpbGw9IiMwMGFkZWUiIGZpbGwtb3BhY2l0eT0iMC42MjUiIHRyYW5zZm9ybT0ic2NhbGUoMC45NCAwLjk0KSI+CgkJCQk8YW5pbWF0ZVRyYW5zZm9ybSBhdHRyaWJ1dGVOYW1lPSJ0cmFuc2Zvcm0iIHR5cGU9InNjYWxlIiBiZWdpbj0iLTAuNXMiIHZhbHVlcz0iMC43IDAuNzsxIDEiIGtleVRpbWVzPSIwOzEiIGR1cj0iMXMiIHJlcGVhdENvdW50PSJpbmRlZmluaXRlIj4KCQkJCTwvYW5pbWF0ZVRyYW5zZm9ybT4KCQkJCTxhbmltYXRlIGF0dHJpYnV0ZU5hbWU9ImZpbGwtb3BhY2l0eSIga2V5VGltZXM9IjA7MSIgZHVyPSIxcyIgcmVwZWF0Q291bnQ9ImluZGVmaW5pdGUiIHZhbHVlcz0iMTswIiBiZWdpbj0iLTAuNXMiPgoJCQkJPC9hbmltYXRlPgoJCQk8L2NpcmNsZT4KCQk8L2c+Cgk8L2c+Cgk8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyMCw1MC4wMDAwMDAwMDAwMDAwMSkiPgoJCTxnIHRyYW5zZm9ybT0icm90YXRlKDE4MCkiPgoJCQk8Y2lyY2xlIGN4PSIwIiBjeT0iMCIgcj0iMTAiIGZpbGw9IiMwMGFkZWUiIGZpbGwtb3BhY2l0eT0iMC41IiB0cmFuc2Zvcm09InNjYWxlKDAuOTAyNSAwLjkwMjUpIj4KCQkJCTxhbmltYXRlVHJhbnNmb3JtIGF0dHJpYnV0ZU5hbWU9InRyYW5zZm9ybSIgdHlwZT0ic2NhbGUiIGJlZ2luPSItMC4zNzVzIiB2YWx1ZXM9IjAuNyAwLjc7MSAxIiBrZXlUaW1lcz0iMDsxIiBkdXI9IjFzIiByZXBlYXRDb3VudD0iaW5kZWZpbml0ZSI+CgkJCQk8L2FuaW1hdGVUcmFuc2Zvcm0+CgkJCQk8YW5pbWF0ZSBhdHRyaWJ1dGVOYW1lPSJmaWxsLW9wYWNpdHkiIGtleVRpbWVzPSIwOzEiIGR1cj0iMXMiIHJlcGVhdENvdW50PSJpbmRlZmluaXRlIiB2YWx1ZXM9IjE7MCIgYmVnaW49Ii0wLjM3NXMiPgoJCQkJPC9hbmltYXRlPgoJCQk8L2NpcmNsZT4KCQk8L2c+Cgk8L2c+Cgk8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyOC43ODY3OTY1NjQ0MDM1NywyOC43ODY3OTY1NjQ0MDM1NzcpIj4KCQk8ZyB0cmFuc2Zvcm09InJvdGF0ZSgyMjUpIj4KCQkJPGNpcmNsZSBjeD0iMCIgY3k9IjAiIHI9IjEwIiBmaWxsPSIjMDBhZGVlIiBmaWxsLW9wYWNpdHk9IjAuMzc1IiB0cmFuc2Zvcm09InNjYWxlKDAuODY1IDAuODY1KSI+CgkJCQk8YW5pbWF0ZVRyYW5zZm9ybSBhdHRyaWJ1dGVOYW1lPSJ0cmFuc2Zvcm0iIHR5cGU9InNjYWxlIiBiZWdpbj0iLTAuMjVzIiB2YWx1ZXM9IjAuNyAwLjc7MSAxIiBrZXlUaW1lcz0iMDsxIiBkdXI9IjFzIiByZXBlYXRDb3VudD0iaW5kZWZpbml0ZSI+CgkJCQk8L2FuaW1hdGVUcmFuc2Zvcm0+CgkJCQk8YW5pbWF0ZSBhdHRyaWJ1dGVOYW1lPSJmaWxsLW9wYWNpdHkiIGtleVRpbWVzPSIwOzEiIGR1cj0iMXMiIHJlcGVhdENvdW50PSJpbmRlZmluaXRlIiB2YWx1ZXM9IjE7MCIgYmVnaW49Ii0wLjI1cyI+CgkJCQk8L2FuaW1hdGU+CgkJCTwvY2lyY2xlPgoJCTwvZz4KCTwvZz4KCTxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ5Ljk5OTk5OTk5OTk5OTk5LDIwKSI+CgkJPGcgdHJhbnNmb3JtPSJyb3RhdGUoMjcwKSI+CgkJCTxjaXJjbGUgY3g9IjAiIGN5PSIwIiByPSIxMCIgZmlsbD0iIzAwYWRlZSIgZmlsbC1vcGFjaXR5PSIwLjI1IiB0cmFuc2Zvcm09InNjYWxlKDAuODI3NSAwLjgyNzUpIj4KCQkJCTxhbmltYXRlVHJhbnNmb3JtIGF0dHJpYnV0ZU5hbWU9InRyYW5zZm9ybSIgdHlwZT0ic2NhbGUiIGJlZ2luPSItMC4xMjVzIiB2YWx1ZXM9IjAuNyAwLjc7MSAxIiBrZXlUaW1lcz0iMDsxIiBkdXI9IjFzIiByZXBlYXRDb3VudD0iaW5kZWZpbml0ZSI+CgkJCQk8L2FuaW1hdGVUcmFuc2Zvcm0+CgkJCQk8YW5pbWF0ZSBhdHRyaWJ1dGVOYW1lPSJmaWxsLW9wYWNpdHkiIGtleVRpbWVzPSIwOzEiIGR1cj0iMXMiIHJlcGVhdENvdW50PSJpbmRlZmluaXRlIiB2YWx1ZXM9IjE7MCIgYmVnaW49Ii0wLjEyNXMiPgoJCQkJPC9hbmltYXRlPgoJCQk8L2NpcmNsZT4KCQk8L2c+Cgk8L2c+Cgk8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg3MS4yMTMyMDM0MzU1OTY0MywyOC43ODY3OTY1NjQ0MDM1NykiPgoJCTxnIHRyYW5zZm9ybT0icm90YXRlKDMxNSkiPgoJCQk8Y2lyY2xlIGN4PSIwIiBjeT0iMCIgcj0iMTAiIGZpbGw9IiMwMGFkZWUiIGZpbGwtb3BhY2l0eT0iMC4xMjUiIHRyYW5zZm9ybT0ic2NhbGUoMC43OSAwLjc5KSI+CgkJCQk8YW5pbWF0ZVRyYW5zZm9ybSBhdHRyaWJ1dGVOYW1lPSJ0cmFuc2Zvcm0iIHR5cGU9InNjYWxlIiBiZWdpbj0iMHMiIHZhbHVlcz0iMC43IDAuNzsxIDEiIGtleVRpbWVzPSIwOzEiIGR1cj0iMXMiIHJlcGVhdENvdW50PSJpbmRlZmluaXRlIj4KCQkJCTwvYW5pbWF0ZVRyYW5zZm9ybT4KCQkJCTxhbmltYXRlIGF0dHJpYnV0ZU5hbWU9ImZpbGwtb3BhY2l0eSIga2V5VGltZXM9IjA7MSIgZHVyPSIxcyIgcmVwZWF0Q291bnQ9ImluZGVmaW5pdGUiIHZhbHVlcz0iMTswIiBiZWdpbj0iMHMiPgoJCQkJPC9hbmltYXRlPgoJCQk8L2NpcmNsZT4KCQk8L2c+Cgk8L2c+Cjwvc3ZnPgo=" alt>
+        </div>
+    </div>
+    <script type="text/javascript">
+    var lang = navigator.language
+            , host = window.location.hostname
+            , utmLang = ["en", "ru"].includes(lang) ? lang : "en";
+        const link = "https://ddos-guard.net/" + utmLang + "?utm_source=" + host + "&utm_medium=preloader"
+            , linkElement = document.getElementById("link");
+        linkElement.setAttribute("href", link),
+            "ru" == lang || "ru-RU" == lang ? (document.getElementById("title").innerHTML = "Проверка браузера перед переходом на сайт " + host,
+                document.getElementById("description").innerHTML = "Это автоматический процесс. Вы будете перенаправлены на запрашиваемый ресурс в ближайшее время.<br>Пожалуйста ожидайте...",
+                document.getElementById("link").innerHTML = "Защита от DDoS-атак DDos-Guard") : (document.getElementById("title").innerHTML = "Checking your browser accessing " + host,
+                    document.getElementById("description").innerHTML = "This process is automatic. Your browser will redirect to your requested content shortly.<br>Please allow up to 5 seconds...",
+                    document.getElementById("link").innerHTML = "DDoS protection by DDos-Guard");</script>
+</body>
+</html>
