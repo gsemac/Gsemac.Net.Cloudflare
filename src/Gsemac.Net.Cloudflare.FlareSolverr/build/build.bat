@@ -20,4 +20,4 @@ pyinstaller "FlareSolverr/src/flaresolverr.py" ^
 	--onefile ^
 	--add-data "FlareSolverr/package.json;." ^
 	--version-file "file_version_info.txt" ^
-	--icon "icon.ico"
+	--icon "FlareSolverr/resources/flaresolverr_logo.ico"
