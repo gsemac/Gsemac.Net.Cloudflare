@@ -19,6 +19,12 @@ namespace Gsemac.Net.Cloudflare {
         public ChallengeHandlerHttpWebRequest(IHttpWebRequest baseRequest, Func<IHttpWebRequest, IHttpWebResponse> webResponseFactory) :
             base(baseRequest.RequestUri) {
 
+            if (baseRequest is null)
+                throw new ArgumentNullException(nameof(baseRequest));
+
+            if (webResponseFactory is null)
+                throw new ArgumentNullException(nameof(webResponseFactory));
+
             ReflectionUtilities.CopyProperties(baseRequest, this, new CopyPropertiesOptions() {
                 IgnoreExceptions = true,
             });
