@@ -1,4 +1,5 @@
 ﻿using Gsemac.Core;
+using Gsemac.IO;
 using Gsemac.IO.Logging;
 using Gsemac.Net.Cloudflare.FlareSolverr.Properties;
 using Gsemac.Net.Cloudflare.Properties;
@@ -10,6 +11,7 @@ using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -296,20 +298,33 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
                 if (!string.IsNullOrWhiteSpace(sessionId))
                     DestroySession();
 
-                if (processState == ProcessState.Started && flareSolverrProcess is object && !flareSolverrProcess.HasExited) {
+                KillFlareSolverrProcesses();
 
-                    logger.Info($"Closing {flareSolverrProcess.ProcessName} process ({flareSolverrProcess.Id})");
+            }
 
-                    // Attempt to stop the process gracefully so that it can close running browser instances.
+        }
+        private void KillFlareSolverrProcesses() {
 
-                    if (!flareSolverrProcess.CloseMainWindow())
-                        flareSolverrProcess.Kill();
+            if (processState == ProcessState.Started && flareSolverrProcess is object && !flareSolverrProcess.HasExited) {
 
-                    flareSolverrProcess.Dispose();
+                logger.Info($"Closing {flareSolverrProcess.ProcessName} process ({flareSolverrProcess.Id})");
 
-                    // FlareSolverr 3.0.0+ leaves an extra process behind when closed, so attempt to close any residual processes.
+                // Attempt to stop the process gracefully so that it can close running browser instances.
 
-                    foreach (Process process in ProcessUtilities.GetProcessesByFilePath(flareSolverrExecutablePath.Value)) {
+                if (!(flareSolverrProcess.CloseMainWindow() && flareSolverrProcess.WaitForExit(TimeSpan.FromSeconds(15).Milliseconds)))
+                    flareSolverrProcess.Kill();
+
+                flareSolverrProcess.Dispose();
+
+                // FlareSolverr 3.0.0+ leaves an extra process behind when closed, so attempt to close any residual processes.
+
+                // We may get a "ComponentModel.Win32Exception" when attempting to access the process(es).
+                // I believe this occurs when FlareSolverr finishes exiting early, so it should be something we can safely ignore.
+
+                try {
+
+                    foreach (Process process in ProcessUtilities.GetProcessesByFilePath(flareSolverrExecutablePath.Value)
+                        .Where(p => !p.HasExited)) {
 
                         logger.Info($"Killing {process.ProcessName} process ({process.Id})");
 
@@ -317,9 +332,37 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
                     }
 
-                    flareSolverrProcess = null;
+                }
+                catch (Exception e) {
+
+                    logger.Error($"Error occurred while killing FlareSolverr process(es): {e}");
 
                 }
+
+                // There may still be leftover browser instances, so we should attempt to kill those too.
+                // FlareSolverr should terminte these on its own, but sometimes it leaves them behind (https://github.com/FlareSolverr/FlareSolverr/issues/761).
+
+                try {
+
+                    string webBrowserExecutablePath = Path.Combine(PathUtilities.GetParentPath(flareSolverrExecutablePath.Value), "chrome/chrome.exe");
+
+                    foreach (Process process in ProcessUtilities.GetProcessesByFilePath(webBrowserExecutablePath)
+                        .Where(p => !p.HasExited)) {
+
+                        logger.Info($"Killing {process.ProcessName} process ({process.Id})");
+
+                        process.Kill();
+
+                    }
+
+                }
+                catch (Exception e) {
+
+                    logger.Error($"Error occurred while killing browser process(es): {e}");
+
+                }
+
+                flareSolverrProcess = null;
 
             }
 
