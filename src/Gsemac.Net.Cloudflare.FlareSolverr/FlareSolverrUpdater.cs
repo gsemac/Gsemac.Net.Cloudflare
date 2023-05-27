@@ -1,9 +1,7 @@
 ﻿using Gsemac.Core;
-using Gsemac.Core.Extensions;
 using Gsemac.IO;
 using Gsemac.IO.Compression;
 using Gsemac.IO.Logging;
-using Gsemac.IO.Logging.Extensions;
 using Gsemac.Net.Extensions;
 using Gsemac.Net.GitHub;
 using Gsemac.Net.GitHub.Extensions;
@@ -191,11 +189,11 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
             IGitHubClient gitHubClient = new GitHubWebClient(webRequestFactory);
             IRelease latestRelease = gitHubClient.GetLatestRelease(Properties.Urls.FlareSolverrRepository);
-            IReleaseAsset asset = latestRelease.Assets.Where(a => a.Name.Contains(GetPlatformString())).FirstOrDefault();
+            IReleaseAsset asset = latestRelease.Assets.Where(a => Regex.IsMatch(a.Name, GetPlatformRegexPattern(), RegexOptions.IgnoreCase)).FirstOrDefault();
 
             if (asset is null) {
 
-                logger.Warning($"Could not find an appropriate release for this platform ({GetPlatformString()}).");
+                logger.Warning($"Could not find an appropriate release for this platform ({GetPlatformRegexPattern()}).");
 
             }
             else {
@@ -247,12 +245,16 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
         }
 
-        private string GetPlatformString() {
+        private string GetPlatformRegexPattern() {
+
+            // Depending on the version, the platform strings will take one of two forms:
+            // platform-architecture (e.g. "windows-x64")
+            // platform_architecture (e.g. "windows_x64")
 
             string operatingSystemStr = EnvironmentUtilities.GetPlatformInfo().Id != PlatformId.Windows ? "linux" : "windows";
             string architectureStr = Environment.Is64BitOperatingSystem ? "x64" : "x86";
 
-            return $"{operatingSystemStr}-{architectureStr}";
+            return $"{operatingSystemStr}[-_]{architectureStr}";
 
         }
 
