@@ -28,7 +28,7 @@
 		</When>
 		<Otherwise>
 			<ItemGroup>
-				<PackageReference Include="Selenium.WebDriver" Version="4.9.0" />
+				<PackageReference Include="Selenium.WebDriver" Version="4.9.1" />
 			</ItemGroup>
 		</Otherwise>
 	</Choose>
