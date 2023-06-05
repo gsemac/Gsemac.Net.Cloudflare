@@ -22,7 +22,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Gsemac.Core" Version="0.22.0" />
-		<PackageReference Include="Gsemac.IO.Compression" Version="0.12.0" />
+		<PackageReference Include="Gsemac.IO.Compression" Version="0.12.1" />
 		<PackageReference Include="Gsemac.IO.Logging" Version="0.2.0" />
 		<PackageReference Include="Gsemac.Net.GitHub" Version="0.4.9" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
