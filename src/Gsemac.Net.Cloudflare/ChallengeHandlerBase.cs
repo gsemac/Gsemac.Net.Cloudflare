@@ -1,6 +1,6 @@
-﻿using Gsemac.Net.Http;
+﻿using Gsemac.Net.Cloudflare.Properties;
+using Gsemac.Net.Http;
 using System;
-using System.Linq;
 using System.Net;
 using System.Threading;
 
@@ -37,8 +37,8 @@ namespace Gsemac.Net.Cloudflare {
 
                 // Set the cookies and user agent on the request to the ones we've cached.
 
-                if (options.RememberCookies)
-                    ApplySolutionToRequest(request, solutionCache.Get(request.RequestUri));
+                if (options.RememberCookies && solutionCache.TryGet(request.RequestUri, out IChallengeSolution solution))
+                    ApplySolutionToRequest(request, solution);
 
                 return base.Send(request, cancellationToken);
 
@@ -110,8 +110,12 @@ namespace Gsemac.Net.Cloudflare {
                     solverThrewAnException = true;
 
                     // If the challenge solver throws an exception, we still want the original response so the caller can read it.
+                    // Note the the response can be null (e.g. this can happen if FlareSolverr fails to initialize).
 
-                    throw new WebException(Properties.ExceptionMessages.ChallengeSolverThrewAnException, challengeHandlerEx, webEx.Status, webEx.Response);
+                    if (webEx.Response is null)
+                        throw new WebException(ExceptionMessages.ChallengeSolverThrewAnException, challengeHandlerEx);
+                    else
+                        throw new WebException(ExceptionMessages.ChallengeSolverThrewAnException, challengeHandlerEx, webEx.Status, webEx.Response);
 
                 }
                 finally {
@@ -139,22 +143,13 @@ namespace Gsemac.Net.Cloudflare {
             if (request is null)
                 throw new ArgumentNullException(nameof(request));
 
-            if (solution is object) {
+            if (solution is null)
+                throw new ArgumentNullException(nameof(solution));
 
-                if (!string.IsNullOrWhiteSpace(solution.UserAgent))
-                    request.UserAgent = solution.UserAgent;
+            if (!string.IsNullOrWhiteSpace(solution.UserAgent))
+                request.UserAgent = solution.UserAgent;
 
-                foreach (Cookie cookie in solution.Cookies) {
-
-                    // FlareSolverr has occassionally returned cookies with invalid characters (such as commas).
-                    // Avoid adding any of these cookies to the cookie container, because it will throw an exception.
-
-                    if (!cookie.Value.Any(c => HttpUtilities.GetInvalidCookieChars().Contains(c)))
-                        request.CookieContainer.Add(cookie);
-
-                }
-
-            }
+            request.CookieContainer.Add(solution.Cookies);
 
         }
 
