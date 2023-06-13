@@ -53,18 +53,17 @@ namespace Gsemac.Net.Cloudflare {
                 if (!isCloudflareDetected)
                     throw;
 
-                // We've encountered a challenge, so we need to pass resposibility off to the derived class.
+                // We've encountered a challenge, so we need to pass responsibility off to the derived class.
                 // We still want delegating handlers nested further down to be able to see the request before we get a response, so we'll create a new request that returns the solver's response.
 
-                IHttpWebRequest solverRequest = new ChallengeHandlerHttpWebRequest(request, r => GetChallengeResponse(r, webEx, cancellationToken));
+                IHttpWebRequest solverRequest = new ChallengeHandlerHttpWebRequest(request, r => {
 
-                bool solverThrewAnException = false;
-
-                try {
-
-                    IHttpWebResponse response = base.Send(solverRequest, cancellationToken);
+                    IHttpWebResponse response = GetChallengeResponse(r, webEx, cancellationToken);
 
                     // The resulting HttpWebResponse should be a ChallengeHttpWebResponse unless the derived class decided to return something else.
+                    // It's also possible that other delegating handlers along the line have wrapped the response object (e.g. "HtmlMetaElementHandler").
+                    // This is why the response object is cast/and the solution accessed immediately here instead of after the call to "base.Send".
+
                     // #todo This should really be its own interface accessed through the HandlerHttpWebRequest object to avoid having to downcast.
 
                     if (response is ChallengeHandlerHttpWebResponse challengeResponse) {
@@ -72,6 +71,8 @@ namespace Gsemac.Net.Cloudflare {
                         // Cache the solution if applicable so that it can be sent with future requests.
 
                         IChallengeSolution solution = challengeResponse.Solution;
+
+                        // Cache the solution if applicable so that it can be sent with future requests.
 
                         if (options.RememberCookies)
                             solutionCache.Add(response.ResponseUri, solution);
@@ -84,25 +85,21 @@ namespace Gsemac.Net.Cloudflare {
 
                             ApplySolutionToRequest(request, solution);
 
-                            return base.Send(request, cancellationToken);
-
-                        }
-                        else {
-
-                            // Simply return the response, because it already has a response body.
-
-                            return response;
+                            response = base.Send(request, cancellationToken);
 
                         }
 
                     }
-                    else {
 
-                        // The response is not a ChallengeHandlerHttpWebResponse instance, so we can't cache the solution.
+                    return response;
 
-                        return response;
+                });
 
-                    }
+                bool solverThrewAnException = false;
+
+                try {
+
+                    return base.Send(solverRequest, cancellationToken);
 
                 }
                 catch (Exception challengeHandlerEx) {
