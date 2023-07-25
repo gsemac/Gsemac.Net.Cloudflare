@@ -4,7 +4,7 @@
 		<TargetFrameworks>netstandard2.0;net40-client</TargetFrameworks>
 		<Company />
 		<Authors>gsemac</Authors>
-		<Version>0.1.5</Version>
+		<Version>0.1.6</Version>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 		<PackageProjectUrl>https://github.com/gsemac/Gsemac.Net.Cloudflare</PackageProjectUrl>
