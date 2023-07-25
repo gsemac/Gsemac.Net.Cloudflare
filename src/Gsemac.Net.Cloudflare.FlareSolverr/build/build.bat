@@ -13,7 +13,9 @@
 @rem Download the latest version of FlareSolverr.
 
 git clone "https://github.com/FlareSolverr/FlareSolverr.git"
+cd FlareSolverr
 git pull origin master
+cd ..
 
 @rem Build the executable.
 
