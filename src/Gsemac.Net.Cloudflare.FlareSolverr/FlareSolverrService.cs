@@ -267,7 +267,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
                     }
                     else {
 
-                        if (options.AutoUpdateEnabled)
+                        if (options.DownloadUpdates)
                             UpdateFlareSolverr();
 
                         logger.Info("Starting FlareSolverr service");
@@ -465,10 +465,10 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
             lock (mutex) {
 
-                if (isFlareSolverrRunning && ensureSessionIsCreated && options.CreateSession && string.IsNullOrWhiteSpace(sessionId) && sessionsSupported)
+                if (isFlareSolverrRunning && ensureSessionIsCreated && options.UseSessions && string.IsNullOrWhiteSpace(sessionId) && sessionsSupported)
                     CreateSession();
 
-                if (options.CreateSession && !string.IsNullOrWhiteSpace(sessionId))
+                if (options.UseSessions && !string.IsNullOrWhiteSpace(sessionId))
                     command.Session = sessionId;
 
             }
@@ -501,7 +501,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
                             logger.Warning($"No session with ID {command.Session} exists. The session may have been destroyed.");
 
-                            if (isFlareSolverrRunning && ensureSessionIsCreated && options.CreateSession && sessionsSupported) {
+                            if (isFlareSolverrRunning && ensureSessionIsCreated && options.UseSessions && sessionsSupported) {
 
                                 lock (mutex) {
 

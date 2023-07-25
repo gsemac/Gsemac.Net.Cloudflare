@@ -5,12 +5,12 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
     public interface IFlareSolverrOptions {
 
-        bool AutoUpdateEnabled { get; }
+        bool DownloadUpdates { get; }
         bool IgnoreUpdateErrors { get; }
         string FlareSolverrDirectoryPath { get; }
         string FlareSolverrFileName { get; }
         string UserAgent { get; }
-        bool CreateSession { get; }
+        bool UseSessions { get; }
         LogLevel LogLevel { get; }
         bool LogHtml { get; }
         bool Headless { get; }
