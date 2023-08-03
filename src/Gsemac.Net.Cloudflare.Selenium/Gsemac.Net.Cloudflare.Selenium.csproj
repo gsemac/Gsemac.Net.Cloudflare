@@ -35,7 +35,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Gsemac.IO.Logging" Version="0.2.0" />
-		<PackageReference Include="Gsemac.Net.WebDrivers" Version="0.14.6" />
+		<PackageReference Include="Gsemac.Net.WebDrivers" Version="0.14.7" />
 	</ItemGroup>
 
 	<ItemGroup>
