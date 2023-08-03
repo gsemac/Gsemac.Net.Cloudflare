@@ -1,4 +1,5 @@
 ﻿using Gsemac.IO.Logging;
+using Gsemac.Net.Http;
 using Gsemac.Net.WebDrivers;
 using OpenQA.Selenium;
 using System;
@@ -10,17 +11,17 @@ namespace Gsemac.Net.Cloudflare.Selenium {
 
         // Public members
 
-        public WebDriverChallengeHandler(IWebDriverFactory webDriverFactory) :
-            this(webDriverFactory, new NullLogger()) {
+        public WebDriverChallengeHandler(IHttpWebRequestFactory webRequestFactory, IWebDriverFactory webDriverFactory) :
+            this(webRequestFactory, webDriverFactory, new NullLogger()) {
         }
-        public WebDriverChallengeHandler(IWebDriverFactory webDriverFactory, IChallengeHandlerOptions options) :
-            this(webDriverFactory, options, new NullLogger()) {
+        public WebDriverChallengeHandler(IHttpWebRequestFactory webRequestFactory, IWebDriverFactory webDriverFactory, ILogger logger) :
+            this(webRequestFactory, webDriverFactory, ChallengeHandlerOptions.Default, logger) {
         }
-        public WebDriverChallengeHandler(IWebDriverFactory webDriverFactory, ILogger logger) :
-            this(webDriverFactory, ChallengeHandlerOptions.Default, logger) {
+        public WebDriverChallengeHandler(IHttpWebRequestFactory webRequestFactory, IWebDriverFactory webDriverFactory, IChallengeHandlerOptions options) :
+            this(webRequestFactory, webDriverFactory, options, new NullLogger()) {
         }
-        public WebDriverChallengeHandler(IWebDriverFactory webDriverFactory, IChallengeHandlerOptions options, ILogger logger) :
-            base(disposeWebDriver: true, options, logger) {
+        public WebDriverChallengeHandler(IHttpWebRequestFactory webRequestFactory, IWebDriverFactory webDriverFactory, IChallengeHandlerOptions options, ILogger logger) :
+            base(webRequestFactory, disposeWebDriver: true, options, logger) {
 
             if (webDriverFactory is null)
                 throw new ArgumentNullException(nameof(webDriverFactory));
@@ -29,17 +30,17 @@ namespace Gsemac.Net.Cloudflare.Selenium {
 
 
         }
-        public WebDriverChallengeHandler(IWebDriver webDriver) :
-            this(webDriver, new NullLogger()) {
+        public WebDriverChallengeHandler(IHttpWebRequestFactory webRequestFactory, IWebDriver webDriver) :
+            this(webRequestFactory, webDriver, new NullLogger()) {
         }
-        public WebDriverChallengeHandler(IWebDriver webDriver, IChallengeHandlerOptions options) :
-            this(webDriver, options, new NullLogger()) {
+        public WebDriverChallengeHandler(IHttpWebRequestFactory webRequestFactory, IWebDriver webDriver, ILogger logger) :
+            this(webRequestFactory, webDriver, ChallengeHandlerOptions.Default, logger) {
         }
-        public WebDriverChallengeHandler(IWebDriver webDriver, ILogger logger) :
-            this(webDriver, ChallengeHandlerOptions.Default, logger) {
+        public WebDriverChallengeHandler(IHttpWebRequestFactory webRequestFactory, IWebDriver webDriver, IChallengeHandlerOptions options) :
+            this(webRequestFactory, webDriver, options, new NullLogger()) {
         }
-        public WebDriverChallengeHandler(IWebDriver webDriver, IChallengeHandlerOptions options, ILogger logger) :
-            base(disposeWebDriver: false, options, logger) {
+        public WebDriverChallengeHandler(IHttpWebRequestFactory webRequestFactory, IWebDriver webDriver, IChallengeHandlerOptions options, ILogger logger) :
+            base(webRequestFactory, disposeWebDriver: false, options, logger) {
 
             if (webDriver is null)
                 throw new ArgumentNullException(nameof(webDriver));

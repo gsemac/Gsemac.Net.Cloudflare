@@ -1,5 +1,6 @@
 ﻿using Gsemac.Net.Cloudflare.Properties;
 using Gsemac.Net.Http;
+using Gsemac.Reflection;
 using System;
 using System.Net;
 using System.Threading;
@@ -15,18 +16,25 @@ namespace Gsemac.Net.Cloudflare {
 
         // Protected members
 
-        protected ChallengeHandlerBase() :
-            this(nameof(ChallengeHandlerBase)) {
+        protected ChallengeHandlerBase(IHttpWebRequestFactory webRequestFactory) :
+            this(webRequestFactory, nameof(ChallengeHandlerBase)) {
         }
-        protected ChallengeHandlerBase(string name) :
-            this(name, ChallengeHandlerOptions.Default) {
+        protected ChallengeHandlerBase(IHttpWebRequestFactory webRequestFactory, string name) :
+            this(webRequestFactory, name, ChallengeHandlerOptions.Default) {
         }
-        protected ChallengeHandlerBase(IChallengeHandlerOptions options) :
-         this(nameof(ChallengeHandlerBase), options) {
+        protected ChallengeHandlerBase(IHttpWebRequestFactory webRequestFactory, IChallengeHandlerOptions options) :
+         this(webRequestFactory, nameof(ChallengeHandlerBase), options) {
         }
-        protected ChallengeHandlerBase(string name, IChallengeHandlerOptions options) {
+        protected ChallengeHandlerBase(IHttpWebRequestFactory webRequestFactory, string name, IChallengeHandlerOptions options) {
+
+            if (webRequestFactory is null)
+                throw new ArgumentNullException(nameof(webRequestFactory));
+
+            if (options is null)
+                throw new ArgumentNullException(nameof(options));
 
             Name = name;
+            this.webRequestFactory = webRequestFactory;
             this.options = options;
 
         }
@@ -83,9 +91,15 @@ namespace Gsemac.Net.Cloudflare {
 
                             response.Close();
 
-                            ApplySolutionToRequest(request, solution);
+                            IHttpWebRequest retryRequest = webRequestFactory.Create(request.RequestUri);
 
-                            response = base.Send(request, cancellationToken);
+                            ReflectionUtilities.CopyProperties(request, retryRequest, new CopyPropertiesOptions() {
+                                IgnoreExceptions = true,
+                            });
+
+                            ApplySolutionToRequest(retryRequest, solution);
+
+                            response = base.Send(retryRequest, cancellationToken);
 
                         }
 
@@ -132,6 +146,7 @@ namespace Gsemac.Net.Cloudflare {
 
         // Private members
 
+        private readonly IHttpWebRequestFactory webRequestFactory;
         private readonly IChallengeHandlerOptions options = ChallengeHandlerOptions.Default;
         private readonly IChallengeSolutionCache solutionCache = new ChallengeSolutionCache();
 

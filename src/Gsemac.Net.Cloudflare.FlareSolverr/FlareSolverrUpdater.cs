@@ -185,7 +185,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
         }
         private bool DownloadFlareSolverr(CancellationToken cancellationToken) {
 
-            logger.Info("Getting FlareSolverr download url");
+            logger.Info("Getting FlareSolverr download URL");
 
             IGitHubClient gitHubClient = new GitHubWebClient(webRequestFactory);
             IRelease latestRelease = gitHubClient.GetLatestRelease(Properties.Urls.FlareSolverrRepository);

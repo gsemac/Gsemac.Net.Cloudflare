@@ -1,5 +1,4 @@
 ﻿using Gsemac.IO.Logging;
-using Gsemac.IO.Logging.Extensions;
 using Gsemac.Net.Cloudflare.Properties;
 using Gsemac.Net.Http;
 using Gsemac.Net.WebDrivers.Extensions;
@@ -15,17 +14,17 @@ namespace Gsemac.Net.Cloudflare.Selenium {
 
         // Protected members
 
-        protected WebDriverChallengeHandlerBase(bool disposeWebDriver) :
-            this(disposeWebDriver, new NullLogger()) {
+        protected WebDriverChallengeHandlerBase(IHttpWebRequestFactory webRequestFactory, bool disposeWebDriver) :
+            this(webRequestFactory, disposeWebDriver, new NullLogger()) {
         }
-        protected WebDriverChallengeHandlerBase(bool disposeWebDriver, IChallengeHandlerOptions options) :
-            this(disposeWebDriver, options, new NullLogger()) {
+        protected WebDriverChallengeHandlerBase(IHttpWebRequestFactory webRequestFactory, bool disposeWebDriver, IChallengeHandlerOptions options) :
+            this(webRequestFactory, disposeWebDriver, options, new NullLogger()) {
         }
-        protected WebDriverChallengeHandlerBase(bool disposeWebDriver, ILogger logger) :
-            this(disposeWebDriver, ChallengeHandlerOptions.Default, logger) {
+        protected WebDriverChallengeHandlerBase(IHttpWebRequestFactory webRequestFactory, bool disposeWebDriver, ILogger logger) :
+            this(webRequestFactory, disposeWebDriver, ChallengeHandlerOptions.Default, logger) {
         }
-        protected WebDriverChallengeHandlerBase(bool disposeWebDriver, IChallengeHandlerOptions options, ILogger logger) :
-            base(nameof(WebDriverChallengeHandlerBase)) {
+        protected WebDriverChallengeHandlerBase(IHttpWebRequestFactory webRequestFactory, bool disposeWebDriver, IChallengeHandlerOptions options, ILogger logger) :
+            base(webRequestFactory, nameof(WebDriverChallengeHandlerBase)) {
 
             if (logger is null)
                 throw new ArgumentNullException(nameof(logger));

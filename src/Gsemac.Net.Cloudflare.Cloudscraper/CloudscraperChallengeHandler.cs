@@ -1,6 +1,5 @@
 ﻿using Gsemac.Core;
 using Gsemac.IO.Logging;
-using Gsemac.IO.Logging.Extensions;
 using Gsemac.Net.Http;
 using Newtonsoft.Json.Linq;
 using System;
@@ -16,18 +15,18 @@ namespace Gsemac.Net.Cloudflare.Cloudscraper {
         ChallengeHandlerBase {
 
         // Public members
-        
-        public CloudscraperChallengeHandler(ICloudscraperOptions cloudscraperOptions) :
-            this(cloudscraperOptions, new NullLogger()) {
+
+        public CloudscraperChallengeHandler(IHttpWebRequestFactory webRequestFactory, ICloudscraperOptions cloudscraperOptions) :
+            this(webRequestFactory, cloudscraperOptions, new NullLogger()) {
         }
-        public CloudscraperChallengeHandler(ICloudscraperOptions cloudscraperOptions, IChallengeHandlerOptions challengeHandlerOptions) :
-            this(cloudscraperOptions, challengeHandlerOptions, new NullLogger()) {
+        public CloudscraperChallengeHandler(IHttpWebRequestFactory webRequestFactory, ICloudscraperOptions cloudscraperOptions, IChallengeHandlerOptions challengeHandlerOptions) :
+            this(webRequestFactory, cloudscraperOptions, challengeHandlerOptions, new NullLogger()) {
         }
-        public CloudscraperChallengeHandler(ICloudscraperOptions cloudscraperOptions, ILogger logger) :
-             this(cloudscraperOptions, ChallengeHandlerOptions.Default, logger) {
+        public CloudscraperChallengeHandler(IHttpWebRequestFactory webRequestFactory, ICloudscraperOptions cloudscraperOptions, ILogger logger) :
+             this(webRequestFactory, cloudscraperOptions, ChallengeHandlerOptions.Default, logger) {
         }
-        public CloudscraperChallengeHandler(ICloudscraperOptions cloudscraperOptions, IChallengeHandlerOptions challengeHandlerOptions, ILogger logger) :
-             base(nameof(CloudscraperChallengeHandler), challengeHandlerOptions) {
+        public CloudscraperChallengeHandler(IHttpWebRequestFactory webRequestFactory, ICloudscraperOptions cloudscraperOptions, IChallengeHandlerOptions challengeHandlerOptions, ILogger logger) :
+             base(webRequestFactory, nameof(CloudscraperChallengeHandler), challengeHandlerOptions) {
 
             if (cloudscraperOptions is null)
                 throw new ArgumentNullException(nameof(cloudscraperOptions));

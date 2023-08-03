@@ -1,6 +1,5 @@
 ﻿using Gsemac.IO.Extensions;
 using Gsemac.IO.Logging;
-using Gsemac.IO.Logging.Extensions;
 using Gsemac.Net.Cloudflare.Properties;
 using Gsemac.Net.Extensions;
 using Gsemac.Net.Http;
@@ -18,17 +17,17 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
         // Public members
 
-        public FlareSolverrChallengeHandler(IFlareSolverrService flareSolverrProxyServer) :
-            this(flareSolverrProxyServer, new NullLogger()) {
+        public FlareSolverrChallengeHandler(IHttpWebRequestFactory webRequestFactory, IFlareSolverrService flareSolverrProxyServer) :
+            this(webRequestFactory, flareSolverrProxyServer, new NullLogger()) {
         }
-        public FlareSolverrChallengeHandler(IFlareSolverrService flareSolverrProxyServer, IChallengeHandlerOptions options) :
-          this(flareSolverrProxyServer, options, new NullLogger()) {
+        public FlareSolverrChallengeHandler(IHttpWebRequestFactory webRequestFactory, IFlareSolverrService flareSolverrProxyServer, IChallengeHandlerOptions options) :
+          this(webRequestFactory, flareSolverrProxyServer, options, new NullLogger()) {
         }
-        public FlareSolverrChallengeHandler(IFlareSolverrService flareSolverrProxyServer, ILogger logger) :
-            this(flareSolverrProxyServer, ChallengeHandlerOptions.Default, logger) {
+        public FlareSolverrChallengeHandler(IHttpWebRequestFactory webRequestFactory, IFlareSolverrService flareSolverrProxyServer, ILogger logger) :
+            this(webRequestFactory, flareSolverrProxyServer, ChallengeHandlerOptions.Default, logger) {
         }
-        public FlareSolverrChallengeHandler(IFlareSolverrService flareSolverrProxyServer, IChallengeHandlerOptions options, ILogger logger) :
-            base(nameof(FlareSolverrChallengeHandler), options) {
+        public FlareSolverrChallengeHandler(IHttpWebRequestFactory webRequestFactory, IFlareSolverrService flareSolverrProxyServer, IChallengeHandlerOptions options, ILogger logger) :
+            base(webRequestFactory, nameof(FlareSolverrChallengeHandler), options) {
 
             if (flareSolverrProxyServer is null)
                 throw new ArgumentNullException(nameof(flareSolverrProxyServer));
