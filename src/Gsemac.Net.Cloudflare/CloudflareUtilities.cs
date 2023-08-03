@@ -55,6 +55,7 @@ namespace Gsemac.Net.Cloudflare {
             return GetProtectionType(htmlDocument) != ProtectionType.None;
 
         }
+
         public static ProtectionType GetProtectionType(WebResponse webResponse) {
 
             if (webResponse is null)
@@ -118,6 +119,17 @@ namespace Gsemac.Net.Cloudflare {
             }
 
             return ProtectionType.None;
+
+        }
+
+        public static bool IsCloudflareCookie(Cookie cookie) {
+
+            if (cookie is null)
+                throw new ArgumentNullException(nameof(cookie));
+
+            return cookie.Name.StartsWith("cf_") ||
+                cookie.Name.StartsWith("_cf") ||
+                cookie.Name.StartsWith("__cf");
 
         }
 

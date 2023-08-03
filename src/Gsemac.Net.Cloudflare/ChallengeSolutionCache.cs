@@ -38,7 +38,7 @@ namespace Gsemac.Net.Cloudflare {
                     // https://developers.cloudflare.com/fundamentals/get-started/reference/cloudflare-cookies/
                     // This offers the user more control over things like (unrelated) session cookies that may have also been set.
 
-                    if (IsCloudflareCookie(cookie))
+                    if (CloudflareUtilities.IsCloudflareCookie(cookie))
                         cookieCache.Add(cookie);
 
                 }
@@ -78,17 +78,6 @@ namespace Gsemac.Net.Cloudflare {
         private readonly object cacheMutex = new object();
         private readonly IDictionary<string, string> userAgentCache = new Dictionary<string, string>();
         private readonly CookieContainer cookieCache = new CookieContainer();
-
-        private static bool IsCloudflareCookie(Cookie cookie) {
-
-            if (cookie is null)
-                throw new ArgumentNullException(nameof(cookie));
-
-            return cookie.Name.StartsWith("cf_") ||
-                cookie.Name.StartsWith("_cf") ||
-                cookie.Name.StartsWith("__cf");
-
-        }
 
     }
 
