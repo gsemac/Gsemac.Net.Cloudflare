@@ -20,8 +20,8 @@
 
 	<ItemGroup>
 		<PackageReference Include="Gsemac.Core" Version="0.22.1" />
-		<PackageReference Include="Gsemac.IO" Version="0.28.0" />
-		<PackageReference Include="Gsemac.Net" Version="0.35.2" />
+		<PackageReference Include="Gsemac.IO" Version="0.29.0" />
+		<PackageReference Include="Gsemac.Net" Version="0.36.0" />
 		<PackageReference Include="Gsemac.Net.JavaScript" Version="0.2.5" />
 	</ItemGroup>
 
