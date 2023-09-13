@@ -79,7 +79,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
                 if (flareSolverrIsRunning) {
 
-                    logger.Info("Stopping FlareSolverr service");
+                    logger.Info("Stopping FlareSolverr process");
 
                     StopFlareSolverr();
 
@@ -258,11 +258,20 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
                     if (!SocketUtilities.IsPortAvailable(options.Port)) {
 
-                        // If FlareSolverr already appears to be running (port 8191 in use), don't attempt to start it.
+                        // A service is already running on this port (the default is 8191).
+                        // We can check if it's FlareSolverr by making a GET request.
 
-                        logger.Warning($"Port {options.Port} is already in use. Assuming FlareSolverr is already running.");
+                        logger.Info($"Port {options.Port} is already in use, checking for FlareSolverr");
 
-                        success = true;
+                        System.Version flareSolverrVersion = GetFlareSolverrStatus().Version;
+
+                        if (flareSolverrVersion.Major > 0) {
+
+                            logger.Info($"Detected FlareSolverr v{flareSolverrVersion.Major}.{flareSolverrVersion.Minor}.{flareSolverrVersion.Build}");
+
+                            success = true;
+
+                        }
 
                     }
                     else {
@@ -270,7 +279,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
                         if (options.DownloadUpdates)
                             UpdateFlareSolverr();
 
-                        logger.Info("Starting FlareSolverr service");
+                        logger.Info("Starting FlareSolverr process");
 
                         if (StartFlareSolverr())
                             processState = ProcessState.Started;
@@ -285,6 +294,21 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
                 }
 
                 return success;
+
+            }
+
+        }
+        private IFlareSolverrStatus GetFlareSolverrStatus() {
+
+            using (IWebClient client = CreateWebClientForCommand()) {
+
+                Uri uri = new Uri(GetFlareSolverrProxyAddress().GetLeftPart(UriPartial.Authority));
+
+                string flareSolverrStatusStr = client.DownloadString(uri);
+                IFlareSolverrStatus flareSolverrStatus = JsonConvert.DeserializeObject<FlareSolverrStatus>(client.DownloadString(uri));
+                System.Version flareSolverrVersion = flareSolverrStatus.Version;
+
+                return flareSolverrStatus;
 
             }
 
@@ -594,7 +618,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
                 }
                 else if (IsNotImplementedYetError(response)) {
 
-                    logger.Warning($"Sessions are not supported in FlareSolverr v{response.Version}. Proceeding without creating a session.");
+                    logger.Warning($"Sessions are not supported in FlareSolverr v{response.Version}. No session was created.");
 
                     sessionsSupported = false;
 
