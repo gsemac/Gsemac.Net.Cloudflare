@@ -3,7 +3,7 @@ using System;
 
 namespace Gsemac.Net.Cloudflare.FlareSolverr.Json {
 
-    internal class FlareSolverrResponseStatusJsonConverter :
+    internal sealed class FlareSolverrResponseStatusJsonConverter :
         JsonConverter {
 
         // Public members

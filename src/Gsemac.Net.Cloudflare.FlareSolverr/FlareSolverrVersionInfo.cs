@@ -4,8 +4,8 @@ using System;
 
 namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
-    internal class FlareSolverrInfo :
-        IFlareSolverrInfo {
+    internal class FlareSolverrVersionInfo :
+        IFlareSolverrVersionInfo {
 
         [JsonProperty("version"), JsonConverter(typeof(VersionConverter))]
         public Version Version { get; set; }

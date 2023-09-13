@@ -56,11 +56,11 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
         }
 
-        public IFlareSolverrInfo UpgradeToLatestVersion(CancellationToken cancellationToken) {
+        public IFlareSolverrVersionInfo UpgradeToLatestVersion(CancellationToken cancellationToken) {
 
             logger.Info("Checking for FlareSolverr updates");
 
-            IFlareSolverrInfo flareSolverrInfo = GetFlareSolverrInfo();
+            IFlareSolverrVersionInfo flareSolverrInfo = GetFlareSolverrInfo();
             System.Version latestVersion = GetLatestFlareSolverrVersion();
 
             bool updateRequired = (!flareSolverrInfo.Version?.Equals(latestVersion) ?? true) ||
@@ -72,7 +72,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
                 if (DownloadFlareSolverr(cancellationToken)) {
 
-                    flareSolverrInfo = new FlareSolverrInfo() {
+                    flareSolverrInfo = new FlareSolverrVersionInfo() {
                         ExecutablePath = FlareSolverrUtilities.GetExecutablePath(options),
                         Version = latestVersion,
                     };
@@ -118,7 +118,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
             return Path.Combine(currentDirectory, "FlareSolverr.json");
 
         }
-        private IFlareSolverrInfo GetFlareSolverrInfo() {
+        private IFlareSolverrVersionInfo GetFlareSolverrInfo() {
 
             string flareSolverrInfoPath = GetFlareSolverrInfoPath();
 
@@ -126,7 +126,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
                 string metadataJson = File.ReadAllText(flareSolverrInfoPath);
 
-                return JsonConvert.DeserializeObject<FlareSolverrInfo>(metadataJson);
+                return JsonConvert.DeserializeObject<FlareSolverrVersionInfo>(metadataJson);
 
             }
             else {
@@ -141,7 +141,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
                     if (versionMatch.Success) {
 
-                        return new FlareSolverrInfo() {
+                        return new FlareSolverrVersionInfo() {
                             ExecutablePath = flareSolverrExecutablePath,
                             Version = new System.Version(versionMatch.Groups[1].Value),
                         };
@@ -154,10 +154,10 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
             // We couldn't find any metadata.
 
-            return new FlareSolverrInfo();
+            return new FlareSolverrVersionInfo();
 
         }
-        private void SaveFlareSolverrInfo(IFlareSolverrInfo flareSolverrInfo) {
+        private void SaveFlareSolverrInfo(IFlareSolverrVersionInfo flareSolverrInfo) {
 
             File.WriteAllText(GetFlareSolverrInfoPath(), JsonConvert.SerializeObject(flareSolverrInfo, Formatting.Indented));
 

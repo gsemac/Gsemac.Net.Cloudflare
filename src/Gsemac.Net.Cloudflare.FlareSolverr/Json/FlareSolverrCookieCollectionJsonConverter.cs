@@ -4,7 +4,7 @@ using System.Net;
 
 namespace Gsemac.Net.Cloudflare.FlareSolverr.Json {
 
-    internal class FlareSolverrCookieCollectionJsonConverter :
+    internal sealed class FlareSolverrCookieCollectionJsonConverter :
         JsonConverter {
 
         // Public members

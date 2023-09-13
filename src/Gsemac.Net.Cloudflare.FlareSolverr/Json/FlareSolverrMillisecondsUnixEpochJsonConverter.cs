@@ -4,8 +4,10 @@ using System;
 
 namespace Gsemac.Net.Cloudflare.FlareSolverr.Json {
 
-    internal class FlareSolverrMillisecondsUnixEpochJsonConverter :
+    internal sealed class FlareSolverrMillisecondsUnixEpochJsonConverter :
         JsonConverter {
+
+        // Public members
 
         public override bool CanConvert(Type objectType) {
 

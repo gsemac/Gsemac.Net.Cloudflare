@@ -1,12 +1,13 @@
 ﻿using Gsemac.Core;
-using Gsemac.Core.Extensions;
 using Newtonsoft.Json;
 using System;
 
 namespace Gsemac.Net.Cloudflare.FlareSolverr.Json {
 
-    internal class FlareSolverrVersionConverter :
+    internal sealed class FlareSolverrVersionConverter :
         JsonConverter {
+
+        // Public members
 
         public override bool CanConvert(Type objectType) {
 
