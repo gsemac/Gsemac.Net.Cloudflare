@@ -45,7 +45,7 @@ namespace Gsemac.Net.Cloudflare {
                 // Using the enum will automatically make the WebHeaderCollection restricted to response headers.
                 // I prefer to leave it open so that challenge solvers can set the user-agent header for the user to access.
 
-                if (!Headers.TryGetHeader("content-length", out _))
+                if (!Headers.TryGet("content-length", out _))
                     Headers["content-length"] = responseBytes.Length.ToString(CultureInfo.InvariantCulture);
 
                 streamFactory = () => new MemoryStream(responseBytes);

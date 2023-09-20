@@ -70,7 +70,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
                 MaxTimeout = TimeSpan.FromMilliseconds(request.Timeout),
             };
 
-            foreach (IHttpHeader header in request.Headers.GetHeaders()) {
+            foreach (IHttpHeader header in request.Headers.GetAll()) {
 
                 if (IsHeaderAllowed(header.Name))
                     flareSolverrCommand.Headers[header.Name] = header.Value;
@@ -145,10 +145,10 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
                 // If the content is actually HTML (which will be the case for images when the "download" parameter isn't passed, for example) change the content-type header accordingly.
 
-                challengeResponse.Headers.TryGetHeader(HttpResponseHeader.ContentType, out string contentType);
+                challengeResponse.Headers.TryGet(HttpResponseHeader.ContentType, out string contentType);
 
                 if (!isResponseBase64Encoded && IsHtmlResponse(response.Solution.Response) && (string.IsNullOrWhiteSpace(contentType) || !contentType.StartsWith(HtmlContentType)))
-                    challengeResponse.Headers.TrySetHeader(HttpResponseHeader.ContentType, HtmlContentType);
+                    challengeResponse.Headers.TrySet(HttpResponseHeader.ContentType, HtmlContentType);
 
                 return challengeResponse;
 
