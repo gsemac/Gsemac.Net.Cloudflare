@@ -56,7 +56,6 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
                 })
                 .Where(filePath => !string.IsNullOrWhiteSpace(filePath))
                 .Where(filePath => File.Exists(filePath))
-                .Where(filePath => File.Exists(filePath))
                 .OrderByDescending(filePath => GetFlareSolverrVersion(filePath))
                 .ThenByDescending(filePath => new FileInfo(filePath).LastWriteTime)
                 .FirstOrDefault();
