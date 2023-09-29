@@ -68,7 +68,10 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
             if (updateRequired) {
 
-                logger.Info($"Updating FlareSolverr to version {latestVersion}");
+                if (!(flareSolverrInfo.Version is null))
+                    logger.Info($"Updating FlareSolverr from version {flareSolverrInfo.Version} to {latestVersion}");
+                else
+                    logger.Info($"Updating FlareSolverr to version {latestVersion}");
 
                 if (DownloadFlareSolverr(cancellationToken)) {
 
