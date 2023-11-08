@@ -1,4 +1,5 @@
 ﻿using Gsemac.Net.Cloudflare.Properties;
+using Gsemac.Net.Extensions;
 using Gsemac.Net.Http;
 using Gsemac.Reflection;
 using System;
@@ -160,6 +161,22 @@ namespace Gsemac.Net.Cloudflare {
 
             if (!string.IsNullOrWhiteSpace(solution.UserAgent))
                 request.UserAgent = solution.UserAgent;
+
+            // Note that setting the CookieContainer causes the cookie header to be ignored if it was set.
+            // If there are any cookies specified, we should add them to the container if we create one.
+
+            if (request.CookieContainer is null) {
+
+                request.CookieContainer = new CookieContainer();
+
+                if (request.Headers.TryGet(HttpRequestHeader.Cookie, out string cookieHeaderValue)) {
+
+                    foreach (Cookie cookie in HttpUtilities.ParseCookies(request.RequestUri, cookieHeaderValue))
+                        request.CookieContainer.Add(cookie);
+
+                }
+
+            }
 
             request.CookieContainer.Add(solution.Cookies);
 
