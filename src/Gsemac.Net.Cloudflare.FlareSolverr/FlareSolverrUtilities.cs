@@ -23,7 +23,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
                 options.FlareSolverrDirectoryPath;
 
             string flareSolverrFileName = string.IsNullOrWhiteSpace(options.FlareSolverrFileName) ?
-                GetExecutableFilename() :
+                GetExecutableFileName() :
                 options.FlareSolverrFileName;
 
             if (!Directory.Exists(flareSolverrDirectoryPath))
@@ -66,24 +66,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
             return flareSolverrExecutablePath;
 
         }
-
-        // Private members
-
-        private static string GetExecutableFilename() {
-
-            switch (EnvironmentUtilities.GetPlatformInfo().Id) {
-
-                case PlatformId.Linux:
-                case PlatformId.MacOS:
-                    return Paths.FlareSolverrFileNameLinux;
-
-                default:
-                    return Paths.FlareSolverrFileNameWindows;
-
-            }
-
-        }
-        private static System.Version GetFlareSolverrVersion(string flareSolverrExecutablePath) {
+        internal static System.Version GetFlareSolverrVersion(string flareSolverrExecutablePath) {
 
             if (!File.Exists(flareSolverrExecutablePath))
                 return new System.Version();
@@ -143,6 +126,23 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
             // We couldn't determine the version for this executable.
 
             return new System.Version();
+
+        }
+
+        // Private members
+
+        private static string GetExecutableFileName() {
+
+            switch (EnvironmentUtilities.GetPlatformInfo().Id) {
+
+                case PlatformId.Linux:
+                case PlatformId.MacOS:
+                    return Paths.FlareSolverrFileNameLinux;
+
+                default:
+                    return Paths.FlareSolverrFileNameWindows;
+
+            }
 
         }
 

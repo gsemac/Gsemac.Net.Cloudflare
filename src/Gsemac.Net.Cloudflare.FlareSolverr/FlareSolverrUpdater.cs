@@ -60,15 +60,21 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
             logger.Info("Checking for FlareSolverr updates");
 
+            string flareSolverrInfoFilePath = Path.GetFullPath(GetFlareSolverrInfoFilePath());
+            string flareSolverrInfoDirectoryPath = PathUtilities.GetParentPath(flareSolverrInfoFilePath);
             IFlareSolverrVersionInfo flareSolverrInfo = GetFlareSolverrInfo();
             System.Version latestVersion = GetLatestFlareSolverrVersion();
 
+            // The saved executable path may be relative to the metadata file.
+
+            string flareSolverrExecutablePath = Path.Combine(flareSolverrInfoDirectoryPath, flareSolverrInfo.ExecutablePath);
+
             bool updateRequired = (!flareSolverrInfo.Version?.Equals(latestVersion) ?? true) ||
-                !File.Exists(flareSolverrInfo.ExecutablePath);
+                !File.Exists(flareSolverrExecutablePath);
 
             if (updateRequired) {
 
-                if (!(flareSolverrInfo.Version is null))
+                if (flareSolverrInfo.Version is object)
                     logger.Info($"Updating FlareSolverr from version {flareSolverrInfo.Version} to {latestVersion}");
                 else
                     logger.Info($"Updating FlareSolverr to version {latestVersion}");
@@ -76,7 +82,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
                 if (DownloadFlareSolverr(cancellationToken)) {
 
                     flareSolverrInfo = new FlareSolverrVersionInfo() {
-                        ExecutablePath = FlareSolverrUtilities.GetExecutablePath(options),
+                        ExecutablePath = PathUtilities.GetRelativePath(FlareSolverrUtilities.GetExecutablePath(options), flareSolverrInfoDirectoryPath),
                         Version = latestVersion,
                     };
 
@@ -88,7 +94,13 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
             else
                 logger.Info($"FlareSolverr is up to date ({flareSolverrInfo.Version})");
 
-            return flareSolverrInfo;
+            // The saved executable path may be relative to the metadata file, but we want to make sure we return an absolute path.
+            // This is so the caller doesn't have to derive the path themselves.
+
+            return new FlareSolverrVersionInfo() {
+                Version = flareSolverrInfo.Version,
+                ExecutablePath = Path.Combine(flareSolverrInfoDirectoryPath, flareSolverrInfo.ExecutablePath)
+            };
 
         }
 
@@ -111,7 +123,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
         private readonly IHttpWebRequestFactory webRequestFactory;
         private readonly ILogger logger;
 
-        private string GetFlareSolverrInfoPath() {
+        private string GetFlareSolverrInfoFilePath() {
 
             string currentDirectory = options.FlareSolverrDirectoryPath;
 
@@ -123,7 +135,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
         }
         private IFlareSolverrVersionInfo GetFlareSolverrInfo() {
 
-            string flareSolverrInfoPath = GetFlareSolverrInfoPath();
+            string flareSolverrInfoPath = GetFlareSolverrInfoFilePath();
 
             if (File.Exists(flareSolverrInfoPath)) {
 
@@ -138,18 +150,12 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
                 string flareSolverrExecutablePath = FlareSolverrUtilities.GetExecutablePath(options);
 
-                if (!string.IsNullOrWhiteSpace(flareSolverrExecutablePath)) {
+                if (File.Exists(flareSolverrExecutablePath)) {
 
-                    Match versionMatch = Regex.Match(flareSolverrExecutablePath, @"\bv(\d+\.\d+\.\d+)\b");
-
-                    if (versionMatch.Success) {
-
-                        return new FlareSolverrVersionInfo() {
-                            ExecutablePath = flareSolverrExecutablePath,
-                            Version = new System.Version(versionMatch.Groups[1].Value),
-                        };
-
-                    }
+                    return new FlareSolverrVersionInfo() {
+                        ExecutablePath = flareSolverrExecutablePath,
+                        Version = FlareSolverrUtilities.GetFlareSolverrVersion(flareSolverrExecutablePath),
+                    };
 
                 }
 
@@ -162,7 +168,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
         }
         private void SaveFlareSolverrInfo(IFlareSolverrVersionInfo flareSolverrInfo) {
 
-            File.WriteAllText(GetFlareSolverrInfoPath(), JsonConvert.SerializeObject(flareSolverrInfo, Formatting.Indented));
+            File.WriteAllText(GetFlareSolverrInfoFilePath(), JsonConvert.SerializeObject(flareSolverrInfo, Formatting.Indented));
 
         }
         private System.Version GetLatestFlareSolverrVersion() {
