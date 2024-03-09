@@ -91,8 +91,12 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
                     byte[] postDataBytes = request.GetRequestStream().ToArray();
 
-                    if (postDataBytes is object && postDataBytes.Length > 0)
-                        flareSolverrCommand.PostData = Encoding.UTF8.GetString(postDataBytes);
+                    // When setting the "postData" parameter, ensure that don't leave it null.
+                    // If we do not include this parameter in a POST request, FlareSolverr will return an error.
+
+                    flareSolverrCommand.PostData = postDataBytes is object && postDataBytes.Length > 0 ?
+                        Encoding.UTF8.GetString(postDataBytes) :
+                        string.Empty;
 
                 }
                 else {
