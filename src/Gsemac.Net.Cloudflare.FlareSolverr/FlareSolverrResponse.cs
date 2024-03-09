@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,6 +7,8 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
     internal class FlareSolverrResponse :
         IFlareSolverrResponse {
+
+        // Public members
 
         public FlareSolverrSolution Solution { get; set; } = new FlareSolverrSolution();
         public string Session { get; set; }
@@ -15,6 +18,15 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
         public DateTimeOffset StartTimestamp { get; set; }
         public DateTimeOffset EndTimestamp { get; set; }
         public Version Version { get; set; } = new Version();
+
+        public override string ToString() {
+
+            return JsonConvert.SerializeObject(this, new JsonSerializerSettings {
+                Formatting = Formatting.Indented,
+                NullValueHandling = NullValueHandling.Ignore,
+            });
+
+        }
 
     }
 
