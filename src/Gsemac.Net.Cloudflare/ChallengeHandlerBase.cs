@@ -17,6 +17,18 @@ namespace Gsemac.Net.Cloudflare {
 
         // Protected members
 
+        protected ChallengeHandlerBase() :
+            this(HttpWebRequestFactory.Default) {
+        }
+        protected ChallengeHandlerBase(string name) :
+            this(HttpWebRequestFactory.Default, name) {
+        }
+        protected ChallengeHandlerBase(IChallengeHandlerOptions options) :
+            this(HttpWebRequestFactory.Default, options) {
+        }
+        protected ChallengeHandlerBase(string name, IChallengeHandlerOptions options) :
+            this(HttpWebRequestFactory.Default, name, options) {
+        }
         protected ChallengeHandlerBase(IHttpWebRequestFactory webRequestFactory) :
             this(webRequestFactory, nameof(ChallengeHandlerBase)) {
         }

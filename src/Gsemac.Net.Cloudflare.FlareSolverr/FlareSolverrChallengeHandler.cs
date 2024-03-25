@@ -18,6 +18,18 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
         // Public members
 
+        public FlareSolverrChallengeHandler(IFlareSolverrService flareSolverrProxyServer) :
+            this(HttpWebRequestFactory.Default, flareSolverrProxyServer) {
+        }
+        public FlareSolverrChallengeHandler(IFlareSolverrService flareSolverrProxyServer, IChallengeHandlerOptions options) :
+            this(HttpWebRequestFactory.Default, flareSolverrProxyServer, options) {
+        }
+        public FlareSolverrChallengeHandler(IFlareSolverrService flareSolverrProxyServer, ILogger logger) :
+            this(HttpWebRequestFactory.Default, flareSolverrProxyServer, logger) {
+        }
+        public FlareSolverrChallengeHandler(IFlareSolverrService flareSolverrProxyServer, IChallengeHandlerOptions options, ILogger logger) :
+            this(HttpWebRequestFactory.Default, flareSolverrProxyServer, options, logger) {
+        }
         public FlareSolverrChallengeHandler(IHttpWebRequestFactory webRequestFactory, IFlareSolverrService flareSolverrProxyServer) :
             this(webRequestFactory, flareSolverrProxyServer, new NullLogger()) {
         }
