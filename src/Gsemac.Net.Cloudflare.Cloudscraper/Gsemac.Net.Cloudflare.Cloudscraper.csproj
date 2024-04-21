@@ -21,7 +21,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Gsemac.IO.Logging" Version="0.2.0" />
+		<PackageReference Include="Gsemac.IO.Logging" Version="0.2.1" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 	</ItemGroup>
 
