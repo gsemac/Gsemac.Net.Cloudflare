@@ -340,8 +340,7 @@ ASALocalRun/
 healthchecksdb
 
 # Test projects
-ConsoleApp1/
-ConsoleApp2/
+ConsoleApp*/
 /src/Gsemac.Net.Cloudflare.FlareSolverr/build/dist
 /src/Gsemac.Net.Cloudflare.FlareSolverr/build/build/flaresolverr
 /src/Gsemac.Net.Cloudflare.FlareSolverr/build/flaresolverr.spec
