@@ -52,7 +52,7 @@ namespace Gsemac.Net.Cloudflare {
 
         }
 
-        protected sealed override IHttpWebResponse Send(IHttpWebRequest request, CancellationToken cancellationToken) {
+        protected sealed override IHttpWebResponse GetResponse(IHttpWebRequest request, CancellationToken cancellationToken) {
 
             try {
 
@@ -61,7 +61,7 @@ namespace Gsemac.Net.Cloudflare {
                 if (options.RememberCookies && solutionCache.TryGet(request.RequestUri, out IChallengeSolution solution))
                     ApplySolutionToRequest(request, solution);
 
-                return base.Send(request, cancellationToken);
+                return base.GetResponse(request, cancellationToken);
 
             }
             catch (WebException webEx) {
@@ -112,7 +112,7 @@ namespace Gsemac.Net.Cloudflare {
 
                             ApplySolutionToRequest(retryRequest, solution);
 
-                            response = base.Send(retryRequest, cancellationToken);
+                            response = base.GetResponse(retryRequest, cancellationToken);
 
                         }
 
@@ -126,7 +126,7 @@ namespace Gsemac.Net.Cloudflare {
 
                 try {
 
-                    return base.Send(solverRequest, cancellationToken);
+                    return base.GetResponse(solverRequest, cancellationToken);
 
                 }
                 catch (Exception challengeHandlerEx) {
