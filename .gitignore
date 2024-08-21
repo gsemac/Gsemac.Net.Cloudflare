@@ -341,6 +341,9 @@ healthchecksdb
 
 # Test projects
 ConsoleApp*/
-/src/Gsemac.Net.Cloudflare.FlareSolverr/build/dist
-/src/Gsemac.Net.Cloudflare.FlareSolverr/build/build/flaresolverr
-/src/Gsemac.Net.Cloudflare.FlareSolverr/build/flaresolverr.spec
+
+# Ignore PyInstaller generated files
+**/build/*.spec
+**/build/cloudscraper
+**/build/dist
+**/build/flaresolverr
