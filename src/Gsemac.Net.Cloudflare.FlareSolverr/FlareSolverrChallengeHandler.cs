@@ -61,11 +61,11 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
             switch (request.Method.ToLowerInvariant()) {
 
                 case "get":
-                    commandName = FlareSolverrCommand.GetRequest;
+                    commandName = FlareSolverrRequest.GetRequest;
                     break;
 
                 case "post":
-                    commandName = FlareSolverrCommand.PostRequest;
+                    commandName = FlareSolverrRequest.PostRequest;
                     break;
 
                 default:
@@ -76,7 +76,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
             // Build the FlareSolverr command.
             // Avoid setting the user agent, because Cloudflare is able to detect discrepancies.
 
-            FlareSolverrCommand flareSolverrCommand = new FlareSolverrCommand(commandName) {
+            FlareSolverrRequest flareSolverrCommand = new FlareSolverrRequest(commandName) {
                 Url = request.RequestUri,
                 Download = true,
                 MaxTimeout = TimeSpan.FromMilliseconds(request.Timeout),

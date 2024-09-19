@@ -94,9 +94,9 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
         }
 
-        public override IFlareSolverrResponse GetResponse(IFlareSolverrCommand command) {
+        public override IFlareSolverrResponse GetResponse(IFlareSolverrRequest request) {
 
-            return GetResponse(command, ensureFlareSolverrIsRunning: true, ensureSessionIsCreated: true);
+            return GetResponse(request, ensureFlareSolverrIsRunning: true, ensureSessionIsCreated: true);
 
         }
 
@@ -476,7 +476,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
         }
 
-        private IFlareSolverrResponse GetResponse(IFlareSolverrCommand command, bool ensureFlareSolverrIsRunning, bool ensureSessionIsCreated) {
+        private IFlareSolverrResponse GetResponse(IFlareSolverrRequest command, bool ensureFlareSolverrIsRunning, bool ensureSessionIsCreated) {
 
             if (command is null)
                 throw new ArgumentNullException(nameof(command));
@@ -605,7 +605,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
                 logger.Info($"Creating a new session");
 
-                IFlareSolverrResponse response = GetResponse(new FlareSolverrCommand(FlareSolverrCommand.CreateSession) {
+                IFlareSolverrResponse response = GetResponse(new FlareSolverrRequest(FlareSolverrRequest.CreateSession) {
                     UserAgent = options.UserAgent,
                 }, ensureFlareSolverrIsRunning: false, ensureSessionIsCreated: false);
 
@@ -638,7 +638,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
             logger.Info($"Destroying session {sessionId}");
 
-            GetResponse(new FlareSolverrCommand(FlareSolverrCommand.DestroySession) {
+            GetResponse(new FlareSolverrRequest(FlareSolverrRequest.DestroySession) {
                 Session = sessionId,
             }, ensureFlareSolverrIsRunning: false, ensureSessionIsCreated: false);
 

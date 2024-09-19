@@ -1,5 +1,4 @@
-﻿using Gsemac.IO.Logging;
-using System;
+﻿using System;
 
 namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
@@ -12,7 +11,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
         bool Start();
         bool Stop();
 
-        IFlareSolverrResponse GetResponse(IFlareSolverrCommand command);
+        IFlareSolverrResponse GetResponse(IFlareSolverrRequest request);
 
     }
 

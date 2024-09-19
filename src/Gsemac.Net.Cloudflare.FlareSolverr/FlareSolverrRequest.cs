@@ -5,8 +5,8 @@ using System.Net;
 
 namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
-    public class FlareSolverrCommand :
-        IFlareSolverrCommand {
+    public sealed class FlareSolverrRequest :
+        IFlareSolverrRequest {
 
         public const string CreateSession = "sessions.create";
         public const string DestroySession = "sessions.destroy";
@@ -24,10 +24,8 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
         public bool ReturnOnlyCookies { get; set; } = false;
         public string PostData { get; set; }
 
-        public FlareSolverrCommand(string command) {
-
+        public FlareSolverrRequest(string command) {
             Command = command;
-
         }
 
         public override string ToString() {

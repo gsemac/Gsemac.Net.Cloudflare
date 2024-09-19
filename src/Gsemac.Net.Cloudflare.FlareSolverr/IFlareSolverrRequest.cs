@@ -6,7 +6,7 @@ using System.Net;
 
 namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
-    public interface IFlareSolverrCommand {
+    public interface IFlareSolverrRequest {
 
         [JsonProperty("cmd")]
         string Command { get; set; }
