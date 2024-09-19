@@ -1,0 +1,25 @@
+﻿<Project Sdk="MSBuild.Sdk.Extras/3.0.44">
+
+	<PropertyGroup>
+		<TargetFrameworks>netstandard2.0;net40-client</TargetFrameworks>
+		<Company />
+		<Authors>gsemac</Authors>
+		<Version>0.0.0</Version>
+		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+		<PackageProjectUrl>https://github.com/gsemac/Gsemac.Net.Cloudflare</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/gsemac/Gsemac.Net.Cloudflare</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<Copyright></Copyright>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)' == 'Release'">
+		<DebugType>none</DebugType>
+		<DebugSymbols>false</DebugSymbols>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+	</ItemGroup>
+
+</Project>

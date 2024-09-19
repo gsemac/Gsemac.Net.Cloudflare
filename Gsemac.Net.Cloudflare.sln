@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gsemac.Net.Cloudflare.Flare
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gsemac.Net.Cloudflare.FlareSolverr.Tests", "tests\Gsemac.Net.Cloudflare.FlareSolverr.Tests\Gsemac.Net.Cloudflare.FlareSolverr.Tests.csproj", "{D222C7C2-1006-457C-8433-3D2B5BF08968}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gsemac.Cloudflare.CFClearanceScraper", "src\Gsemac.Cloudflare.CFClearanceScraper\Gsemac.Cloudflare.CFClearanceScraper.csproj", "{0883976D-BDB8-4EF2-B67F-6190AEB183E5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +51,10 @@ Global
 		{D222C7C2-1006-457C-8433-3D2B5BF08968}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D222C7C2-1006-457C-8433-3D2B5BF08968}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D222C7C2-1006-457C-8433-3D2B5BF08968}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0883976D-BDB8-4EF2-B67F-6190AEB183E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0883976D-BDB8-4EF2-B67F-6190AEB183E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0883976D-BDB8-4EF2-B67F-6190AEB183E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0883976D-BDB8-4EF2-B67F-6190AEB183E5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,6 +66,7 @@ Global
 		{1C933BAF-452B-483E-8AE2-2D052E8A62EB} = {97BA87A9-AE17-4B9F-AE96-2DF909BF1C75}
 		{8BA87E28-8C16-4BD1-ACB9-98EE42D656A0} = {97BA87A9-AE17-4B9F-AE96-2DF909BF1C75}
 		{D222C7C2-1006-457C-8433-3D2B5BF08968} = {9ED8A665-393E-4C05-883C-56C9B8B83EAD}
+		{0883976D-BDB8-4EF2-B67F-6190AEB183E5} = {97BA87A9-AE17-4B9F-AE96-2DF909BF1C75}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {081562A9-146D-47DE-99D0-7D8FB48655CA}
