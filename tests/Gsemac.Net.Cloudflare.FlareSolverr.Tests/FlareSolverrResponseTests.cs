@@ -13,7 +13,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr.Tests {
             string responseJson = Resources.ResponseWithCookiesWithEmptyStringForName;
             IFlareSolverrResponse flareSolverrResponse = JsonConvert.DeserializeObject<FlareSolverrResponse>(responseJson);
 
-            Assert.AreEqual(1, flareSolverrResponse.Solution.Cookies.Count);
+            Assert.HasCount(1, flareSolverrResponse.Solution.Cookies);
 
         }
 
