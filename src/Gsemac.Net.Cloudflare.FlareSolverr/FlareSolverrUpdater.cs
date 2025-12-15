@@ -227,7 +227,7 @@ namespace Gsemac.Net.Cloudflare.FlareSolverr {
 
                         logger.Info($"Extracting {PathUtilities.GetFileName(downloadFilePath)}");
 
-                        ArchiveUtilities.Extract(downloadFilePath, extractToNewFolder: true);
+                        Archive.Extract(downloadFilePath, extractToNewFolder: true);
 
                     }
                     catch (Exception ex) {

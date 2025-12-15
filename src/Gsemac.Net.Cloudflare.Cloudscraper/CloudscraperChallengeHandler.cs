@@ -51,7 +51,7 @@ namespace Gsemac.Net.Cloudflare.Cloudscraper {
 
             }
 
-            CmdArgumentsBuilder argumentsBuilder = new CmdArgumentsBuilder()
+            ProcessArgumentsBuilder argumentsBuilder = new ProcessArgumentsBuilder()
                 .WithArgument(url);
 
             if (!string.IsNullOrWhiteSpace(request.UserAgent))

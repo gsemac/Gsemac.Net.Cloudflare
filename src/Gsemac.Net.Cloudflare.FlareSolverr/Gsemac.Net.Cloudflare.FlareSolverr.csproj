@@ -21,11 +21,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Gsemac.Core" Version="0.23.1" />
-		<PackageReference Include="Gsemac.IO.Compression" Version="0.12.2" />
-		<PackageReference Include="Gsemac.IO.Logging" Version="0.2.2" />
-		<PackageReference Include="Gsemac.Net.GitHub" Version="0.4.13" />
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+		<PackageReference Include="Gsemac.Core" Version="0.24.0" />
+		<PackageReference Include="Gsemac.IO.Compression" Version="0.14.0" />
+		<PackageReference Include="Gsemac.IO.Logging" Version="0.3.0" />
+		<PackageReference Include="Gsemac.Net.GitHub" Version="0.4.14" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
 	</ItemGroup>
 
 	<ItemGroup>
